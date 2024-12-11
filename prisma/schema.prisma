@@ -1,0 +1,226 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tool {
+  id          String    @id @default(uuid())
+  code        String    @unique
+  name        String
+  brand       String?
+  description String?
+  state       ToolState @default(ACTIVE)
+  quantity    Int       @default(1) // Tracking tool availability
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations - Up
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+
+  // Relations - Down
+  comments     Comment[]
+  categories   Category[]
+  actions      Action[]
+  maintenance  Maintenance[]
+  assignments  ToolAssignment[]
+  notification Notification[]
+  image        ToolImage[]
+}
+
+model ToolImage {
+  id  String @id @default(uuid())
+  url String
+
+  // Relations - Up
+  tool   Tool?   @relation(fields: [toolId], references: [id])
+  toolId String?
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  rating    Int?
+  createdAt DateTime @default(now())
+
+  // Relations - Up
+  user   User    @relation(fields: [userId], references: [id])
+  userId String
+  tool   Tool?   @relation(fields: [toolId], references: [id])
+  toolId String?
+}
+
+model Project {
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  code      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations - Many to Many
+  users User[] @relation("UserProjects")
+
+  // Relations - Down
+  tools  Tool[]
+  status ProjectStatus  @default(PLANNING)
+  image  ProjectImage[]
+}
+
+model ProjectImage {
+  id  String @id @default(uuid())
+  url String
+
+  // Relations - Up
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+}
+
+model Maintenance {
+  id          String   @id @default(uuid())
+  description String
+  servicedAt  DateTime
+  servicedBy  String
+  createdAt   DateTime @default(now())
+
+  // Relations - Up
+  tool   Tool   @relation(fields: [toolId], references: [id])
+  toolId String
+}
+
+model ToolAssignment {
+  id         String   @id @default(uuid())
+  assignedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  // Relations - Up
+  tool   Tool   @relation(fields: [toolId], references: [id])
+  toolId String
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+}
+
+model User {
+  id        String     @id @default(uuid())
+  legajo    String     @unique
+  company   Company    @default(CWI)
+  name      String
+  lastName  String
+  email     String     @unique
+  phone     String
+  password  String
+  createdAt DateTime   @default(now())
+  status    UserStatus @default(ACTIVE)
+
+  // Relations - Down
+  role           UserRole         @default(PROJECT_MANAGER)
+  permissions    UserPermission[] // Array of enum values
+  actions        Action[]
+  comments       Comment[]
+  projects       Project[]        @relation("UserProjects")
+  toolAssignment ToolAssignment[]
+  notifications  Notification[] // Fixed naming for consistency
+  tools          Tool[]
+  image          UserImage[]
+  workerSkill    WorkerSkill[]
+}
+
+model WorkerSkill {
+  id   String @id @default(uuid())
+  name String
+
+  // Relations - Up
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+}
+
+model UserImage {
+  id  String @id @default(uuid())
+  url String
+
+  // Relations - Up
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+}
+
+model Action {
+  id        String     @id @default(uuid())
+  type      ActionType
+  details   String? // Optional, for more info about the action
+  createdAt DateTime   @default(now())
+
+  // Relations - Up
+  toolId String
+  tool   Tool   @relation(fields: [toolId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  // Relations - Up
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  toolId String?
+  tool   Tool?   @relation(fields: [toolId], references: [id])
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String @unique
+
+  // Relations - Down
+  tools Tool[]
+}
+
+enum ToolState {
+  ACTIVE
+  ON_REPAIR
+  INACTIVE
+}
+
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum UserRole {
+  ADMIN
+  PROJECT_MANAGER
+  WORKER
+}
+
+enum Company {
+  OMSA
+  CWI
+}
+
+enum ActionType {
+  COMMENT_ADDED
+  STATE_CHANGED
+  PHOTO_UPLOADED
+  TOOL_CREATED
+}
+
+enum UserPermission {
+  TOTAL
+  TOOL_ADMIN
+  PEOPLE_ADMIN
+  PROJECT_ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}

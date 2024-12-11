@@ -1,0 +1,49 @@
+{
+  "name": "fideliapp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "npm run prisma:deploy && next build",
+    "start": "next start",
+    "prisma:deploy": "npx prisma migrate deploy && prisma generate",
+    "lint": "next lint",
+    "seed": "ts-node src/seed/seed-database.ts"
+  },
+  "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.8",
+    "@prisma/client": "^5.20.0",
+    "@react-google-maps/api": "^2.19.3",
+    "@types/google.maps": "^3.55.12",
+    "@vercel/postgres": "^0.9.0",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.4.0",
+    "clsx": "^2.1.0",
+    "downshift": "^9.0.8",
+    "lodash": "^4.17.21",
+    "next": "^14.2.13",
+    "next-auth": "^5.0.0-beta.16",
+    "next-cloudinary": "^6.16.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.51.3",
+    "react-icons": "^5.0.1",
+    "swiper": "^11.1.9",
+    "ts-node": "^10.9.2",
+    "zod": "^3.22.4",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4",
+    "postcss": "^8",
+    "prisma": "^5.22.0",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5"
+  }
+}
