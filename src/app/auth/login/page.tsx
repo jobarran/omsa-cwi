@@ -1,3 +1,4 @@
+import { RunSeedButton } from "@/components/seed/RunSeedButton";
 import { LoginForm } from "./ui/LoginForm";
 
 export default function LoginPage() {
@@ -11,6 +12,7 @@ export default function LoginPage() {
           </h1>
 
           <LoginForm />
+          <RunSeedButton />
 
         </div>
       </div>
