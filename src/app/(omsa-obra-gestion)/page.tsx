@@ -11,7 +11,7 @@ export default async function Home() {
     <main className="flex flex-col items-center justify-between space-y-8">
       <SectionTitle label={'Aplicaciones'} />
       <HomeSections userRole={session?.user.role} />
-      <RunSeedButton />
+      {/* <RunSeedButton /> */}
     </main>
   );
 }
