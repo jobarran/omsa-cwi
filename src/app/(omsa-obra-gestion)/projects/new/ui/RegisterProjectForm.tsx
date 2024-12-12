@@ -26,7 +26,7 @@ interface RegisterProjectFormProps {
 }
 
 export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
- 
+
   const router = useRouter();
   const [userList, setUserList] = useState<UserSelectData[]>([]);
 
@@ -66,10 +66,12 @@ export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
 
     // API call to create a new project
     const { ok, message } = await registerNewProject(formData);
-
+    console.log('iniciando guardado de obra')
     if (ok) {
-      router.replace("/admin/projects");
+      console.log('guardado de obra')
+      router.replace("/projects");
     } else {
+      console.log(`Failed to create project: ${message}`)
       alert(`Failed to create project: ${message}`);
     }
   };
