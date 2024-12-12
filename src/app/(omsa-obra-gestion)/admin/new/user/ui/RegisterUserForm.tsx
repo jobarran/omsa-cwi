@@ -1,6 +1,7 @@
 "use client";
 
 import { registerNewUser } from "@/actions";
+import { compressImage } from "@/utils";
 import { UserPermission } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -13,7 +14,7 @@ type FormInputs = {
   phone: string;
   password: string | undefined;
   role: "ADMIN" | "PROJECT_MANAGER" | "WORKER";
-  image: string | null;
+  image: FileList | null;
   permissions: UserPermission[];
   legajo: string;
   company: "OMSA" | "CWI";
@@ -67,8 +68,19 @@ export const RegisterUserForm = () => {
       formData.append(key, value as string);
     });
 
+    // if (image && image.length > 0) {
+    //   formData.append("image", image[0]);
+    // }
+
+    // Handle image compression and append compressed image
     if (image && image.length > 0) {
-      formData.append("image", image[0]);
+      try {
+        const compressedImage = await compressImage(image[0]);
+        formData.append("image", compressedImage);
+      } catch (error) {
+        alert("Failed to compress image. Please try again.");
+        return;
+      }
     }
 
     const { message, ok } = await registerNewUser(formData);

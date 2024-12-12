@@ -53,6 +53,7 @@ export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
   }, [users]);
 
   const onSubmit = async (data: ProjectFormInputs) => {
+    
     const formData = new FormData();
 
     // Append fields to FormData

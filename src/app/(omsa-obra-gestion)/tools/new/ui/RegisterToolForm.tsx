@@ -2,6 +2,7 @@
 
 import { registerNewTool } from '@/actions/tool/register-new-tool';
 import { ProjectData } from '@/interfaces/project.interface';
+import { compressImage } from '@/utils';
 import { useRouter } from "next/navigation";
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -16,7 +17,7 @@ type FormInputs = {
     quantity: number;
     projectId: string;
     userId: string;
-    image: string | null;
+    image: FileList | null;
 };
 
 interface Props {
@@ -55,8 +56,19 @@ export const RegisterToolForm = ({ projects }: Props) => {
             formData.append(key, typeof value === 'number' ? value.toString() : value);
         });
 
+        // if (image && image.length > 0) {
+        //     formData.append('image', image[0]);
+        // }
+
+        // Handle image compression and append compressed image
         if (image && image.length > 0) {
-            formData.append('image', image[0]);
+            try {
+                const compressedImage = await compressImage(image[0]);
+                formData.append("image", compressedImage);
+            } catch (error) {
+                alert("Failed to compress image. Please try again.");
+                return;
+            }
         }
 
         const { message, ok } = await registerNewTool(formData);
