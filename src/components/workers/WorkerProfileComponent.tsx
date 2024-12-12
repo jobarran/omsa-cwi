@@ -10,7 +10,7 @@ interface Props {
     user: User;
 }
 
-export const AdminProfileComponent = ({ user }: Props) => {
+export const WorkerProfileComponent = ({ user }: Props) => {
 
     const [activeTab, setActiveTab] = useState("Historial");
 

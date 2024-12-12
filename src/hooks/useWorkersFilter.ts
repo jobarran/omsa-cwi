@@ -6,6 +6,7 @@ interface WorkerFilters {
     projectId: string | null; // Assuming project stores an ID
     status: string | null;
     search: string | null;
+    category: string | null;
 }
 
 export const useWorkerFilter = (workers: User[]) => {
@@ -13,6 +14,7 @@ export const useWorkerFilter = (workers: User[]) => {
         projectId: null,
         status: null,
         search: null,
+        category: null,
     };
 
 
@@ -39,8 +41,11 @@ export const useWorkerFilter = (workers: User[]) => {
                 worker.lastName.toLowerCase().includes(filters.search.toLowerCase()) ||
                 worker.legajo.toLowerCase().includes(filters.search.toLowerCase()) ||
                 worker.company.toLowerCase().includes(filters.search.toLowerCase());
+            const matchesCategory =
+                !filters.category ||
+                worker.category === filters.category;
 
-            return matchesProject && matchesStatus && matchesSearch;
+            return matchesProject && matchesStatus && matchesSearch && matchesCategory;
         });
     }, [workers, filters]);
 

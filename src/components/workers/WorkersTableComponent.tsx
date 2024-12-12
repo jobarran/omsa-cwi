@@ -19,8 +19,10 @@ export const WorkersTableComponent = ({ workers, projects }: Props) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedProject, setSelectedProject] = useState<string | null>(null);
     const [selectedState, setSelectedState] = useState<string | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-    const isFiltering = Boolean(filters.search || filters.projectId || filters.status);
+
+    const isFiltering = Boolean(filters.search || filters.projectId || filters.status || filters.category);
 
     const resetFilters = () => {
         setSearchTerm("");
@@ -60,11 +62,13 @@ export const WorkersTableComponent = ({ workers, projects }: Props) => {
                     onFilterChange={handleFilterChange}
                     selectedProject={selectedProject}
                     selectedState={selectedState}
+                    selectedCategory={selectedCategory}
                     setSelectedProject={setSelectedProject}
                     setSelectedState={setSelectedState}
+                    setSelectedCategory={setSelectedCategory}
                 />
             </div>
-            <WorkerTable workers={filteredWorkers} />
+            <WorkerTable workers={filteredWorkers} projects={projects} />
         </div>
     );
 };

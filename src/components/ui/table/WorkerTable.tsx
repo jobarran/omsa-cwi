@@ -1,10 +1,16 @@
+"use client"
+
 import { User } from "@/interfaces";
 import { FaArrowRightArrowLeft, FaUser } from "react-icons/fa6";
 import { TableImage } from "./TableImage";
 import Link from "next/link";
+import { useState } from "react";
+import { AdminTableModal } from "./AdminTableModal";
+import { ProjectData } from "@/interfaces/project.interface";
 
 interface Props {
     workers: User[];
+    projects: ProjectData[];
 }
 
 const transcribeCategory = (category: string | undefined): string => {
@@ -19,7 +25,24 @@ const transcribeCategory = (category: string | undefined): string => {
     return transcriptionMap[category || "N_A"] || "-";
 };
 
-export const WorkerTable = ({ workers }: Props) => {
+export const WorkerTable = ({ workers, projects }: Props) => {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState<User | null>(null);
+    const [fieldToEdit, setFieldToEdit] = useState<string | null>(null);
+
+    const openModal = (user: User, field: string) => {
+        setSelectedUser(user);
+        setFieldToEdit(field);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedUser(null);
+        setFieldToEdit(null);
+    };
+
     return (
         <div className="relative overflow-x-auto sm:rounded-lg border">
             <table className="w-full text-sm text-gray-500">
@@ -58,13 +81,15 @@ export const WorkerTable = ({ workers }: Props) => {
                                         )}
                                         <FaArrowRightArrowLeft
                                             className="inline-block ml-2 text-sky-600 cursor-pointer"
+                                            onClick={() => openModal(worker, "projects")}
+
                                         />
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 text-center">{worker.phone || "N/A"}</td>
                                 <td className="px-6 py-4 text-center">
                                     <Link
-                                        href={`worker/${worker.legajo}`}
+                                        href={`workers/${worker.legajo}`}
                                         className="text-sky-600 hover:text-sky-800"
                                         title="Editar"
                                     >
@@ -83,6 +108,14 @@ export const WorkerTable = ({ workers }: Props) => {
                     )}
                 </tbody>
             </table>
+            {isModalOpen && selectedUser && fieldToEdit && (
+                <AdminTableModal
+                    user={selectedUser}
+                    field={fieldToEdit}
+                    projects={projects}
+                    closeModal={closeModal}
+                />
+            )}
         </div>
     );
 };

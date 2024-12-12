@@ -2,7 +2,7 @@ import { User, UserRoleData } from "@/interfaces";
 import { TableImage } from "./TableImage";
 import { FaEdit } from "react-icons/fa"; // Replaced icon
 import Link from "next/link";
-import { FaArrowRightArrowLeft } from "react-icons/fa6";
+import { FaArrowRightArrowLeft, FaUser } from "react-icons/fa6";
 import { UserRole, UserStatus } from "@prisma/client";
 import { roleTranslations } from "@/utils";
 
@@ -85,7 +85,7 @@ export const AdminTableRow = ({ user, openModal, userRoleData }: Props) => {
                     className="text-sky-600 hover:text-sky-800"
                     title="Editar"
                 >
-                    <FaEdit className="h-5 w-5 mx-auto" />
+                    <FaUser className="mx-auto" />
                 </Link>
             </td>
         </tr>
