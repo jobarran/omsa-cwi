@@ -16,9 +16,15 @@ const projectSchema = z.object({
 });
 
 export const registerNewProject = async (formData: FormData) => {
+
+    console.log('iniciando guardado')
+
     const session = await auth();
 
     if (!session?.user?.id) {
+
+        console.log('No user')
+
         return {
             ok: false,
             message: 'User is not authenticated',
@@ -53,18 +59,25 @@ export const registerNewProject = async (formData: FormData) => {
     }
 
     try {
+        console.log('Guardadndo')
+
         const existingProject = await prisma.project.findUnique({
             where: { code: projectParsed.data.code },
         });
 
         if (existingProject) {
+            console.log('Repetido')
+
             return {
                 ok: false,
                 message: 'This project is already registered',
             };
         }
 
+        console.log('Creando')
+
         const newProject = await prisma.project.create({
+
             data: {
                 code: projectParsed.data.code,
                 name: projectParsed.data.name,
@@ -91,7 +104,7 @@ export const registerNewProject = async (formData: FormData) => {
         }
 
         revalidatePath('/projects');
-
+        console.log('ok')
         return {
             ok: true,
             project: newProject,
@@ -101,6 +114,7 @@ export const registerNewProject = async (formData: FormData) => {
         };
 
     } catch (error) {
+        console.log('Error creating project:', error)
         console.error('Error creating project:', error);
         return {
             ok: false,
