@@ -1,12 +1,15 @@
+import { getUsersByRole } from "@/actions";
 import { getAllProjects } from "@/actions/project/get-all-projects";
 import { getAllUsers } from "@/actions/user/get-all-users";
 import { SectionTitle, WorkersTableComponent } from "@/components";
+import { UserRole } from "@prisma/client";
 
 export default async function WorkersPage() {
 
     const projects = await getAllProjects();
-    const users = await getAllUsers()
-    const workers = users.filter(user => user.role === "WORKER");
+
+    const roles: UserRole[] = [UserRole.WORKER];
+    const workerUsers = await getUsersByRole(roles)
 
     return (
 
@@ -14,7 +17,7 @@ export default async function WorkersPage() {
 
             <SectionTitle label={"Recursos"} />
             <WorkersTableComponent
-                workers={workers}
+                workers={workerUsers}
                 projects={projects}
             />
 

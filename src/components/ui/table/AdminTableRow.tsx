@@ -19,9 +19,7 @@ export const AdminTableRow = ({ user, openModal, userRoleData }: Props) => {
 
     return (
         <tr
-            className={`border-b hover:bg-gray-50 
-        ${user.status === UserStatus.INACTIVE ? "bg-white opacity-50 text-gray-400" : ""}
-        ${user.role !== UserRole.WORKER ? "bg-sky-50" : ""}`}
+            className={`border-b bg-white hover:bg-gray-50 ${user.status === UserStatus.INACTIVE ? "bg-white opacity-50 text-gray-400" : ""}`}
         >
             <td className="px-4 py-2 text-center">
                 <TableImage

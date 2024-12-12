@@ -6,6 +6,8 @@ import { useState } from "react";
 import { ClearFilterButton } from "../ui/buttons/ClearFilterButton";
 import { User } from "@/interfaces";
 import { useWorkerFilter } from "@/hooks/useWorkersFilter";
+import Link from "next/link";
+import { FaPlus } from "react-icons/fa";
 
 interface Props {
     workers: User[];
@@ -46,6 +48,12 @@ export const WorkersTableComponent = ({ workers, projects }: Props) => {
                         />
                     </div>
                     <ClearFilterButton label="Borrar filtros" action={resetFilters} isFiltering={isFiltering} />
+                    <Link
+                        href={"/workers/new"}
+                        className="flex flex-row px-2 h-8 items-center rounded-lg border bg-sky-800 text-white text-sm font-medium hover:bg-sky-900 transition">
+                        <p className="hidden sm:flex">Agregar nuevo</p>
+                        <FaPlus className="sm:hidden text-base" />
+                    </Link>
                 </div>
                 <WorkersFilter
                     projects={projects}

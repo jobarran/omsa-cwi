@@ -2,10 +2,21 @@
 
 import { User } from '@/interfaces/user.interface';
 import prisma from '@/lib/prisma';
+import { UserRole } from '@prisma/client';
 
-export async function getAllUsers(): Promise<User[]> {
+export async function getUsersByRole(roles: UserRole[]): Promise<User[]> {
   try {
+    // Ensure at least one role is provided
+    if (!roles || roles.length === 0) {
+      throw new Error('At least one role must be provided');
+    }
+
     const users = await prisma.user.findMany({
+      where: {
+        role: {
+          in: roles, // Filter users by multiple roles
+        },
+      },
       select: {
         id: true,
         legajo: true,
@@ -27,15 +38,14 @@ export async function getAllUsers(): Promise<User[]> {
         },
         permissions: true,
         status: true,
-        workerSkill: true
+        workerSkill: true,
       },
       orderBy: {
-        status: 'desc', // Active users first, assuming 'ACTIVE' is a higher priority than 'INACTIVE'
+        lastName: 'asc', // Active users first
       },
     });
 
-    return users;  // Return the users directly from Prisma
-    
+    return users;
   } catch (error) {
     console.error('Error fetching users:', error);
     throw new Error('Unable to fetch users');

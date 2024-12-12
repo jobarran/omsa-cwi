@@ -19,20 +19,6 @@ export const AdminTable = ({ users, projects, userRoleData }: Props) => {
     const [fieldToEdit, setFieldToEdit] = useState<string | null>(null);
 
 
-    const sortedUsers = users.sort((a, b) => {
-        // Prioritize non-WORKER roles over WORKER roles
-        if (a.role !== UserRole.WORKER && b.role === UserRole.WORKER) return -1;
-        if (a.role === UserRole.WORKER && b.role !== UserRole.WORKER) return 1;
-    
-        // Inside each role group, sort by lastName alphabetically
-        if (a.lastName < b.lastName) return -1;
-        if (a.lastName > b.lastName) return 1;
-    
-        return 0; // Keep other users in their original order if they have the same lastname
-    });
-    
-
-
     const openModal = (user: User, field: string) => {
         setSelectedUser(user);
         setFieldToEdit(field);
@@ -50,8 +36,8 @@ export const AdminTable = ({ users, projects, userRoleData }: Props) => {
             <table className="w-full text-sm text-gray-500">
                 <AdminTableHeader />
                 <tbody>
-                    {sortedUsers.length > 0 ? (
-                        sortedUsers.map((user) => (
+                    {users.length > 0 ? (
+                        users.map((user) => (
                             <AdminTableRow
                                 key={user.id}
                                 user={user}

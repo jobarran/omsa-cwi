@@ -107,16 +107,17 @@ model ToolAssignment {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  legajo    String     @unique
-  company   Company    @default(CWI)
+  id        String       @id @default(uuid())
+  legajo    String       @unique
+  company   Company      @default(CWI)
   name      String
   lastName  String
-  email     String     @unique
+  email     String       @unique
   phone     String
   password  String
-  createdAt DateTime   @default(now())
-  status    UserStatus @default(ACTIVE)
+  createdAt DateTime     @default(now())
+  status    UserStatus   @default(ACTIVE)
+  category  UserCategory @default(N_A)
 
   // Relations - Down
   role           UserRole         @default(PROJECT_MANAGER)
@@ -223,4 +224,13 @@ enum UserPermission {
 enum UserStatus {
   ACTIVE
   INACTIVE
+}
+
+enum UserCategory {
+  N_A
+  AYUDANTE
+  MEDIO_OFICIAL
+  OFICIAL
+  OFICIAL_ESPECIALIZADO
+  CAPATAZ
 }

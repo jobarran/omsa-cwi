@@ -50,8 +50,6 @@ export const AdminTableComponent = ({ users, projects, userRoleData }: Props) =>
                 <LinkButtonBig label={"Agregar"} link={"/admin/new/user"} />
             </div>
 
-
-
             <AdminTable
                 users={filteredWorkers}
                 projects={projects}

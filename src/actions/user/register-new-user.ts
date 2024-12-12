@@ -20,6 +20,9 @@ const userSchema = z.object({
     role: z.enum(["ADMIN", "PROJECT_MANAGER", "WORKER"], {
         errorMap: () => ({ message: "Invalid role" }),
     }),
+    category: z.enum(["N_A", "AYUDANTE", "MEDIO_OFICIAL", "OFICIAL", "OFICIAL_ESPECIALIZADO", "CAPATAZ"], {
+        errorMap: () => ({ message: "Invalid category" }),
+    }),
 });
 
 export const registerNewUser = async (formData: FormData) => {
@@ -54,6 +57,7 @@ export const registerNewUser = async (formData: FormData) => {
         password,
         phone: data.phone,
         role: data.role,
+        category: data.category
     });
 
     if (!userParsed.success) {

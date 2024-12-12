@@ -1,5 +1,12 @@
 // In user.interface.ts
-import { UserRole as PrismaUserRole, UserStatus as PrismaUserStatus, UserPermission as PrismaUserPermission, Company as PrismaUserCompany, WorkerSkill as PrismaWorkerSkill } from '@prisma/client'; // Import Prisma's enums
+import {
+  UserRole as PrismaUserRole,
+  UserStatus as PrismaUserStatus,
+  UserPermission as PrismaUserPermission,
+  Company as PrismaUserCompany,
+  WorkerSkill as PrismaWorkerSkill,
+  UserCategory as PrismaUserCategory
+} from '@prisma/client'; // Import Prisma's enums
 
 // Use Prisma's enums in your interface
 
@@ -14,6 +21,7 @@ export interface User {
   role: PrismaUserRole;  // Use Prisma's enum for role
   createdAt: Date;
   status: PrismaUserStatus; // Use Prisma's enum for status
+  category: PrismaUserCategory;
 
   // Relations
   permissions?: PrismaUserPermission[]; // Use Prisma's enum for permissions

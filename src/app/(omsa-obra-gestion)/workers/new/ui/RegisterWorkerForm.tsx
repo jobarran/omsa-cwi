@@ -2,7 +2,7 @@
 
 import { registerNewUser } from "@/actions";
 import { compressImage } from "@/utils";
-import { UserCategory, UserPermission } from "@prisma/client";
+import { UserCategory } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -10,17 +10,14 @@ import { useForm } from "react-hook-form";
 type FormInputs = {
   name: string;
   lastName: string;
-  email: string | undefined;
   phone: string;
-  password: string | undefined;
-  role: "ADMIN" | "PROJECT_MANAGER" | "WORKER";
   image: FileList | null;
-  permissions: UserPermission[];
   legajo: string;
   company: "OMSA" | "CWI";
+  category: "N_A" | "AYUDANTE" | "MEDIO_OFICIAL" | "OFICIAL" | "OFICIAL_ESPECIALIZADO" | "CAPATAZ";
 };
 
-export const RegisterUserForm = () => {
+export const RegisterWorkerForm = () => {
   const router = useRouter();
 
   const {
@@ -34,30 +31,30 @@ export const RegisterUserForm = () => {
     defaultValues: {
       name: "",
       lastName: "",
-      email: "",
       phone: "",
-      password: "123456",
-      role: "PROJECT_MANAGER",
       image: null,
-      permissions: [],
       legajo: "",
       company: "CWI",
+      category: "N_A",
     },
   });
 
-
   const onSubmit = async (data: FormInputs) => {
+
     const formData = new FormData();
 
     const { image, ...userToSave } = data;
+    formData.append("role", "WORKER"); // Fixed role
+    formData.append("password", "123456"); // Fixed password
+
+    const email = `${data.name[0].toLowerCase()}${data.lastName.toLowerCase()}@obrasmetalicas.com.ar`;
+    formData.append("email", email); // Fixed password
+
+
     Object.entries(userToSave).forEach(([key, value]) => {
       formData.append(key, value as string);
     });
 
-    formData.append("category", UserCategory.N_A); // Fixed password
-
-
-    // Handle image compression and append compressed image
     if (image && image.length > 0) {
       try {
         const compressedImage = await compressImage(image[0]);
@@ -70,19 +67,17 @@ export const RegisterUserForm = () => {
 
     const { message, ok } = await registerNewUser(formData);
 
-    console.log(message);
-
     if (ok) {
-      router.replace(`/admin`);
+      router.replace(`/workers`);
     }
   };
 
   return (
     <div className="flex flex-wrap gap-4 p-4">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-        {/* First row: Name, LastName, Email */}
+        {/* First row: Name, LastName */}
         <div className="flex flex-col md:flex-row md:gap-4 mb-4">
-          <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
+          <div className="flex flex-col w-full md:w-1/2 mb-4 md:mb-0">
             <label htmlFor="name" className="mb-1 text-sm font-medium text-gray-700">
               Nombre <span className="text-red-500">*</span>
             </label>
@@ -94,7 +89,7 @@ export const RegisterUserForm = () => {
               placeholder="Ingrese su nombre"
             />
           </div>
-          <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
+          <div className="flex flex-col w-full md:w-1/2 mb-4 md:mb-0">
             <label htmlFor="lastName" className="mb-1 text-sm font-medium text-gray-700">
               Apellido <span className="text-red-500">*</span>
             </label>
@@ -106,23 +101,11 @@ export const RegisterUserForm = () => {
               placeholder="Ingrese su apellido"
             />
           </div>
-          <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
-            <label htmlFor="password" className="mb-1 text-sm font-medium text-gray-700">
-              Contraseña <span className="text-red-500">*</span>
-            </label>
-            <input
-              {...register("password", { required: true, minLength: 6 })}
-              type="password"
-              id="password"
-              className="border rounded p-2 border-gray-300"
-              placeholder="Ingrese su contraseña"
-            />
-          </div>
         </div>
 
-        {/* Second row: Phone, Password */}
+        {/* Second row: Phone, Company */}
         <div className="flex flex-col md:flex-row md:gap-4 mb-4">
-          <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
+          <div className="flex flex-col w-full md:w-2/3 mb-4 md:mb-0">
             <label htmlFor="phone" className="mb-1 text-sm font-medium text-gray-700">
               Teléfono
             </label>
@@ -132,36 +115,6 @@ export const RegisterUserForm = () => {
               id="phone"
               className="border rounded p-2 border-gray-300"
               placeholder="Ingrese su teléfono"
-            />
-          </div>
-          <div className="flex flex-col w-full md:w-2/3 mb-4 md:mb-0">
-            <label htmlFor="email" className="mb-1 text-sm font-medium text-gray-700">
-              Correo electrónico <span className="text-red-500">*</span>
-            </label>
-            <input
-              {...register("email", { required: true })}
-              type="email"
-              id="email"
-              className="border rounded p-2 border-gray-300"
-              placeholder="Ingrese su correo electrónico"
-            />
-          </div>
-        </div>
-
-
-
-        {/* Fourth row: Legajo and Company */}
-        <div className="flex flex-col md:flex-row md:gap-4 mb-4">
-          <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
-            <label htmlFor="legajo" className="mb-1 text-sm font-medium text-gray-700">
-              Legajo <span className="text-red-500">*</span>
-            </label>
-            <input
-              {...register("legajo", { required: true })}
-              type="text"
-              id="legajo"
-              className="border rounded p-2 border-gray-300"
-              placeholder="Ingrese el legajo"
             />
           </div>
           <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
@@ -177,18 +130,37 @@ export const RegisterUserForm = () => {
               <option value="CWI">CWI</option>
             </select>
           </div>
-          {/* Third row: Role */}
-          <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
-            <label htmlFor="role" className="mb-1 text-sm font-medium text-gray-700">
-              Rol <span className="text-red-500">*</span>
+        </div>
+
+        {/* Third row: Legajo and Category */}
+        <div className="flex flex-col md:flex-row md:gap-4 mb-4">
+          <div className="flex flex-col w-full md:w-1/2 mb-4 md:mb-0">
+            <label htmlFor="legajo" className="mb-1 text-sm font-medium text-gray-700">
+              Legajo <span className="text-red-500">*</span>
+            </label>
+            <input
+              {...register("legajo", { required: true })}
+              type="text"
+              id="legajo"
+              className="border rounded p-2 border-gray-300"
+              placeholder="Ingrese el legajo"
+            />
+          </div>
+          <div className="flex flex-col w-full md:w-1/2 mb-4 md:mb-0">
+            <label htmlFor="category" className="mb-1 text-sm font-medium text-gray-700">
+              Categoría <span className="text-red-500">*</span>
             </label>
             <select
-              {...register("role", { required: true })}
-              id="role"
+              {...register("category", { required: true })}
+              id="category"
               className="border rounded p-2 border-gray-300 h-10"
             >
-              <option value="PROJECT_MANAGER">Jefe de Obra</option>
-              <option value="ADMIN">Administrador</option>
+              <option value="N_A">No Aplica</option>
+              <option value="AYUDANTE">Ayudante</option>
+              <option value="MEDIO_OFICIAL">Medio Oficial</option>
+              <option value="OFICIAL">Oficial</option>
+              <option value="OFICIAL_ESPECIALIZADO">Oficial Especializado</option>
+              <option value="CAPATAZ">Capataz</option>
             </select>
           </div>
         </div>
