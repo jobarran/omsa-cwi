@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { registerNewProject } from "@/actions";
 import { useEffect, useState } from "react";
+import { compressImage } from "@/utils";
 
 
 // Define the form inputs
@@ -60,8 +61,15 @@ export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
     formData.append("code", data.code);
     formData.append("userId", data.userId);
 
+    // Handle image compression and append compressed image
     if (data.image && data.image.length > 0) {
-      formData.append("image", data.image[0]);
+      try {
+        const compressedImage = await compressImage(data.image[0]);
+        formData.append("image", compressedImage);
+      } catch (error) {
+        alert("Failed to compress image. Please try again.");
+        return;
+      }
     }
 
     // API call to create a new project
