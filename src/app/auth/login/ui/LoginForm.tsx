@@ -28,7 +28,7 @@ export const LoginForm = () => {
 
             <>
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
-                    Your email
+                    Email
                 </label>
                 <input
                     type="email"
@@ -40,7 +40,7 @@ export const LoginForm = () => {
             </>
             <div>
                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
-                    Password
+                    Contraseña
                 </label>
                 <input
                     type="password"
@@ -59,7 +59,7 @@ export const LoginForm = () => {
             >
                 {state === "CredentialsSignin" && (
                     <div className='flex flex-row mb- mt-1'>
-                        <p className="text-sm text-red-500">Sorry, something went wrong. Please double-check your credentials.</p>
+                        <p className="text-sm text-red-500">Algo salió mal! Por favor, revisar el correo y la contraseña</p>
                     </div>
                 )}
             </div>
@@ -67,12 +67,6 @@ export const LoginForm = () => {
             <LoginButton />
 
 
-            <p className="text-sm font-light text-gray-500">
-                Don’t have an account yet?{' '}
-                <a href="/auth/new-account" className="font-medium text-sky-600 hover:underline">
-                    Sign up
-                </a>
-            </p>
         </form>
     )
 }
@@ -90,7 +84,7 @@ function LoginButton() {
             })}
             disabled={pending}
         >
-            Sign in
+            Iniciar sesión
         </button>
     );
 }

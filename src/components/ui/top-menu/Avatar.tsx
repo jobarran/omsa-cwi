@@ -60,7 +60,7 @@ export const Avatar = ({ initials, image, id, logout }: Props) => {
                 data-te-ripple-color="light"
                 onClick={handleButtonClick}
             >
-                <span className="sr-only">Open user menu</span>
+                <span className="sr-only">Abrir menu</span>
                 <span className="m-2 circle-container inline-flex items-center justify-center h-8 w-8 text-sm font-semibold leading-none rounded-full border bg-gray-100 text-gray-600">
                     {initials ? (
                         initials
@@ -91,21 +91,12 @@ export const Avatar = ({ initials, image, id, logout }: Props) => {
 
             >
                 <Link
-
-                    className="block cursor-pointer w-full whitespace-nowrap px-4 py-2 text-sm font-normal text-gray-600"
-                    href="/profile"
-                    onClick={handleButtonClick}
-                    data-te-dropdown-item-ref
-                >
-                    Profile
-                </Link>
-                <Link
                     href="/"
                     className="block cursor-pointer w-full whitespace-nowrap px-4 py-2 text-sm font-normal text-gray-600"
                     onClick={handleLogout}
                     data-te-dropdown-item-ref
                 >
-                    Log out
+                    Cerrar sesión
                 </Link>
             </ul>
         </div>
