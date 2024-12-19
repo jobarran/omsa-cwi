@@ -3,8 +3,8 @@ import { TableImage } from "./TableImage";
 import { FaEdit } from "react-icons/fa"; // Replaced icon
 import Link from "next/link";
 import { FaArrowRightArrowLeft, FaUser } from "react-icons/fa6";
-import { UserRole, UserStatus } from "@prisma/client";
-import { roleTranslations } from "@/utils";
+import { UserPermission, UserRole, UserStatus } from "@prisma/client";
+import { permissionTranslations, roleTranslations } from "@/utils";
 
 interface Props {
     user: User;
@@ -68,7 +68,7 @@ export const AdminTableRow = ({ user, openModal, userRoleData }: Props) => {
                             key={index}
                             className="inline-block bg-teal-100 text-teal-800 px-1 py-1 text-xs rounded-lg m-1"
                         >
-                            {permission}
+                            {permissionTranslations[permission as UserPermission]} {/* Display translated permission */}
                         </span>
                     ))
                 ) : (

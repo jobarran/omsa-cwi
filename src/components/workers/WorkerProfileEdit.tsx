@@ -13,7 +13,7 @@ interface Props {
 
 type EditableField = "name" | "lastName" | "phone" | "category" | "status" | "company" | "password" | "image";
 
-export const AdminProfileEdit = ({ user }: Props) => {
+export const WorkerProfileEdit = ({ user }: Props) => {
     const [editableFields, setEditableFields] = useState<{ [key in EditableField]: boolean }>({
         name: false,
         lastName: false,
@@ -129,7 +129,7 @@ export const AdminProfileEdit = ({ user }: Props) => {
                     />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                     {/* Name */}
                     <AdminProfileInputs
                         field="name"
@@ -152,20 +152,10 @@ export const AdminProfileEdit = ({ user }: Props) => {
                         handleEditClick={handleEditClick}
                     />
 
-                    {/* Password */}
-                    <AdminProfileInputs
-                        field="password"
-                        label="Contraseña"
-                        currentValue={currentValues.password}
-                        handleChange={handleChange}
-                        editableFields={editableFields}
-                        handleSaveClick={handleSaveClick}
-                        handleEditClick={handleEditClick}
-                    />
                 </div>
 
                 {/* 2nd Line: Phone, Status, Category */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                     {/* Phone */}
                     <AdminProfileInputs
                         field="phone"
@@ -177,18 +167,7 @@ export const AdminProfileEdit = ({ user }: Props) => {
                         handleEditClick={handleEditClick}
                     />
 
-                    {/* Correo */}
-                    <div className="mb-4 w-full">
-                        <label className="block text-gray-700">Correo</label>
-                        <div className="flex items-center">
-                            <input
-                                type="text"
-                                value={user.email}
-                                disabled={true}
-                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100 cursor-not-allowed`}
-                            />
-                        </div>
-                    </div>
+
 
                     {/* Category */}
                     <AdminProfileInputs
@@ -220,7 +199,7 @@ export const AdminProfileEdit = ({ user }: Props) => {
                             type="button"
                             disabled={!file}
                             onClick={() => handleFileUpload(user.id, "image", "")}
-                            className={`flex items-center justify-center px-4 py-3 ${file ? "bg-sky-600 text-white" : "bg-gray-200 text-black" }  rounded-md text-sm whitespace-nowrap`}
+                            className={`flex items-center justify-center px-4 py-3 ${file ? "bg-sky-600 text-white" : "bg-gray-200 text-black"}  rounded-md text-sm whitespace-nowrap`}
                         >
                             Subir Imagen
                         </button>

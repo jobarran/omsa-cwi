@@ -217,8 +217,11 @@ enum ActionType {
 enum UserPermission {
   TOTAL
   TOOL_ADMIN
+  TOOL_VIEW
   PEOPLE_ADMIN
+  PEOPLE_VIEW
   PROJECT_ADMIN
+  PROJECT_VIEW
 }
 
 enum UserStatus {

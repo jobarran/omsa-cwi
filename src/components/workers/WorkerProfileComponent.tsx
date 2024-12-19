@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createNewComment } from "@/actions";
-import { AdminProfileComments, AdminProfileEdit, AdminProfileHistory, RenderStars, TableImage } from "..";
+import { AdminProfileComments, AdminProfileEdit, AdminProfileHistory, RenderStars, TableImage, WorkerProfileComments, WorkerProfileEdit, WorkerProfileHistory } from "..";
 import { User } from "@/interfaces";
 import { Project } from "@/interfaces/project.interface";
 
@@ -17,11 +17,11 @@ export const WorkerProfileComponent = ({ user }: Props) => {
     const renderContent = () => {
         switch (activeTab) {
             case "Historial":
-                return <AdminProfileHistory user={user} />;
+                return <WorkerProfileHistory user={user} />;
             case "Comentarios":
-                return <AdminProfileComments user={user} />;
+                return <WorkerProfileComments user={user} />;
             case "Editar":
-                return <AdminProfileEdit user={user} />;
+                return <WorkerProfileEdit user={user} />;
             default:
                 return null;
         }

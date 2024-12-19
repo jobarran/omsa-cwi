@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { User } from "@/interfaces";
 import { ProjectData } from "@/interfaces/project.interface";
 import { UserPermission, UserRole } from "@prisma/client";
-import { roleTranslations } from "@/utils";
+import { permissionTranslations, roleTranslations } from "@/utils";
 import { updateUserProjectsPermissions } from "@/actions";
 
 interface Props {
@@ -115,7 +115,7 @@ export const AdminTableModal = ({ user, field, projects, closeModal }: Props) =>
                                     }}
                                     className="mr-2"
                                 />
-                                {permission}
+                                {permissionTranslations[permission as UserPermission]} {/* Display translated permission */}
                             </label>
                         ))}
                     </div>
