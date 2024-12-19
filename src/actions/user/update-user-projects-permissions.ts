@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma"; // Your Prisma client instance
 import { revalidatePath } from "next/cache";
 
-export async function updateUser(field: string, userId: string, value: string | string[]) {
+export async function updateUserProjectsPermissions(field: string, userId: string, value: string | string[]) {
     try {
         const updateData: Record<string, any> = {};
 

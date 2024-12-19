@@ -1,15 +1,38 @@
+"use client"
+
 import { Tool } from "@/interfaces/tool.interface";
 import { TableImage } from "./TableImage";
-import { FaEdit } from "react-icons/fa";
 import Link from "next/link";
-import { FaArrowRightArrowLeft, FaPen } from "react-icons/fa6";
+import { FaArrowRightArrowLeft, FaEye, FaPen, FaRegEye } from "react-icons/fa6";
+import { ToolTableModal } from "./ToolTableModal";
+import { useState } from "react";
+import { User } from "@/interfaces";
+import { ProjectData } from "@/interfaces/project.interface";
 
 interface Props {
     tools: Tool[];
+    projects: ProjectData[]
 }
 
-export const ToolTable = ({ tools }: Props) => {
-    // Function to translate the state to Spanish
+export const ToolTable = ({ tools, projects }: Props) => {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
+    const [fieldToEdit, setFieldToEdit] = useState<string | null>(null);
+
+
+    const openModal = (tool: Tool, field: string) => {
+        setSelectedTool(tool);
+        setFieldToEdit(field);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedTool(null);
+        setFieldToEdit(null);
+    };
+
     const getStateLabel = (state: string) => {
         switch (state) {
             case "ACTIVE":
@@ -74,10 +97,11 @@ export const ToolTable = ({ tools }: Props) => {
                                 <td className="px-6 py-4 text-center">{tool.quantity}</td>
                                 <td className="px-6 py-4 text-center">
                                     <div className="flex items-center">
-                                        {tool.project?.name}
+                                        {tool.project?.code}
                                         <button
                                             className="font-medium text-sky-800 hover:text-sky-600"
                                             title="Transferir"
+                                            onClick={() => openModal(tool, "projectId")}
                                         >
                                             <FaArrowRightArrowLeft className="text-lg ml-2" />
                                         </button>
@@ -90,7 +114,7 @@ export const ToolTable = ({ tools }: Props) => {
                                             className="font-medium text-sky-800 hover:text-sky-600"
                                             title="Editar"
                                         >
-                                            <FaPen className="text-lg" />
+                                            <FaEye className="text-xl" />
                                         </Link>
                                     </div>
                                 </td>
@@ -106,6 +130,16 @@ export const ToolTable = ({ tools }: Props) => {
                 </tbody>
 
             </table>
+
+            {isModalOpen && selectedTool && fieldToEdit && (
+                <ToolTableModal
+                    tool={selectedTool}
+                    field={fieldToEdit}
+                    projects={projects}
+                    closeModal={closeModal}
+                />
+            )}
+
         </div>
     );
 };

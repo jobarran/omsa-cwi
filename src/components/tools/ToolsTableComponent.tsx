@@ -80,7 +80,7 @@ export const ToolsTableComponent = ({ tools, projects }: Props) => {
                     setSelectedState={setSelectedState}
                 />
             </div>
-            <ToolTable tools={filteredTools} />
+            <ToolTable tools={filteredTools} projects={projects} />
         </div>
     );
 };

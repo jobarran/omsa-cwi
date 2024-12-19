@@ -3,9 +3,9 @@
 import { useState, useTransition } from "react";
 import { User } from "@/interfaces";
 import { ProjectData } from "@/interfaces/project.interface";
-import { updateUser } from "@/actions";
 import { UserPermission, UserRole } from "@prisma/client";
 import { roleTranslations } from "@/utils";
+import { updateUserProjectsPermissions } from "@/actions";
 
 interface Props {
     user: User;
@@ -41,7 +41,7 @@ export const AdminTableModal = ({ user, field, projects, closeModal }: Props) =>
     const saveChanges = () => {
         startTransition(async () => {
             try {
-                await updateUser(field, user.id, localValue); // Call the server action
+                await updateUserProjectsPermissions(field, user.id, localValue); // Call the server action
                 closeModal(); // Close the modal on success
             } catch (error) {
                 console.error("Failed to update user:", error);
@@ -65,7 +65,7 @@ export const AdminTableModal = ({ user, field, projects, closeModal }: Props) =>
                         onChange={handleFieldChange}
                         className="w-full px-4 py-2 border border-gray-300 rounded-md"
                     >
-                       {Object.values(UserRole).map((role) => (
+                        {Object.values(UserRole).map((role) => (
                             <option key={role} value={role}>
                                 {roleTranslations[role]} {/* Use the translated role */}
                             </option>
@@ -91,7 +91,7 @@ export const AdminTableModal = ({ user, field, projects, closeModal }: Props) =>
                                     }}
                                     className="mr-2"
                                 />
-                                {project.name} ({project.code})
+                                {project.code} - {project.name}
                             </label>
                         ))}
                     </div>

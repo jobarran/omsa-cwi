@@ -73,7 +73,7 @@ export const WorkerTable = ({ workers, projects }: Props) => {
                                                     key={index}
                                                     className="inline-block bg-sky-100 text-sky-800 px-1 py-1 text-xs rounded-lg m-1"
                                                 >
-                                                    {project.name}
+                                                    {project.code}
                                                 </span>
                                             ))
                                         ) : (
