@@ -1,4 +1,4 @@
-import { getUserPermissions } from "@/actions";
+import { getToolCategories, getUserPermissions } from "@/actions";
 import { getAllProjects } from "@/actions/project/get-all-projects";
 import { getAllTools } from "@/actions/tool/get-all-tools";
 import { auth } from "@/auth.config";
@@ -15,8 +15,8 @@ export default async function ToolsPage() {
 
     const tools = await getAllTools();
     const projects = await getAllProjects();
+    const toolCategories = await getToolCategories()
 
-    console.log(userPermissions);  // Now you can log the userPermissions
 
     return (
         <div className="flex flex-col items-center justify-between space-y-4">
@@ -24,7 +24,8 @@ export default async function ToolsPage() {
             <ToolsTableComponent
                 tools={tools}
                 projects={projects}
-                userPermissions={userPermissions}  // Pass userPermissions to the component
+                userPermissions={userPermissions}
+                toolCategories={toolCategories}
             />
         </div>
     );

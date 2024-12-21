@@ -56,7 +56,7 @@ export const ProjectTableModal = ({ project, field, users, closeModal }: Props) 
             onClick={closeModal}
         >
             <div
-                className="bg-white p-6 rounded-lg shadow-lg w-1/3"
+                className="bg-white p-6 rounded-lg shadow-lg w-5/6 sm:w-1/3"
                 onClick={(e) => e.stopPropagation()}
             >
                 <h2 className="text-xl mb-4">Editar {field}</h2>

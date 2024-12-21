@@ -1,23 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Tool } from "@/interfaces/tool.interface";
+import { Tool, ToolCategory } from "@/interfaces/tool.interface";
 import { RenderStars, TableImage, ToolsProfileComments, ToolsProfileEdit, ToolsProfileHistory } from "..";
 import { createNewComment } from "@/actions";
 import { toolRagting } from "@/utils";
+import { ProjectData } from "@/interfaces/project.interface";
 
 interface Props {
     tool: Tool;
+    categories: ToolCategory[] | null;
+    projects: ProjectData[]
 }
 
-export const ToolsProfileComponent = ({ tool }: Props) => {
+export const ToolsProfileComponent = ({ tool, categories, projects }: Props) => {
 
     const [activeTab, setActiveTab] = useState("Historial");
     const [activeTool, setActiveTool] = useState<Tool>(tool);
     const [rating, setRating] = useState<number | null>(null); // State to hold the average rating
 
     useEffect(() => {
-        // Calculate the average rating from tool's comments
         const avgRating = toolRagting(tool.comments); // Assuming tool has a comments array
         setRating(avgRating);
     }, [tool]);
@@ -41,7 +43,7 @@ export const ToolsProfileComponent = ({ tool }: Props) => {
             case "Comentarios":
                 return <ToolsProfileComments tool={tool} onAddComment={handleAddComment} />;
             case "Editar":
-                return <ToolsProfileEdit tool={tool} />;
+                return <ToolsProfileEdit tool={tool} categories={categories} projects={projects} />;
             default:
                 return null;
         }

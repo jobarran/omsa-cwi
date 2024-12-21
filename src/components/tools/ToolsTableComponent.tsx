@@ -1,26 +1,38 @@
 "use client";
 
-import { ToolAdminButtons, ToolSearch, ToolsFilter, ToolTable } from "..";
-import { Tool } from "@/interfaces/tool.interface";
+import { useState, useEffect } from "react";
+import { ToolAdminButtons, ToolCategoryModal, ToolSearch, ToolsFilter, ToolTable } from "..";
+import { Tool, ToolCategory } from "@/interfaces/tool.interface";
 import { ProjectData } from "@/interfaces/project.interface";
 import { useToolFilter } from "@/hooks/useToolFilter";
 import { getToolBrands } from "@/utils/getToolBrands";
-import { useState } from "react";
 import { UserPermission } from "@prisma/client";
 import * as XLSX from "xlsx"; // Import the xlsx library
+import { getToolCategories } from "@/actions";
 
 interface Props {
     tools: Tool[];
     projects: ProjectData[];
     userPermissions: UserPermission[] | null;
+    toolCategories: ToolCategory[] | null
 }
 
-export const ToolsTableComponent = ({ tools, projects, userPermissions }: Props) => {
+export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCategories }: Props) => {
     const { filteredTools, handleFilterChange, restoreFilters } = useToolFilter(tools);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedProject, setSelectedProject] = useState<string | null>(null);
     const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
     const [selectedState, setSelectedState] = useState<string | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [categories, setCategories] = useState<{ id: string; name: string }[] | null>(toolCategories); // State to store categories
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
     // Determines if any filter is active
     const isFiltering = Boolean(
@@ -36,8 +48,12 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions }: Props)
     const handleExportToExcel = () => {
         // Process the data
         const exportData = filteredTools.map((tool) => {
+
+            const categories = tool.categories ? tool.categories.map((category) => category.name).join(", ") : "";
+
             return {
                 "Código": tool.code,
+                "Categorias": categories,
                 "Nombre": tool.name,
                 "Marca": tool.brand,
                 "Descripción": tool.description,
@@ -83,7 +99,6 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions }: Props)
         XLSX.writeFile(wb, fileName);
     };
 
-
     // Resets the search term and all dropdown filters
     const resetSearchTerm = () => {
         setSearchTerm("");
@@ -114,42 +129,53 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions }: Props)
     const isTotal = userPermissions.includes("TOTAL");
 
     return (
-        <div className="flex flex-col w-full">
-            {(isToolAdmin || isTotal) && (
-                <ToolAdminButtons />
-            )}
+        <div>
+            <div className="flex flex-col w-full">
 
-            {isToolView || isToolAdmin || isTotal ? (
-                <div className="pt-2 pb-2">
-                    <ToolSearch
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                        handleSearch={handleSearch}
-                        resetSearchTerm={resetSearchTerm}
-                        isFiltering={isFiltering}
+                {(isToolAdmin || isTotal) && (
+                    <ToolAdminButtons
+                        openModal={openModal}
                     />
-                    {(isToolAdmin || isTotal) && (
-                        <ToolsFilter
-                            projects={projects}
-                            onFilterChange={handleFilterChange}
-                            toolBrands={brands}
-                            selectedProject={selectedProject}
-                            selectedBrand={selectedBrand}
-                            selectedState={selectedState}
-                            setSelectedProject={setSelectedProject}
-                            setSelectedBrand={setSelectedBrand}
-                            setSelectedState={setSelectedState}
-                            onExportToExcel={handleExportToExcel}
-                        />
-                    )}
-                </div>
-            ) : (
-                <div className="text-center text-gray-600 mt-8">
-                    No tienes permisos para ver esta página.
-                </div>
-            )}
+                )}
 
-            <ToolTable tools={filteredTools} projects={projects} />
+                {isToolView || isToolAdmin || isTotal ? (
+                    <div className="pt-2 pb-2">
+                        <ToolSearch
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
+                            handleSearch={handleSearch}
+                            resetSearchTerm={resetSearchTerm}
+                            isFiltering={isFiltering}
+                        />
+                        {(isToolView || isToolAdmin || isTotal) && (
+                            <ToolsFilter
+                                projects={projects}
+                                onFilterChange={handleFilterChange}
+                                toolBrands={brands}
+                                selectedProject={selectedProject}
+                                selectedBrand={selectedBrand}
+                                selectedState={selectedState}
+                                setSelectedProject={setSelectedProject}
+                                setSelectedBrand={setSelectedBrand}
+                                setSelectedState={setSelectedState}
+                                onExportToExcel={handleExportToExcel}
+                            />
+                        )}
+                    </div>
+                ) : (
+                    <div className="text-center text-gray-600 mt-8">
+                        No tienes permisos para ver esta página.
+                    </div>
+                )}
+
+                <ToolTable tools={filteredTools} projects={projects} toolCategories={toolCategories} />
+            </div>
+            {(isModalOpen) && (
+                <ToolCategoryModal
+                    closeModal={closeModal}
+                    categories={categories || []} // Default to an empty array if categories are null
+                />
+            )}
         </div>
     );
 };

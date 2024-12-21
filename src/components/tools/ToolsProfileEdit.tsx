@@ -1,17 +1,21 @@
 "use client";
 
-import { Tool } from "@/interfaces/tool.interface";
+import { Tool, ToolCategory } from "@/interfaces/tool.interface";
 import { compressImage } from "@/utils";
-import { useState } from "react";
-import { AdminProfileInputs, ToolProfileInput } from "..";
+import { useEffect, useState } from "react";
+import { AdminProfileInputs, ToolProfileInput, ToolTableModal } from "..";
 import { ToolEditableField } from "@/types";
 import { updateTool, updateToolImage } from "@/actions";
+import { ProjectData } from "@/interfaces/project.interface";
+import { FaPen } from "react-icons/fa6";
 
 interface Props {
     tool: Tool;
+    categories: ToolCategory[] | null;
+    projects: ProjectData[]
 }
 
-export const ToolsProfileEdit = ({ tool }: Props) => {
+export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
     const [editableFields, setEditableFields] = useState<
         { [key in ToolEditableField]: boolean }
     >({
@@ -38,6 +42,36 @@ export const ToolsProfileEdit = ({ tool }: Props) => {
         categories: tool.categories.map((cat) => cat.name).join(", "),
         image: "",
     });
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedTool, setSelectedTool] = useState<Tool | null>(tool);
+    const [fieldToEdit, setFieldToEdit] = useState<string | null>(null);
+
+    useEffect(() => {
+        setCurrentValues({
+            name: tool.name,
+            code: tool.code,
+            brand: tool.brand ?? "",
+            description: tool.description ?? "",
+            state: tool.state,
+            quantity: tool.quantity.toString(),
+            project: tool.project?.name ?? "",
+            categories: tool.categories.map((cat) => cat.name).join(", "),
+            image: "",
+        })
+        setSelectedTool(tool)
+    }, [tool])
+
+
+    const openModal = (field: string) => {
+        setFieldToEdit(field);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setFieldToEdit(null);
+    };
 
     const handleEditClick = (field: ToolEditableField) => {
         setEditableFields((prev) => ({ ...prev, [field]: true }));
@@ -122,28 +156,54 @@ export const ToolsProfileEdit = ({ tool }: Props) => {
                     />
                 </div>
 
-
                 {/* Second line */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
-                    <ToolProfileInput
-                        field="categories"
-                        label="Category"
-                        currentValue={currentValues.categories}
-                        handleChange={handleChange}
-                        editableFields={editableFields}
-                        handleSaveClick={handleSaveClick}
-                        handleEditClick={handleEditClick}
-                    />
 
-                    <ToolProfileInput
-                        field="project"
-                        label="Project"
-                        currentValue={currentValues.project}
-                        handleChange={handleChange}
-                        editableFields={editableFields}
-                        handleSaveClick={handleSaveClick}
-                        handleEditClick={handleEditClick}
-                    />
+                    <div className="mb-4 w-full">
+                        <label className="block text-gray-700">
+                            Categoría
+                        </label>
+                        <div className="relative w-full">
+
+                            <input
+                                type="text"
+                                value={currentValues.categories}
+                                onChange={() => { }}
+                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100 cursor-not-allowed `}
+                            />
+
+                            <button
+                                type="button"
+                                onClick={() => openModal("category")}
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sky-800"
+                            >
+                                <FaPen />
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="mb-4 w-full">
+                        <label className="block text-gray-700">
+                            Obra
+                        </label>
+                        <div className="relative w-full">
+
+                            <input
+                                type="text"
+                                value={currentValues.project}
+                                onChange={() => { }}
+                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100 cursor-not-allowed `}
+                            />
+
+                            <button
+                                type="button"
+                                onClick={() => openModal("projectId")}
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sky-800"
+                            >
+                                <FaPen />
+                            </button>
+                        </div>
+                    </div>
 
                     <ToolProfileInput
                         field="state"
@@ -208,6 +268,15 @@ export const ToolsProfileEdit = ({ tool }: Props) => {
 
 
             </form>
+            {isModalOpen && selectedTool && fieldToEdit && (
+                <ToolTableModal
+                    tool={selectedTool}
+                    field={fieldToEdit}
+                    projects={projects}
+                    closeModal={closeModal}
+                    categories={categories}
+                />
+            )}
         </div>
     );
 };

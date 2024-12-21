@@ -1,6 +1,6 @@
 "use client"
 
-import { Tool } from "@/interfaces/tool.interface";
+import { Tool, ToolCategory } from "@/interfaces/tool.interface";
 import { TableImage } from "./TableImage";
 import Link from "next/link";
 import { FaArrowRightArrowLeft, FaEye, FaPen, FaRegEye } from "react-icons/fa6";
@@ -12,9 +12,10 @@ import { ProjectData } from "@/interfaces/project.interface";
 interface Props {
     tools: Tool[];
     projects: ProjectData[]
+    toolCategories: ToolCategory[] | null
 }
 
-export const ToolTable = ({ tools, projects }: Props) => {
+export const ToolTable = ({ tools, projects, toolCategories }: Props) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
@@ -57,6 +58,7 @@ export const ToolTable = ({ tools, projects }: Props) => {
                         <th scope="col" className="px-6 py-3 text-center">Nombre</th>
                         <th scope="col" className="px-6 py-3 text-center">Marca</th>
                         <th scope="col" className="px-6 py-3 text-center">Cant.</th>
+                        <th scope="col" className="px-6 py-3 text-center">Categoría</th>
                         <th scope="col" className="px-6 py-3 text-center">Obra</th>
                         <th scope="col" className="px-6 py-3 text-center">Acciones</th>
                     </tr>
@@ -95,6 +97,27 @@ export const ToolTable = ({ tools, projects }: Props) => {
                                 </td>
                                 <td className="px-6 py-4 text-center">{tool.brand}</td>
                                 <td className="px-6 py-4 text-center">{tool.quantity}</td>
+                                <td className="px-4 py-2 text-center">
+                                    {tool.categories && tool.categories.length > 0 ? (
+                                        tool.categories.map((category, index) => (
+                                            <span
+                                                key={index}
+                                                className="inline-block bg-teal-100 text-teal-800 px-1 py-1 text-xs rounded-lg m-1"
+                                            >
+                                                {category.name}
+                                            </span>
+                                        ))
+                                    ) : (
+                                        <span className="text-gray-400">-</span>
+                                    )}
+                                    <button
+                                        className="font-medium text-sky-800 hover:text-sky-600"
+                                        title="Transferir"
+                                        onClick={() => openModal(tool, "category")}
+                                    >
+                                        <FaArrowRightArrowLeft className="text-lg ml-2" />
+                                    </button>
+                                </td>
                                 <td className="px-6 py-4 text-center">
                                     <div className="flex items-center">
                                         {tool.project?.code}
@@ -137,6 +160,7 @@ export const ToolTable = ({ tools, projects }: Props) => {
                     field={fieldToEdit}
                     projects={projects}
                     closeModal={closeModal}
+                    categories={toolCategories}
                 />
             )}
 

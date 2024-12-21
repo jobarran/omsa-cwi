@@ -12,15 +12,33 @@ export async function updateTool(field: string, toolId: string, value: string | 
       "description",
       "state",
       "quantity",
-      "projectId", 
+      "projectId",
+      "category"
     ];
-    
+
     if (!validFields.includes(field)) {
       throw new Error(`Invalid field: ${field}`);
     }
 
-    // Handle array input for single-value fields
-    const fieldValue = Array.isArray(value) ? value[0] : value; // Use the first value from the array if necessary
+    // Handle array input for category field (many-to-many relation)
+    if (field === "category" && Array.isArray(value)) {
+      const updatedTool = await prisma.tool.update({
+        where: { id: toolId },
+        data: {
+          categories: {
+            set: [], // First clear the existing categories
+            connect: value.map((categoryId) => ({ id: categoryId })) // Then connect the new categories
+          }
+        },
+      });
+
+      revalidatePath("/tools");
+
+      return updatedTool;
+    }
+
+    // Handle single value for other fields
+    const fieldValue = Array.isArray(value) ? value[0] : value;
 
     const updatedTool = await prisma.tool.update({
       where: { id: toolId },
@@ -28,6 +46,8 @@ export async function updateTool(field: string, toolId: string, value: string | 
     });
 
     revalidatePath("/tools");
+    revalidatePath(`/tools/${toolId}`);
+
 
     return updatedTool;
   } catch (error) {
