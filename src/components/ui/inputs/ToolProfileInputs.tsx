@@ -1,12 +1,9 @@
 "use client";
 
+import { ToolEditableField } from "@/types";
 import { FaPen, FaSave } from "react-icons/fa"; // Import the icons
 
-type EditableField = "name" | "lastName" | "phone" | "category" | "status" | "company" | "password" | "image";
-
-
-
-export const AdminProfileInputs = ({
+export const ToolProfileInput = ({
     field,
     label,
     currentValue,
@@ -16,13 +13,13 @@ export const AdminProfileInputs = ({
     handleEditClick,
     options = [],
 }: {
-    field: EditableField;
+    field: ToolEditableField;
     label: string;
     currentValue: string;
-    handleChange: (field: EditableField, value: string) => void;
-    editableFields: { [key in EditableField]: boolean };
-    handleSaveClick: (field: EditableField) => void;
-    handleEditClick: (field: EditableField) => void;
+    handleChange: (field: ToolEditableField, value: string) => void;
+    editableFields: { [key in ToolEditableField]: boolean };
+    handleSaveClick: (field: ToolEditableField) => void;
+    handleEditClick: (field: ToolEditableField) => void;
     options?: string[]; // Options for dropdowns
 }) => {
     const isEditable = editableFields[field];
@@ -33,7 +30,16 @@ export const AdminProfileInputs = ({
                 {field.charAt(0).toUpperCase() + field.slice(1)}
             </label>
             <div className="relative w-full">
-                {options.length > 0 ? (
+                {field === "description" ? (
+                    <textarea
+                        value={currentValue}
+                        onChange={(e) => handleChange(field, e.target.value)}
+                        disabled={!isEditable}
+                        rows={3}
+                        className={`border p-2 rounded w-full pr-12 resize-none ${!isEditable ? "bg-gray-100 cursor-not-allowed" : ""
+                            }`}
+                    />
+                ) : options.length > 0 ? (
                     <select
                         value={currentValue}
                         onChange={(e) => handleChange(field, e.target.value)}
@@ -53,7 +59,8 @@ export const AdminProfileInputs = ({
                         value={currentValue}
                         onChange={(e) => handleChange(field, e.target.value)}
                         disabled={!isEditable}
-                        className={`border p-2 h-11 rounded w-full pr-12 ${!isEditable ? 'bg-gray-100 cursor-not-allowed' : ''}`} // Same height for input and disabled style
+                        className={`border p-2 h-11 rounded w-full pr-12 ${!isEditable ? "bg-gray-100 cursor-not-allowed" : ""
+                            }`} // Same height for input and disabled style
                     />
                 )}
                 <button

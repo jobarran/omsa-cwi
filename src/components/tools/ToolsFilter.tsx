@@ -14,6 +14,7 @@ interface Props {
     setSelectedProject: (value: string | null) => void;
     setSelectedBrand: (value: string | null) => void;
     setSelectedState: (value: string | null) => void;
+    onExportToExcel: () => void
 }
 
 export const ToolsFilter = ({
@@ -26,11 +27,8 @@ export const ToolsFilter = ({
     setSelectedProject,
     setSelectedBrand,
     setSelectedState,
+    onExportToExcel
 }: Props) => {
-
-    const handleExportToExcel = () => {
-        alert("FUNCION SIN IMPLEMENTAR");
-    }
 
     return (
         <div className="flex flex-wrap items-center gap-2 pb-4 w-full">
@@ -91,7 +89,7 @@ export const ToolsFilter = ({
 
             {/* Exportar a Excel Button */}
             <button
-                onClick={handleExportToExcel}
+                onClick={onExportToExcel}
                 className="hidden sm:flex px-3 py-1 items-center rounded-md bg-sky-800 text-white text-sm font-medium hover:bg-sky-900 transition"
             >
                 <FaRegFileExcel className="sm:mr-2" />
