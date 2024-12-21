@@ -8,7 +8,7 @@ export interface Tool {
     description?: string | null;
     state: ToolState; 
     quantity: number;
-    boughtAt?: Date | undefined;
+    boughtAt?: Date | null; // Allowing null here to match the Prisma return type
     createdAt: Date; 
     updatedAt: Date; 
 
