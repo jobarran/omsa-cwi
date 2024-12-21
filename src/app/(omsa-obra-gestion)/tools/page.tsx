@@ -7,9 +7,8 @@ import { SectionTitle, ToolsTableComponent } from "@/components";
 export default async function ToolsPage() {
     const session = await auth();
 
-    let userPermissions = null;  // Initialize outside of the session block
+    let userPermissions = null; 
     if (session) {
-        // Await the result of getUserPermissions
         userPermissions = await getUserPermissions(session.user.id);
     }
 

@@ -15,6 +15,7 @@ model Tool {
   description String?
   state       ToolState @default(ACTIVE)
   quantity    Int       @default(1) // Tracking tool availability
+  boughtAt    DateTime?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 

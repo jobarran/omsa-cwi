@@ -6,10 +6,11 @@ export interface Tool {
     name: string;
     brand?: string | null;
     description?: string | null;
-    state: ToolState; // Use the Prisma-generated ToolState
+    state: ToolState; 
     quantity: number;
-    createdAt: Date; // Change to Date
-    updatedAt: Date; // Change to Date
+    boughtAt?: Date | undefined;
+    createdAt: Date; 
+    updatedAt: Date; 
 
     // Relations
     project?: ToolProject | null;

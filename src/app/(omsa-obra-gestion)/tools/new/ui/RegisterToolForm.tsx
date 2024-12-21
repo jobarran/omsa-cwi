@@ -2,6 +2,7 @@
 
 import { registerNewTool } from '@/actions/tool/register-new-tool';
 import { ProjectData } from '@/interfaces/project.interface';
+import { ToolCategory } from '@/interfaces/tool.interface';
 import { compressImage } from '@/utils';
 import { useRouter } from "next/navigation";
 import React from 'react';
@@ -18,13 +19,16 @@ type FormInputs = {
     projectId: string;
     userId: string;
     image: FileList | null;
+    boughtAt: Date;
+    category: string; // Changed to a single string for category id
 };
 
 interface Props {
     projects: ProjectData[];
+    categories: ToolCategory[];
 }
 
-export const RegisterToolForm = ({ projects }: Props) => {
+export const RegisterToolForm = ({ projects, categories }: Props) => {
 
     const router = useRouter();
 
@@ -44,23 +48,28 @@ export const RegisterToolForm = ({ projects }: Props) => {
             projectId: '',
             userId: '',
             image: null,
+            boughtAt: undefined,
+            category: '', // Default to empty string for single category
         },
     });
 
     const onSubmit = async (data: FormInputs) => {
-
         const formData = new FormData();
+        const { image, boughtAt, ...toolToSave } = data;
 
-        const { image, ...toolToSave } = data;
+        // Handle the rest of the data
         Object.entries(toolToSave).forEach(([key, value]) => {
-            formData.append(key, typeof value === 'number' ? value.toString() : value);
+            if (value !== undefined && value !== null) {
+                formData.append(key, typeof value === "number" ? value.toString() : value);
+            }
         });
 
-        // if (image && image.length > 0) {
-        //     formData.append('image', image[0]);
-        // }
+        // Append 'boughtAt' as a string date if it's a valid date
+        if (boughtAt instanceof Date) {
+            const formattedDate = boughtAt.toLocaleDateString("en-GB");
+            formData.append("boughtAt", formattedDate);
+        }
 
-        // Handle image compression and append compressed image
         if (image && image.length > 0) {
             try {
                 const compressedImage = await compressImage(image[0]);
@@ -78,13 +87,15 @@ export const RegisterToolForm = ({ projects }: Props) => {
         }
     };
 
+
+
     return (
         <div className="flex flex-wrap gap-4 p-4">
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
 
                 {/* First row: Name, Code, Brand */}
                 <div className="flex flex-col md:flex-row md:gap-4 mb-4">
-                    <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
+                    <div className="flex flex-col w-full md:w-3/12 mb-4 md:mb-0">
                         <label
                             htmlFor="code"
                             className="mb-1 text-sm font-medium text-gray-700"
@@ -99,7 +110,7 @@ export const RegisterToolForm = ({ projects }: Props) => {
                             placeholder="Ingrese el código"
                         />
                     </div>
-                    <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
+                    <div className="flex flex-col w-full md:w-4/12 mb-4 md:mb-0">
                         <label
                             htmlFor="name"
                             className="mb-1 text-sm font-medium text-gray-700"
@@ -114,7 +125,7 @@ export const RegisterToolForm = ({ projects }: Props) => {
                             placeholder="Ingrese el nombre del equipo"
                         />
                     </div>
-                    <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
+                    <div className="flex flex-col w-full md:w-3/12 mb-4 md:mb-0">
                         <label
                             htmlFor="brand"
                             className="mb-1 text-sm font-medium text-gray-700"
@@ -127,6 +138,21 @@ export const RegisterToolForm = ({ projects }: Props) => {
                             id="brand"
                             className="border rounded p-2 border-gray-300"
                             placeholder="Ingrese la marca del equipo"
+                        />
+                    </div>
+                    <div className="flex flex-col w-full md:w-2/12 mb-4 md:mb-0">
+                        <label
+                            htmlFor="quantity"
+                            className="mb-1 text-sm font-medium text-gray-700"
+                        >
+                            Cantidad <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            {...register("quantity", { required: true, min: 1 })}
+                            type="number"
+                            id="quantity"
+                            className="border rounded text-sm p-2 border-gray-300 h-10"
+                            placeholder="Ingrese la cantidad"
                         />
                     </div>
                 </div>
@@ -148,25 +174,30 @@ export const RegisterToolForm = ({ projects }: Props) => {
                     />
                 </div>
 
-                {/* Third row: State, Quantity, Project */}
+                {/* Third row: State, Quantity, Project, Bought At */}
                 <div className="flex flex-col md:flex-row md:gap-4 mb-4">
-                    <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
+
+                    <div className="flex flex-col w-full md:w-1/4 mb-4 md:mb-0">
                         <label
-                            htmlFor="quantity"
+                            htmlFor="category"
                             className="mb-1 text-sm font-medium text-gray-700"
                         >
-                            Cantidad <span className="text-red-500">*</span>
+                            Categoría <span className="text-red-500">*</span>
                         </label>
-                        <input
-                            {...register("quantity", { required: true, min: 1 })}
-                            type="number"
-                            id="quantity"
-                            className="border rounded text-sm p-2 border-gray-300 h-10"
-                            placeholder="Ingrese la cantidad"
-                        />
+                        <select
+                            {...register("category", { required: true })}
+                            id="category"
+                            className="border rounded p-2 border-gray-300 h-10"
+                        >
+                            {categories.map((category) => (
+                                <option key={category.id} value={category.id}>
+                                    {category.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
-                    <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
+                    <div className="flex flex-col w-full md:w-1/4 mb-4 md:mb-0">
                         <label
                             htmlFor="state"
                             className="mb-1 text-sm font-medium text-gray-700"
@@ -184,7 +215,7 @@ export const RegisterToolForm = ({ projects }: Props) => {
                         </select>
                     </div>
 
-                    <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
+                    <div className="flex flex-col w-full md:w-1/4 mb-4 md:mb-0">
                         <label
                             htmlFor="projectId"
                             className="mb-1 text-sm font-medium text-gray-700"
@@ -203,7 +234,23 @@ export const RegisterToolForm = ({ projects }: Props) => {
                             ))}
                         </select>
                     </div>
+
+                    <div className="flex flex-col w-full md:w-1/4 mb-4 md:mb-0">
+                        <label
+                            htmlFor="boughtAt"
+                            className="mb-1 text-sm font-medium text-gray-700"
+                        >
+                            Fecha de compra
+                        </label>
+                        <input
+                            {...register("boughtAt")}
+                            type="date"
+                            id="boughtAt"
+                            className="border rounded p-2 border-gray-300 h-10"
+                        />
+                    </div>
                 </div>
+
 
                 {/* Fourth row: Image */}
                 <div className="flex flex-col mb-4">

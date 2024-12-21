@@ -31,6 +31,7 @@ export const ToolTableModal = ({ tool, field, projects, closeModal, categories }
     };
 
     const saveChanges = () => {
+
         startTransition(async () => {
             try {
                 console.log({ field, tool: tool.id, value: localValue });

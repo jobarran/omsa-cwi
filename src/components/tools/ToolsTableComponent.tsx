@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ToolAdminButtons, ToolCategoryModal, ToolSearch, ToolsFilter, ToolTable } from "..";
 import { Tool, ToolCategory } from "@/interfaces/tool.interface";
 import { ProjectData } from "@/interfaces/project.interface";
@@ -8,7 +8,6 @@ import { useToolFilter } from "@/hooks/useToolFilter";
 import { getToolBrands } from "@/utils/getToolBrands";
 import { UserPermission } from "@prisma/client";
 import * as XLSX from "xlsx"; // Import the xlsx library
-import { getToolCategories } from "@/actions";
 
 interface Props {
     tools: Tool[];
@@ -129,8 +128,8 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
     const isTotal = userPermissions.includes("TOTAL");
 
     return (
-        <div>
-            <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full">
+            <div >
 
                 {(isToolAdmin || isTotal) && (
                     <ToolAdminButtons

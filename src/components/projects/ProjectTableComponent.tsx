@@ -1,9 +1,9 @@
 "use client";
 
-import { AdminTable, ProjectTable } from "..";
+import { ProjectTable } from "..";
 import { ProjectData } from "@/interfaces/project.interface";
 import { LinkButtonBig } from "../ui/buttons/LinkButtonBig";
-import { User, UserRoleData, UserSmallData } from "@/interfaces";
+import { UserRoleData, UserSmallData } from "@/interfaces";
 
 interface Props {
     projects: ProjectData[];

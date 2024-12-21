@@ -16,11 +16,18 @@ const toolSchema = z.object({
     state: z.enum(["ACTIVE", "INACTIVE", "ON_REPAIR"]).default("ACTIVE"),
     quantity: z.number().int().positive("Quantity must be a positive integer").default(1),
     projectId: z.string().min(1, "Project ID is required"),
+    boughtAt: z
+        .string()
+        .refine((date) => !isNaN(new Date(date).getTime()), {
+            message: "Invalid date format for 'boughtAt'",
+        })
+        .optional(),
+    category: z.string().optional(), // Optional category ID
 });
 
 export const registerNewTool = async (formData: FormData) => {
     const session = await auth();
-    
+
     // Ensure the session is valid and contains a user ID
     if (!session?.user?.id) {
         return {
@@ -44,6 +51,8 @@ export const registerNewTool = async (formData: FormData) => {
         state: data.state,
         quantity: Number(data.quantity),
         projectId: data.projectId,
+        boughtAt: data.boughtAt as string | undefined,
+        category: data.category as string | undefined, // Optional category ID
     });
 
     if (!toolParsed.success) {
@@ -71,10 +80,31 @@ export const registerNewTool = async (formData: FormData) => {
             };
         }
 
+        // Remove the category field from the data before creating the tool
+        const { category, ...toolDataWithoutCategory } = toolParsed.data;
+
+        let categoryConnectData: { id: string }[] = [];
+        if (category) {
+            const categoryExists = await prisma.category.findUnique({
+                where: { id: category },
+            });
+
+            if (!categoryExists) {
+                return {
+                    ok: false,
+                    message: 'Category not found',
+                };
+            }
+
+            categoryConnectData = [{ id: category }];
+        }
+
         const newTool = await prisma.tool.create({
             data: {
-                ...toolParsed.data,
-                userId, // Add the userId from the session here
+                ...toolDataWithoutCategory,
+                boughtAt: toolDataWithoutCategory.boughtAt ? new Date(toolDataWithoutCategory.boughtAt) : undefined,
+                userId,
+                categories: categoryConnectData.length > 0 ? { connect: categoryConnectData } : undefined,
             },
         });
 
@@ -99,7 +129,7 @@ export const registerNewTool = async (formData: FormData) => {
         return {
             ok: true,
             tool: newTool,
-            message: toolImage 
+            message: toolImage
                 ? 'Tool created with image.'
                 : 'Tool created without image. Image was not provided.',
         };
