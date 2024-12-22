@@ -168,15 +168,16 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                         </label>
                         <div className="relative w-full">
                             <input
+                                disabled={!editableFields.boughtAt}
                                 type="date"
                                 value={currentValues.boughtAt}
                                 onChange={(e) => handleChange("boughtAt", e.target.value)}
-                                className={`border px-2 py-2 h-11 rounded w-full pr-10 resize-none ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                                className={`border p-2 h-11 rounded w-full pr-12 ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
                             />
                             <button
                                 type="button"
                                 onClick={() => (editableFields.boughtAt ? handleSaveClick('boughtAt') : handleEditClick('boughtAt'))}
-                                className="absolute right-3 top-2/4 transform -translate-y-1/2 text-sky-800"
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sky-800"
                             >
                                 {editableFields.boughtAt ? <FaSave /> : <FaPen />}
                             </button>
