@@ -26,13 +26,12 @@ export const ToolsProfileComments = ({ tool, onAddComment }: Props) => {
 
     return (
         <div>
-            <div className="mt-6">
-                <h3 className="text-lg font-semibold text-sky-800">Agregar comentario</h3>
+            <div className="mt-4">
                 <textarea
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     placeholder="Escribe un comentario..."
-                    className="w-full p-2 mt-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
                 <div className="flex justify-between mt-1">
@@ -42,11 +41,14 @@ export const ToolsProfileComments = ({ tool, onAddComment }: Props) => {
                     />
 
                     <button
+                        disabled={!newComment}
                         onClick={handleAddComment}
-                        className="px-2 py-1 bg-sky-800 text-white rounded-md hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className={`px-2 py-1 bg-sky-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 
+                            ${!newComment ? 'opacity-50 cursor-not-allowed' : 'hover:bg-sky-900'}`}
                     >
-                        Add Comment
+                        Comentar
                     </button>
+
                 </div>
             </div>
 
