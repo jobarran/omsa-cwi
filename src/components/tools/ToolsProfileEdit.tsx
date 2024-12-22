@@ -162,17 +162,17 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                         handleEditClick={handleEditClick}
                     />
 
-                    <div className="w-full">
+                    <div>
                         <label className="block text-gray-700">
                             Fecha de compra
                         </label>
-                        <div className="relative w-full">
+                        <div className="relative">
                             <input
                                 disabled={!editableFields.boughtAt}
                                 type="date"
                                 value={currentValues.boughtAt}
                                 onChange={(e) => handleChange("boughtAt", e.target.value)}
-                                className={`border p-2 h-11 rounded min-w-full pr-12 ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                                className={`border p-2 h-11 rounded pr-12 w-full ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
                             />
                             <button
                                 type="button"
