@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { ToolAdminButtons, ToolCategoryModal, ToolSearch, ToolsFilter, ToolTable } from "..";
+import { ToolAdminButtons, ToolCategoryModal, ToolSearch, ToolsFilter, ToolSummaryData, ToolTable } from "..";
 import { Tool, ToolCategory } from "@/interfaces/tool.interface";
 import { ProjectData } from "@/interfaces/project.interface";
 import { useToolFilter } from "@/hooks/useToolFilter";
 import { getToolBrands } from "@/utils/getToolBrands";
 import { UserPermission } from "@prisma/client";
-import * as XLSX from "xlsx"; // Import the xlsx library
+import { getPermissionBoolean, xlsxToolExport } from "@/utils";
 
 interface Props {
     tools: Tool[];
@@ -45,57 +45,7 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
     };
 
     const handleExportToExcel = () => {
-        // Process the data
-        const exportData = filteredTools.map((tool) => {
-
-            const categories = tool.categories ? tool.categories.map((category) => category.name).join(", ") : "";
-
-            return {
-                "Código": tool.code,
-                "Categorias": categories,
-                "Nombre": tool.name,
-                "Marca": tool.brand,
-                "Descripción": tool.description,
-                "Proyecto": tool.project?.code, // Only include project code
-                "Estado": tool.state,
-                "Usuario": `${tool.user?.name} ${tool.user?.lastName}`, // Combine user name and last name
-            };
-        });
-
-        // Create a worksheet from the data
-        const ws = XLSX.utils.json_to_sheet(exportData);
-
-        // Create a workbook and add the worksheet
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Tools");
-
-        // Get the current date in YYYY_MM_DD format
-        const currentDate = new Date().toISOString().split('T')[0].replace(/-/g, "_");
-
-        // Build the filtering part of the file name based on active filters
-        let filterName = "";
-
-        if (selectedProject || selectedBrand || selectedState) {
-            filterName = "Filtro";
-
-            if (selectedProject) {
-                filterName += `-proyecto`;
-            }
-
-            if (selectedBrand) {
-                filterName += `-marca`;
-            }
-
-            if (selectedState) {
-                filterName += `-estado`;
-            }
-        }
-
-        // Generate the filename with the current date and any filter names
-        const fileName = `${currentDate}_HERRAMIENTAS_${filterName}.xlsx`;
-
-        // Write the workbook to a binary string and trigger the download with the dynamic file name
-        XLSX.writeFile(wb, fileName);
+        xlsxToolExport({ filteredTools, selectedProject, selectedBrand, selectedState })
     };
 
     // Resets the search term and all dropdown filters
@@ -122,22 +72,20 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
         );
     }
 
-    // Check user permissions for UI elements
-    const isToolAdmin = userPermissions.includes("TOOL_ADMIN");
-    const isToolView = userPermissions.includes("TOOL_VIEW");
-    const isTotal = userPermissions.includes("TOTAL");
+    const isToolAdmin = getPermissionBoolean(userPermissions, "ADMIN", "TOOL")
+    const isToolView = getPermissionBoolean(userPermissions, "VIEW", "TOOL")
 
     return (
         <div className="flex flex-col w-full">
             <div >
 
-                {(isToolAdmin || isTotal) && (
+                {(isToolAdmin) && (
                     <ToolAdminButtons
                         openModal={openModal}
                     />
                 )}
 
-                {isToolView || isToolAdmin || isTotal ? (
+                {isToolView || isToolAdmin ? (
                     <div className="pt-2 pb-2">
                         <ToolSearch
                             searchTerm={searchTerm}
@@ -146,7 +94,7 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
                             resetSearchTerm={resetSearchTerm}
                             isFiltering={isFiltering}
                         />
-                        {(isToolView || isToolAdmin || isTotal) && (
+                        {(isToolView || isToolAdmin) && (
                             <ToolsFilter
                                 projects={projects}
                                 onFilterChange={handleFilterChange}
@@ -167,7 +115,9 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
                     </div>
                 )}
 
-                <ToolTable tools={filteredTools} projects={projects} toolCategories={toolCategories} />
+                <ToolSummaryData tools={filteredTools} />
+
+                <ToolTable tools={filteredTools} projects={projects} toolCategories={toolCategories} userPermissions={userPermissions} />
             </div>
             {(isModalOpen) && (
                 <ToolCategoryModal

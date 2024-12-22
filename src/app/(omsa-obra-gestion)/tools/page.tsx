@@ -8,6 +8,7 @@ export default async function ToolsPage() {
     const session = await auth();
 
     let userPermissions = null; 
+    
     if (session) {
         userPermissions = await getUserPermissions(session.user.id);
     }

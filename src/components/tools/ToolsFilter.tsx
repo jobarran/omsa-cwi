@@ -31,7 +31,7 @@ export const ToolsFilter = ({
 }: Props) => {
 
     return (
-        <div className="flex flex-wrap items-center gap-2 pb-4 w-full">
+        <div className="flex flex-wrap items-center gap-2 pb-2 w-full">
             {/* Proyecto Dropdown */}
             <select
                 className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 text-sm outline-none"

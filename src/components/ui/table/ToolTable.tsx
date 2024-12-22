@@ -3,24 +3,27 @@
 import { Tool, ToolCategory } from "@/interfaces/tool.interface";
 import { TableImage } from "./TableImage";
 import Link from "next/link";
-import { FaArrowRightArrowLeft, FaEye, FaPen, FaRegEye } from "react-icons/fa6";
+import { FaArrowRightArrowLeft, FaEye, } from "react-icons/fa6";
 import { ToolTableModal } from "./ToolTableModal";
 import { useState } from "react";
-import { User } from "@/interfaces";
 import { ProjectData } from "@/interfaces/project.interface";
+import { UserPermission } from "@prisma/client";
+import { getPermissionBoolean } from "@/utils";
 
 interface Props {
     tools: Tool[];
     projects: ProjectData[]
     toolCategories: ToolCategory[] | null
+    userPermissions: UserPermission[] | null;
 }
 
-export const ToolTable = ({ tools, projects, toolCategories }: Props) => {
+export const ToolTable = ({ tools, projects, toolCategories, userPermissions }: Props) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTool, setSelectedTool] = useState<Tool | null>(null);
     const [fieldToEdit, setFieldToEdit] = useState<string | null>(null);
 
+    const isToolAdmin = getPermissionBoolean(userPermissions, "ADMIN", "TOOL")
 
     const openModal = (tool: Tool, field: string) => {
         setSelectedTool(tool);
@@ -57,7 +60,6 @@ export const ToolTable = ({ tools, projects, toolCategories }: Props) => {
                         <th scope="col" className="px-6 py-3 text-center">Código</th>
                         <th scope="col" className="px-6 py-3 text-center">Nombre</th>
                         <th scope="col" className="px-6 py-3 text-center">Marca</th>
-                        <th scope="col" className="px-6 py-3 text-center">Cant.</th>
                         <th scope="col" className="px-6 py-3 text-center">Categoría</th>
                         <th scope="col" className="px-6 py-3 text-center">Obra</th>
                         <th scope="col" className="px-6 py-3 text-center">Acciones</th>
@@ -96,7 +98,6 @@ export const ToolTable = ({ tools, projects, toolCategories }: Props) => {
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 text-center">{tool.brand}</td>
-                                <td className="px-6 py-4 text-center">{tool.quantity}</td>
                                 <td className="px-4 py-2 text-center">
                                     {tool.categories && tool.categories.length > 0 ? (
                                         tool.categories.map((category, index) => (
@@ -110,24 +111,19 @@ export const ToolTable = ({ tools, projects, toolCategories }: Props) => {
                                     ) : (
                                         <span className="text-gray-400">-</span>
                                     )}
-                                    <button
-                                        className="font-medium text-sky-800 hover:text-sky-600"
-                                        title="Transferir"
-                                        onClick={() => openModal(tool, "category")}
-                                    >
-                                        <FaArrowRightArrowLeft className="text-lg ml-2" />
-                                    </button>
                                 </td>
                                 <td className="px-6 py-4 text-center">
                                     <div className="flex items-center">
                                         {tool.project?.code}
-                                        <button
-                                            className="font-medium text-sky-800 hover:text-sky-600"
-                                            title="Transferir"
-                                            onClick={() => openModal(tool, "projectId")}
-                                        >
-                                            <FaArrowRightArrowLeft className="text-lg ml-2" />
-                                        </button>
+                                        {isToolAdmin &&
+                                            <button
+                                                className="font-medium text-sky-800 hover:text-sky-600"
+                                                title="Transferir"
+                                                onClick={() => openModal(tool, "projectId")}
+                                            >
+                                                <FaArrowRightArrowLeft className="text-lg ml-2" />
+                                            </button>
+                                        }
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 text-center">

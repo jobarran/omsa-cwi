@@ -95,7 +95,7 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
 
                 {/* First row: Name, Code, Brand */}
                 <div className="flex flex-col md:flex-row md:gap-4 mb-4">
-                    <div className="flex flex-col w-full md:w-3/12 mb-4 md:mb-0">
+                    <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
                         <label
                             htmlFor="code"
                             className="mb-1 text-sm font-medium text-gray-700"
@@ -110,7 +110,7 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
                             placeholder="Ingrese el código"
                         />
                     </div>
-                    <div className="flex flex-col w-full md:w-4/12 mb-4 md:mb-0">
+                    <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
                         <label
                             htmlFor="name"
                             className="mb-1 text-sm font-medium text-gray-700"
@@ -125,7 +125,7 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
                             placeholder="Ingrese el nombre del equipo"
                         />
                     </div>
-                    <div className="flex flex-col w-full md:w-3/12 mb-4 md:mb-0">
+                    <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
                         <label
                             htmlFor="brand"
                             className="mb-1 text-sm font-medium text-gray-700"
@@ -138,21 +138,6 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
                             id="brand"
                             className="border rounded p-2 border-gray-300"
                             placeholder="Ingrese la marca del equipo"
-                        />
-                    </div>
-                    <div className="flex flex-col w-full md:w-2/12 mb-4 md:mb-0">
-                        <label
-                            htmlFor="quantity"
-                            className="mb-1 text-sm font-medium text-gray-700"
-                        >
-                            Cantidad <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            {...register("quantity", { required: true, min: 1 })}
-                            type="number"
-                            id="quantity"
-                            className="border rounded text-sm p-2 border-gray-300 h-10"
-                            placeholder="Ingrese la cantidad"
                         />
                     </div>
                 </div>
