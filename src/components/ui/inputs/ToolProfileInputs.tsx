@@ -25,7 +25,7 @@ export const ToolProfileInput = ({
     const isEditable = editableFields[field];
 
     return (
-        <div className="mb-4 w-full">
+        <div className="w-full">
             <label className="block text-gray-700">
                 {field.charAt(0).toUpperCase() + field.slice(1)}
             </label>

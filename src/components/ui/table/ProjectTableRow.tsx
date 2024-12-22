@@ -44,6 +44,7 @@ export const ProjectTableRow = ({ project, openModal, isProjectAdmin }: Props) =
                     className="w-16 h-16 rounded-full mx-auto"
                     width={0}
                     height={0}
+                    priority={true}  
                 />
             </td>
             <td className="px-4 py-2 text-center">{project.code}</td>

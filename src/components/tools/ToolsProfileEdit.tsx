@@ -128,7 +128,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
     return (
         <div>
             <h2 className="text-xl font-semibold mb-4 text-gray-800">Editar Herramienta</h2>
-            <form className="flex flex-col">
+            <form className="flex flex-col space-y-3">
 
                 {/* First line */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
@@ -162,7 +162,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                         handleEditClick={handleEditClick}
                     />
 
-                    <div className="mb-4 w-full relative">
+                    <div className="w-full">
                         <label className="block text-gray-700">
                             Fecha de compra
                         </label>
@@ -171,7 +171,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                                 type="date"
                                 value={currentValues.boughtAt}
                                 onChange={(e) => handleChange("boughtAt", e.target.value)}
-                                className={`border p-2 rounded w-full pr-10 resize-none ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                                className={`border px-2 h-11 rounded w-full pr-10 resize-none ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
                             />
                             <button
                                 type="button"
@@ -189,7 +189,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                 {/* Second line */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
 
-                    <div className="mb-4 w-full">
+                    <div className="w-full">
                         <label className="block text-gray-700">
                             Categoría
                         </label>
@@ -212,7 +212,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                         </div>
                     </div>
 
-                    <div className="mb-4 w-full">
+                    <div className="w-full">
                         <label className="block text-gray-700">
                             Obra
                         </label>
