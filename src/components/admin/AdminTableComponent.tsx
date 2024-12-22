@@ -33,7 +33,7 @@ export const AdminTableComponent = ({ users, projects, userRoleData }: Props) =>
     return (
         <div className="flex flex-col w-full">
 
-            <div className="flex flex-row items-center gap-2 pb-2">
+            <div className="flex flex-row items-center gap-2 pb-4">
                 <div className="flex-grow">
 
                     <InputSearch

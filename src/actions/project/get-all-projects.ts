@@ -22,7 +22,7 @@ export const getAllProjects = async (): Promise<ProjectData[]> => {
                 },
             },
             orderBy: {
-                name: 'asc',
+                code: 'desc',
             },
         });
 

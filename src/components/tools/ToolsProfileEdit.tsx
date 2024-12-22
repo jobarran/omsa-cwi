@@ -1,13 +1,14 @@
 "use client";
 
 import { Tool, ToolCategory } from "@/interfaces/tool.interface";
-import { compressImage } from "@/utils";
+import { compressImage, dateToString, stringToDate } from "@/utils";
 import { useEffect, useState } from "react";
 import { AdminProfileInputs, ToolProfileInput, ToolTableModal } from "..";
 import { ToolEditableField } from "@/types";
 import { updateTool, updateToolImage } from "@/actions";
 import { ProjectData } from "@/interfaces/project.interface";
 import { FaPen } from "react-icons/fa6";
+import { FaSave } from "react-icons/fa";
 
 interface Props {
     tool: Tool;
@@ -28,6 +29,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
         project: false,
         categories: false,
         image: false,
+        boughtAt: false
     });
 
     const [file, setFile] = useState<File | null>(null);
@@ -41,6 +43,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
         project: tool.project?.name ?? "",
         categories: tool.categories.map((cat) => cat.name).join(", "),
         image: "",
+        boughtAt: dateToString(tool.boughtAt),
     });
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,6 +61,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
             project: tool.project?.name ?? "",
             categories: tool.categories.map((cat) => cat.name).join(", "),
             image: "",
+            boughtAt: dateToString(tool.boughtAt),
         })
         setSelectedTool(tool)
     }, [tool])
@@ -85,10 +89,14 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
     const handleChange = (field: ToolEditableField, value: string) => {
         setCurrentValues((prev) => ({ ...prev, [field]: value }));
     };
-
     const handleUpdateTool = (toolId: string, field: ToolEditableField, value: string) => {
-        console.log(`Updating tool ${toolId}, field: ${field}, value: ${value}`);
-        updateTool(field, toolId, value)
+        if (field === "boughtAt") {
+            // Convert to Date object before sending to backend
+            const dateValue = stringToDate(value); // Convert the value to Date
+            updateTool(field, toolId, dateValue);
+        } else {
+            updateTool(field, toolId, value);
+        }
     };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +131,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
             <form className="flex flex-col">
 
                 {/* First line */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
                     <ToolProfileInput
                         field="name" // Replace with the correct EditableField value
                         label="Name"
@@ -144,7 +152,6 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                         handleEditClick={handleEditClick}
                     />
 
-
                     <ToolProfileInput
                         field="brand"
                         label="Brand"
@@ -154,6 +161,29 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                         handleSaveClick={handleSaveClick}
                         handleEditClick={handleEditClick}
                     />
+
+                    <div className="mb-4 w-full relative">
+                        <label className="block text-gray-700">
+                            Fecha de compra
+                        </label>
+                        <div className="relative w-full">
+                            <input
+                                type="date"
+                                value={currentValues.boughtAt}
+                                onChange={(e) => handleChange("boughtAt", e.target.value)}
+                                className={`border p-2 rounded w-full pr-10 resize-none ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => (editableFields.boughtAt ? handleSaveClick('boughtAt') : handleEditClick('boughtAt'))}
+                                className="absolute right-3 top-2/4 transform -translate-y-1/2 text-sky-800"
+                            >
+                                {editableFields.boughtAt ? <FaSave /> : <FaPen />}
+                            </button>
+                        </div>
+                    </div>
+
+
                 </div>
 
                 {/* Second line */}

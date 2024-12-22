@@ -5,6 +5,7 @@ export * from './admin/AdminProfileHistory'
 export * from "./admin/AdminTableComponent"
 export * from './home/HomeSections'
 export * from './projects/ProjectTableComponent'
+export * from './projects/ProjectSummaryData'
 export * from './tools/ToolAdminButtons'
 export * from './tools/ToolCategoryModal'
 export * from './tools/ToolProfileComponent'

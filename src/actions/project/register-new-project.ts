@@ -12,7 +12,6 @@ const projectSchema = z.object({
     code: z.string().min(1, "Code is required"),
     name: z.string().min(1, "Name is required"),
     address: z.string().min(1, "Address is required"),
-    userId: z.string().min(1, "User ID is required"),
 });
 
 export const registerNewProject = async (formData: FormData) => {
@@ -39,7 +38,6 @@ export const registerNewProject = async (formData: FormData) => {
         code: data.code,
         name: data.name,
         address: data.address,
-        userId: data.userId,
     });
 
     if (!projectParsed.success) {
@@ -82,9 +80,6 @@ export const registerNewProject = async (formData: FormData) => {
                 code: projectParsed.data.code,
                 name: projectParsed.data.name,
                 address: projectParsed.data.address,
-                users: {
-                    connect: [{ id: projectParsed.data.userId }], // Associate the project with the creating user
-                },
             },
         });
 

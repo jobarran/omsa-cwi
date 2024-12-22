@@ -8,7 +8,7 @@ import { ToolTableModal } from "./ToolTableModal";
 import { useState } from "react";
 import { ProjectData } from "@/interfaces/project.interface";
 import { UserPermission } from "@prisma/client";
-import { getPermissionBoolean } from "@/utils";
+import { calculateYearsAndMonths, getPermissionBoolean } from "@/utils";
 
 interface Props {
     tools: Tool[];
@@ -60,6 +60,7 @@ export const ToolTable = ({ tools, projects, toolCategories, userPermissions }: 
                         <th scope="col" className="px-6 py-3 text-center">Código</th>
                         <th scope="col" className="px-6 py-3 text-center">Nombre</th>
                         <th scope="col" className="px-6 py-3 text-center">Marca</th>
+                        <th scope="col" className="px-6 py-3 text-center">Tiempo</th>
                         <th scope="col" className="px-6 py-3 text-center">Categoría</th>
                         <th scope="col" className="px-6 py-3 text-center">Obra</th>
                         <th scope="col" className="px-6 py-3 text-center">Acciones</th>
@@ -98,6 +99,9 @@ export const ToolTable = ({ tools, projects, toolCategories, userPermissions }: 
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 text-center">{tool.brand}</td>
+                                <td className="px-6 py-4 text-center whitespace-nowrap">
+                                    {tool.boughtAt ? calculateYearsAndMonths(tool.boughtAt) : "-"}
+                                </td>
                                 <td className="px-4 py-2 text-center">
                                     {tool.categories && tool.categories.length > 0 ? (
                                         tool.categories.map((category, index) => (

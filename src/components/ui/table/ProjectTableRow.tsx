@@ -1,6 +1,6 @@
 import { User, UserRoleData } from "@/interfaces";
 import { TableImage } from "./TableImage";
-import { FaEdit } from "react-icons/fa"; // Replaced icon
+import { FaEdit, FaEye } from "react-icons/fa"; // Replaced icon
 import Link from "next/link";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { ProjectStatus, UserStatus } from "@prisma/client";
@@ -9,20 +9,24 @@ import { Project, ProjectData } from "@/interfaces/project.interface";
 interface Props {
     project: ProjectData;
     openModal: (project: ProjectData, field: string) => void;
-    userRoleData: UserRoleData;
+    isProjectAdmin: boolean
 }
 
 // Map ProjectStatus enum to Spanish translations
 const statusTranslations: { [key in ProjectStatus]: string } = {
-    [ProjectStatus.PLANNING]: "No iniciado",
-    [ProjectStatus.IN_PROGRESS]: "En progreso",
-    [ProjectStatus.COMPLETED]: "Completado",
+    [ProjectStatus.PLANNING]: "Contratada",
+    [ProjectStatus.IN_PROGRESS]: "En ejecución",
+    [ProjectStatus.COMPLETED]: "Completada",
 };
 
-export const ProjectTableRow = ({ project, openModal, userRoleData }: Props) => {
+// Map project status to dot color
+const statusDotColor: { [key in ProjectStatus]: string } = {
+    [ProjectStatus.PLANNING]: "bg-red-500",
+    [ProjectStatus.IN_PROGRESS]: "bg-yellow-500",
+    [ProjectStatus.COMPLETED]: "bg-green-500",
+};
 
-    // Check if the current user is the same as the userRoleData and if role is 'ADMIN'
-    const isAdminAndSameUser = userRoleData.userRole === "ADMIN";
+export const ProjectTableRow = ({ project, openModal, isProjectAdmin }: Props) => {
 
     const workerCount = project.users
         ? project.users.filter((user) => user.role === "WORKER").length
@@ -45,14 +49,22 @@ export const ProjectTableRow = ({ project, openModal, userRoleData }: Props) => 
             <td className="px-4 py-2 text-center">{project.code}</td>
             <td className="px-4 py-2 text-center">{project.name}</td>
             <td className="px-4 py-2 text-center">
-                {statusTranslations[project.status]}
-                {isAdminAndSameUser &&
-                    <FaArrowRightArrowLeft
-                        className="inline-block ml-2 text-sky-600 cursor-pointer"
-                        onClick={() => openModal(project, "status")}
+                <div className="flex items-center justify-center space-x-2">
+                    <div
+                        className={`w-3 h-3 rounded-full ${statusDotColor[project.status]}`}
+                        title={statusTranslations[project.status]}
                     />
-                }
+                    <span>{statusTranslations[project.status]}</span>
+                    {isProjectAdmin && (
+                        <FaArrowRightArrowLeft
+                            className="inline-block text-sky-600 cursor-pointer"
+                            onClick={() => openModal(project, "status")}
+                        />
+                    )}
+                </div>
             </td>
+
+
             <td className="px-4 py-2 text-center">{workerCount}</td>
             <td className="px-4 py-2 text-center">
                 {project.users && project.users.length > 0 ? (
@@ -69,22 +81,22 @@ export const ProjectTableRow = ({ project, openModal, userRoleData }: Props) => 
                 ) : (
                     <span className="text-gray-400">N/A</span>
                 )}
-                {isAdminAndSameUser && (
+                {isProjectAdmin && (
                     <FaArrowRightArrowLeft
                         className="inline-block ml-2 text-sky-600 cursor-pointer"
                         onClick={() => openModal(project, "projectUser")}
                     />
                 )}
             </td>
-            {/* <td className="px-4 py-4 text-center w-16">
+            <td className="px-4 py-4 text-center w-16">
                 <Link
-                    href={`/projects/${project.id}`}
+                    href={`/projects/${project.code}`}
                     className="text-sky-600 hover:text-sky-800"
                     title="Editar"
                 >
-                    <FaEdit className="h-5 w-5 mx-auto" />
+                    <FaEye className="h-5 w-5 mx-auto" />
                 </Link>
-            </td> */}
+            </td>
         </tr>
     );
 };

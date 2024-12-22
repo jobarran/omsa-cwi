@@ -3,7 +3,7 @@
 import prisma from "@/lib/prisma"; // Your Prisma client instance
 import { revalidatePath } from "next/cache";
 
-export async function updateTool(field: string, toolId: string, value: string | string[]) {
+export async function updateTool(field: string, toolId: string, value: string | string[] | Date) {
   try {
     const validFields = [
       "code",
@@ -13,7 +13,8 @@ export async function updateTool(field: string, toolId: string, value: string | 
       "state",
       "quantity",
       "projectId",
-      "category"
+      "category",
+      "boughtAt"
     ];
 
     if (!validFields.includes(field)) {

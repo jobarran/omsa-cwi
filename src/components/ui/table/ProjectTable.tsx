@@ -1,19 +1,18 @@
 "use client";
 
-import { AdminTableModal, ProjectTableHeader, ProjectTableModal, ProjectTableRow } from "@/components";
-import { User, UserRoleData, UserSmallData } from "@/interfaces";
+import { ProjectTableHeader, ProjectTableModal, ProjectTableRow } from "@/components";
+import { UserSmallData } from "@/interfaces";
 import { ProjectData } from "@/interfaces/project.interface";
 import { sortProjects } from "@/utils";
-import { ProjectStatus, UserStatus } from "@prisma/client";
 import { useState } from "react";
 
 interface Props {
     projects: ProjectData[];
-    userRoleData: UserRoleData;
     users: UserSmallData[]
+    isProjectAdmin: boolean;
 }
 
-export const ProjectTable = ({ projects, userRoleData, users }: Props) => {
+export const ProjectTable = ({ projects, users, isProjectAdmin }: Props) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
@@ -45,9 +44,10 @@ export const ProjectTable = ({ projects, userRoleData, users }: Props) => {
                                 key={project.id}
                                 project={project}
                                 openModal={openModal}
-                                userRoleData={userRoleData}
+                                isProjectAdmin={isProjectAdmin}
                             />
                         ))
+
                     ) : (
                         <tr>
                             <td colSpan={7} className="px-6 py-4 text-center text-gray-700">
@@ -58,7 +58,7 @@ export const ProjectTable = ({ projects, userRoleData, users }: Props) => {
                 </tbody>
             </table>
 
-            {isModalOpen && selectedProject && fieldToEdit && (
+            {isModalOpen && selectedProject && fieldToEdit && isProjectAdmin && (
                 <ProjectTableModal
                     project={selectedProject}
                     field={fieldToEdit}

@@ -7,9 +7,9 @@ import { updateProject } from "@/actions";
 
 // Map ProjectStatus enum to Spanish translations
 const statusTranslations: { [key in ProjectStatus]: string } = {
-    [ProjectStatus.PLANNING]: "No iniciado",
-    [ProjectStatus.IN_PROGRESS]: "En progreso",
-    [ProjectStatus.COMPLETED]: "Completado",
+    [ProjectStatus.PLANNING]: "Contratada",
+    [ProjectStatus.IN_PROGRESS]: "En ejecución",
+    [ProjectStatus.COMPLETED]: "Completada",
 };
 
 interface Props {

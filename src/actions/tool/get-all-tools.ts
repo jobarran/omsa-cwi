@@ -58,6 +58,7 @@ export const getAllTools = async (): Promise<Tool[]> => {
             quantity: tool.quantity,
             createdAt: tool.createdAt,
             updatedAt: tool.updatedAt,
+            boughtAt: tool.boughtAt,
             project: tool.project ? {
                 id: tool.project.id,
                 name: tool.project.name,

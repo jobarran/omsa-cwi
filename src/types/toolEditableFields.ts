@@ -1,1 +1,1 @@
-export type ToolEditableField = "name" | "code" | "brand" | "project" | "state" | "quantity" | "categories" | "description" | "image";
+export type ToolEditableField = "name" | "code" | "brand" | "project" | "state" | "quantity" | "categories" | "description" | "image" | "boughtAt";

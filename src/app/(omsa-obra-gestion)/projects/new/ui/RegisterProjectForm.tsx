@@ -13,7 +13,6 @@ interface ProjectFormInputs {
   address: string;
   code: string;
   image: FileList | null;
-  userId: string; // ID of the selected user
 }
 
 interface UserSelectData {
@@ -29,7 +28,6 @@ interface RegisterProjectFormProps {
 export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
 
   const router = useRouter();
-  const [userList, setUserList] = useState<UserSelectData[]>([]);
 
   const {
     handleSubmit,
@@ -42,15 +40,9 @@ export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
       address: "",
       code: "",
       image: null,
-      userId: "",
     },
   });
 
-  useEffect(() => {
-    if (users && users.length > 0) {
-      setUserList(users);
-    }
-  }, [users]);
 
   const onSubmit = async (data: ProjectFormInputs) => {
     
@@ -60,7 +52,6 @@ export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
     formData.append("name", data.name);
     formData.append("address", data.address);
     formData.append("code", data.code);
-    formData.append("userId", data.userId);
 
     // Handle image compression and append compressed image
     if (data.image && data.image.length > 0) {
@@ -127,25 +118,6 @@ export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
           />
         </div>
 
-        {/* Jefe de Obra */}
-        <div className="flex flex-col mb-4">
-          <label htmlFor="jefeDeObra" className="mb-1 text-sm font-medium text-gray-700">
-            Jefe de Obra <span className="text-red-500">*</span>
-          </label>
-          <select
-            {...register("userId", { required: true })}
-            id="jefeDeObra"
-            className="border rounded p-2 border-gray-300"
-          >
-            <option value="">Seleccione un usuario</option>
-            {userList.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name} {user.lastName}
-              </option>
-            ))}
-          </select>
-        </div>
-
         {/* Image upload */}
         <div className="flex flex-col mb-4">
           <label htmlFor="image" className="mb-1 text-sm font-medium text-gray-700">
@@ -171,7 +143,7 @@ export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
           className="bg-blue-500 text-white font-medium rounded py-2 px-4 disabled:opacity-50"
           disabled={!isValid}
         >
-          Registrar Proyecto
+          Guardar
         </button>
       </form>
     </div>
