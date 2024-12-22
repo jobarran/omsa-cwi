@@ -14,24 +14,25 @@ export const ToolSummaryData = ({ tools }: Props) => {
 
     return (
         <div className="w-full p-4 bg-white rounded-lg border border-gray-200 mb-3">
-            <div className="grid grid-cols-4 gap-4">
-                <div className="p-3 bg-blue-50 rounded-md flex items-center justify-center sm:justify-between">
-                    <span className="hidden sm:block text-sm text-gray-600">Total:</span>
-                    <span className="text-lg font-bold text-blue-600">{totalCount}</span>
-                </div>
-                <div className="p-3 bg-green-50 rounded-md flex items-center justify-center sm:justify-between">
-                    <span className="hidden sm:block text-sm text-gray-600">Activos:</span>
-                    <span className="text-lg font-bold text-green-600">{activeCount}</span>
-                </div>
-                <div className="p-3 bg-yellow-50 rounded-md flex items-center justify-center sm:justify-between">
-                    <span className="hidden sm:block text-sm text-gray-600">En reparación:</span>
-                    <span className="text-lg font-bold text-yellow-600">{inRepairCount}</span>
-                </div>
-                <div className="p-3 bg-red-50 rounded-md flex items-center justify-center sm:justify-between">
-                    <span className="hidden sm:block text-sm text-gray-600">Inactivos:</span>
-                    <span className="text-lg font-bold text-red-600">{inactiveCount}</span>
-                </div>
+        <div className="grid grid-cols-4 gap-4">
+            <div className="p-3 bg-blue-50 rounded-md flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center">
+                <span className="text-xs sm:text-sm text-gray-600">Total</span>
+                <span className="text-lg font-bold text-blue-600">{totalCount}</span>
+            </div>
+            <div className="p-3 bg-blue-50 rounded-md flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center">
+                <span className="text-xs sm:text-sm text-gray-600">Activos</span>
+                <span className="text-lg font-bold text-green-600">{activeCount}</span>
+            </div>
+            <div className="p-3 bg-yellow-50 rounded-md flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center">
+                <span className="text-xs sm:text-sm text-gray-600">Mantenimiento</span>
+                <span className="text-lg font-bold text-yellow-600">{inRepairCount}</span>
+            </div>
+            <div className="p-3 bg-red-50 rounded-md flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center">
+                <span className="text-xs sm:text-sm text-gray-600">Inactivos</span>
+                <span className="text-lg font-bold text-red-600">{inactiveCount}</span>
             </div>
         </div>
+    </div>
+    
     );
 };

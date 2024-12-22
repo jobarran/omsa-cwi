@@ -100,13 +100,18 @@ export const ToolsProfileComponent = ({ tool, categories, projects }: Props) => 
                         <p><strong>Estado:</strong> {tool.state}</p>
                         <p><strong>Cantidad:</strong> {tool.quantity}</p>
                         <p>
+                            <strong>Fecha de Compra:</strong>{" "}
+                            {tool.boughtAt && new Intl.DateTimeFormat("es-ES", { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(tool.boughtAt))}
+                        </p>
+                        <p>
                             <strong>Fecha de registro:</strong>{" "}
-                            {new Date(tool.createdAt).toLocaleString("es-ES", { dateStyle: "short", timeStyle: "short" })}
+                            {new Intl.DateTimeFormat("es-ES", { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(tool.createdAt))}
                         </p>
                         <p>
                             <strong>Fecha de actualizado:</strong>{" "}
-                            {new Date(tool.updatedAt).toLocaleString("es-ES", { dateStyle: "short", timeStyle: "short" })}
+                            {new Intl.DateTimeFormat("es-ES", { day: "2-digit", month: "2-digit", year: "numeric" }).format(new Date(tool.updatedAt))}
                         </p>
+
 
                         <p>
                             <strong>Obra actual:</strong> {tool.project?.name} ({tool.project?.code})
