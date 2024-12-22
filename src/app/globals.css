@@ -9,3 +9,25 @@ body {
   /* background-color: #F4F4F4; */
 }
 
+.react-datepicker__header {
+  background-color: white !important;
+  border-bottom: 1px solid #ddd;
+  color: #4B5563; /* Tailwind's gray-600 */
+}
+
+.react-datepicker__day-name,
+.react-datepicker__current-month,
+.react-datepicker__day {
+  color: #4B5563; /* Tailwind's gray-600 */
+}
+
+/* Ensure disabled days also use a light gray */
+.react-datepicker__day--disabled {
+  color: #9CA3AF !important; /* Tailwind's gray-400 */
+}
+
+/* Optional: Adjust hover styles for consistency */
+.react-datepicker__day:hover {
+  background-color: #F3F4F6; /* Tailwind's gray-200 */
+  color: #374151; /* Tailwind's gray-700 */
+}

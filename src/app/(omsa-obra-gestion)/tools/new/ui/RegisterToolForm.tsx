@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller } from 'react-hook-form';
+import { es } from 'date-fns/locale'; // Import Spanish locale
 
 type FormInputs = {
     code: string;
@@ -241,6 +242,8 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
                                     dateFormat="yyyy-MM-dd"
                                     className="border p-2 h-11 rounded pr-56 md:pr-12 w-full"
                                     disabled={false}
+                                    locale={es} // Set Spanish locale here
+
                                 />
                             )}
                         />

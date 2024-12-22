@@ -5,6 +5,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { FaSave, FaPen } from 'react-icons/fa';
+import { es } from 'date-fns/locale'; // Import Spanish locale
 
 interface Props {
     label: string;
@@ -16,6 +17,8 @@ interface Props {
 }
 
 export const DatePickerInput = ({ currentValue, editableFields, handleChange, handleSaveClick, handleEditClick }: Props) => {
+
+    
     return (
         <div className="w-full">
             <label className="block text-gray-700">Fecha de compra</label>
@@ -26,6 +29,8 @@ export const DatePickerInput = ({ currentValue, editableFields, handleChange, ha
                     dateFormat="yyyy-MM-dd"
                     disabled={!editableFields.boughtAt}
                     className={`border p-2 h-11 rounded pr-56 md:pr-12 w-full  ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                    locale={es} // Set Spanish locale here
+
                 />
                 <button
                     type="button"
