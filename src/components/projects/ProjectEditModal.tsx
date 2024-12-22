@@ -1,51 +1,37 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { User, UserSmallData } from "@/interfaces";
-import { ProjectData, ProjectStatus } from "@/interfaces/project.interface";
-import { updateProject } from "@/actions";
-
-// Map ProjectStatus enum to Spanish translations
-const statusTranslations: { [key in ProjectStatus]: string } = {
-    [ProjectStatus.PLANNING]: "Contratada",
-    [ProjectStatus.IN_PROGRESS]: "En ejecución",
-    [ProjectStatus.COMPLETED]: "Completada",
-};
+import { useEffect, useState, useTransition } from "react";
+import { updateProject, updateTool } from "@/actions";
+import { ProjectData } from "@/interfaces/project.interface";
+import { User } from "@/interfaces";
 
 interface Props {
-    project: ProjectData;
     field: string;
+    project: ProjectData;
     closeModal: () => void;
-    managerUsers: UserSmallData[];
+    managerUsers: User[]
 }
 
-export const ProjectTableModal = ({ project, field, managerUsers, closeModal }: Props) => {
-    const [localValue, setLocalValue] = useState<string[]>(project.users.map(user => user.id));
-    const [status, setStatus] = useState<ProjectStatus>(project.status); // Add status state
+export const ProjectEditModal = ({ field, project, closeModal, managerUsers }: Props) => {
+
+    const [localValue, setLocalValue] = useState<string | string[]>(
+        field === "users" ? project.users.map((user) => user.id) : []
+    );
     const [isPending, startTransition] = useTransition();
 
-    const handleFieldChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedValue = Array.from(e.target.selectedOptions, (option) => option.value);
-        setLocalValue(selectedValue);
-    };
-
-    const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setStatus(e.target.value as ProjectStatus); // Update status
-    };
-
     const saveChanges = () => {
+
         startTransition(async () => {
             try {
-                if (field === "users") {
-                    // Handle user changes
-                    await updateProject("users", project.id, localValue, project);
-                } else if (field === "status") {
-                    // Handle status changes
-                    await updateProject("status", project.id, status, project); // Use the updated status
+                console.log({ field, project: project.id, value: localValue });
+                // For "category", handle the many-to-many relation with categories
+                if (field === "users" && Array.isArray(localValue)) {
+                    // Save the updated categories list to the tool
+                    await updateProject(field, project.id, localValue, project);
                 }
                 closeModal();
             } catch (error) {
-                console.error("Failed to update project:", error);
+                console.error("Failed to update tool:", error);
             }
         });
     };
@@ -84,20 +70,6 @@ export const ProjectTableModal = ({ project, field, managerUsers, closeModal }: 
                             </label>
                         ))}
                     </div>
-                )}
-
-                {field === "status" && (
-                    <select
-                        value={status} // Bind the selected status
-                        onChange={handleStatusChange} // Handle status change
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                    >
-                        {Object.values(ProjectStatus).map((status) => (
-                            <option key={status} value={status}>
-                                {statusTranslations[status]}
-                            </option>
-                        ))}
-                    </select>
                 )}
 
                 <div className="flex justify-end mt-4">

@@ -3,17 +3,17 @@
 import { ProjectSummaryData, ProjectTable } from "..";
 import { ProjectData } from "@/interfaces/project.interface";
 import { LinkButtonBig } from "../ui/buttons/LinkButtonBig";
-import { UserRoleData, UserSmallData } from "@/interfaces";
+import { User, UserRoleData, UserSmallData } from "@/interfaces";
 import { UserPermission } from "@prisma/client";
 import { getPermissionBoolean } from "@/utils";
 
 interface Props {
     projects: ProjectData[];
-    users: UserSmallData[]
+    managerUsers: UserSmallData[]
     userPermissions: UserPermission[] | null;
 }
 
-export const ProjectTableComponent = ({ projects, users, userPermissions }: Props) => {
+export const ProjectTableComponent = ({ projects, managerUsers, userPermissions }: Props) => {
 
     const isProjectAdmin = getPermissionBoolean(userPermissions, "ADMIN", "PROJECT")
     const isProjectView = getPermissionBoolean(userPermissions, "VIEW", "PROJECT")
@@ -41,7 +41,7 @@ export const ProjectTableComponent = ({ projects, users, userPermissions }: Prop
                     <ProjectSummaryData projects={projects} />
                     <ProjectTable
                         projects={projects}
-                        users={users}
+                        managerUsers={managerUsers}
                         isProjectAdmin={isProjectAdmin}
                     />
                 </>

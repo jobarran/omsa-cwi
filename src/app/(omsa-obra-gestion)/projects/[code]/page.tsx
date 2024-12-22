@@ -1,7 +1,9 @@
-import { getUserByLegajo } from "@/actions";
+import { getUserByLegajo, getUsersByRole } from "@/actions";
 import { getProjectByCode } from "@/actions/project/get-project-by-code";
+import { getAllUsers } from "@/actions/user/get-all-users";
 import { auth } from "@/auth.config";
-import { AdminProfileComponent, WorkerProfileComponent } from "@/components";
+import { AdminProfileComponent, ProjectProfileComponent, WorkerProfileComponent } from "@/components";
+import { UserRole } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 interface Props {
@@ -22,16 +24,18 @@ export default async function ProjectByCodePage({ params }: Props) {
 
     const { code } = params;
 
-    const project = await getProjectByCode(code)
+    const roles: UserRole[] = [UserRole.PROJECT_MANAGER];
 
+    const project = await getProjectByCode(code)
+    const managerUsers = await getUsersByRole(roles)
+    
     if (project === null) {
         redirect('/projects')
     }
 
     return (
         <div className="flex flex-col items-center justify-between space-y-4">
-            {project.name}
-            {/* <WorkerProfileComponent user={user} /> */}
+            <ProjectProfileComponent project={project} managerUsers={managerUsers} />
         </div>
     );
 }   

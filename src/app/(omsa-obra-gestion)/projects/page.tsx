@@ -1,19 +1,23 @@
-import { getUserPermissions } from "@/actions";
+import { getUserPermissions, getUsersByRole } from "@/actions";
 import { getAllProjects } from "@/actions/project/get-all-projects";
 import { getAllUsers } from "@/actions/user/get-all-users";
 import { auth } from "@/auth.config";
 import { ProjectTableComponent, SectionTitle } from "@/components";
 import { leanUsers } from "@/utils";
+import { UserRole } from "@prisma/client";
 
 
 export default async function ProjectPage() {
 
     const projects = await getAllProjects();
-    const users = await getAllUsers()
+
+    const roles: UserRole[] = [UserRole.PROJECT_MANAGER];
+    const managerUsers = await getUsersByRole(roles)
+
     const session = await auth();
 
-    let userPermissions = null; 
-    
+    let userPermissions = null;
+
     if (session) {
         userPermissions = await getUserPermissions(session.user.id);
     }
@@ -23,7 +27,7 @@ export default async function ProjectPage() {
             <SectionTitle label={"Obras"} />
             <ProjectTableComponent
                 projects={projects}
-                users={leanUsers(users)}
+                managerUsers={leanUsers(managerUsers)}
                 userPermissions={userPermissions}
             />
         </div>

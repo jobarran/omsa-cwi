@@ -1,18 +1,18 @@
 "use client";
 
 import { ProjectTableHeader, ProjectTableModal, ProjectTableRow } from "@/components";
-import { UserSmallData } from "@/interfaces";
+import { User, UserSmallData } from "@/interfaces";
 import { ProjectData } from "@/interfaces/project.interface";
 import { sortProjects } from "@/utils";
 import { useState } from "react";
 
 interface Props {
     projects: ProjectData[];
-    users: UserSmallData[]
+    managerUsers: UserSmallData[]
     isProjectAdmin: boolean;
 }
 
-export const ProjectTable = ({ projects, users, isProjectAdmin }: Props) => {
+export const ProjectTable = ({ projects, managerUsers, isProjectAdmin }: Props) => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
@@ -63,7 +63,7 @@ export const ProjectTable = ({ projects, users, isProjectAdmin }: Props) => {
                     project={selectedProject}
                     field={fieldToEdit}
                     closeModal={closeModal}
-                    users={users}
+                    managerUsers={managerUsers}
                 />
             )}
         </div>

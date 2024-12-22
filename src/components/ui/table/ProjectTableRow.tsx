@@ -85,7 +85,7 @@ export const ProjectTableRow = ({ project, openModal, isProjectAdmin }: Props) =
                 {isProjectAdmin && (
                     <FaArrowRightArrowLeft
                         className="inline-block ml-2 text-sky-600 cursor-pointer"
-                        onClick={() => openModal(project, "projectUser")}
+                        onClick={() => openModal(project, "users")}
                     />
                 )}
             </td>
