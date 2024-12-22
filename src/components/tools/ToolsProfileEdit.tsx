@@ -9,8 +9,6 @@ import { updateTool, updateToolImage } from "@/actions";
 import { ProjectData } from "@/interfaces/project.interface";
 import { FaPen } from "react-icons/fa6";
 import { FaSave } from "react-icons/fa";
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
 
 interface Props {
     tool: Tool;
@@ -165,15 +163,17 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                     />
 
                     <div className="w-full">
-                        <label className="block text-gray-700">Fecha de compra</label>
+                        <label className="block text-gray-700">
+                            Fecha de compra
+                        </label>
                         <div className="relative w-full">
-                        <DatePicker
-                                selected={currentValues.boughtAt ? new Date(currentValues.boughtAt) : null}
-                                onChange={(date) => handleChange('boughtAt', date ? date.toISOString().split('T')[0] : '')}
-                                dateFormat="yyyy-MM-dd"
+                            <input
                                 disabled={!editableFields.boughtAt}
-                                className={`border h-11 rounded pl-2 pr-52 md:pr-12 w-full ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
-                                />
+                                type="date"
+                                value={currentValues.boughtAt}
+                                onChange={(e) => handleChange("boughtAt", e.target.value)}
+                                className={`border p-2 h-11 rounded pr-56 md:pr-12 w-full max-w-full ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                            />
                             <button
                                 type="button"
                                 onClick={() => (editableFields.boughtAt ? handleSaveClick('boughtAt') : handleEditClick('boughtAt'))}
@@ -183,7 +183,6 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                             </button>
                         </div>
                     </div>
-
 
 
 
