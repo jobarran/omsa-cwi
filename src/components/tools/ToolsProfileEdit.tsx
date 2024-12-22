@@ -134,7 +134,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
                     <ToolProfileInput
                         field="name" // Replace with the correct EditableField value
-                        label="Name"
+                        label="Nombre"
                         currentValue={currentValues.name} // Provide the current value from state or props
                         handleChange={handleChange}
                         editableFields={editableFields}
@@ -144,7 +144,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
 
                     <ToolProfileInput
                         field="code"
-                        label="Code"
+                        label="Código"
                         currentValue={currentValues.code}
                         handleChange={handleChange}
                         editableFields={editableFields}
@@ -154,7 +154,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
 
                     <ToolProfileInput
                         field="brand"
-                        label="Brand"
+                        label="Marca"
                         currentValue={currentValues.brand}
                         handleChange={handleChange}
                         editableFields={editableFields}
@@ -172,7 +172,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                                 type="date"
                                 value={currentValues.boughtAt}
                                 onChange={(e) => handleChange("boughtAt", e.target.value)}
-                                className={`border p-2 h-11 rounded pr-12 w-full ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                                className={`border p-2 h-11 rounded w-full ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
                             />
                             <button
                                 type="button"
@@ -239,7 +239,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
 
                     <ToolProfileInput
                         field="state"
-                        label="State"
+                        label="Estado"
                         currentValue={currentValues.state}
                         handleChange={handleChange}
                         editableFields={editableFields}
@@ -251,7 +251,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
 
                     <ToolProfileInput
                         field="quantity"
-                        label="Quantity"
+                        label="Cantidad"
                         currentValue={currentValues.quantity}
                         handleChange={handleChange}
                         editableFields={editableFields}
@@ -264,7 +264,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                 <div className="grid grid-cols-1 w-full">
                     <ToolProfileInput
                         field="description"
-                        label="Description"
+                        label="Descripción"
                         currentValue={currentValues.description}
                         handleChange={handleChange}
                         editableFields={editableFields}
