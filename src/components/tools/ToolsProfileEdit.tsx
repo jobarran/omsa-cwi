@@ -172,7 +172,7 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                                 type="date"
                                 value={currentValues.boughtAt}
                                 onChange={(e) => handleChange("boughtAt", e.target.value)}
-                                className={`border p-2 h-11 rounded w-full pr-12 ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                                className={`border p-2 h-11 rounded min-w-full pr-12 ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
                             />
                             <button
                                 type="button"
