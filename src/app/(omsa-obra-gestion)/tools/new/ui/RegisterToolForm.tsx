@@ -7,6 +7,9 @@ import { compressImage } from '@/utils';
 import { useRouter } from "next/navigation";
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { Controller } from 'react-hook-form';
 
 type FormInputs = {
     code: string;
@@ -35,6 +38,7 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
     const {
         handleSubmit,
         register,
+        control,
         formState: { isValid },
     } = useForm<FormInputs>({
         mode: 'onChange',
@@ -219,7 +223,6 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
                             ))}
                         </select>
                     </div>
-
                     <div className="flex flex-col w-full md:w-1/4 mb-4 md:mb-0">
                         <label
                             htmlFor="boughtAt"
@@ -227,11 +230,19 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
                         >
                             Fecha de compra
                         </label>
-                        <input
-                            {...register("boughtAt")}
-                            type="date"
-                            id="boughtAt"
-                            className="border rounded p-2 border-gray-300 h-10"
+                        <Controller
+                            control={control}
+                            name="boughtAt"
+                            render={({ field: { onChange, onBlur, value } }) => (
+                                <DatePicker
+                                    selected={value ? new Date(value) : null} // Handle null values
+                                    onChange={(date: Date | null) => onChange(date)} // Handle both Date and null
+                                    onBlur={onBlur}
+                                    dateFormat="yyyy-MM-dd"
+                                    className="border p-2 h-11 rounded pr-56 md:pr-12 w-full"
+                                    disabled={false}
+                                />
+                            )}
                         />
                     </div>
                 </div>

@@ -21,6 +21,7 @@ export * from './ui/inputs/AdminProfileInputs'
 export * from './ui/inputs/InputSearch'
 export * from './ui/inputs/StarRating'
 export * from './ui/inputs/ToolProfileInputs'
+export * from './ui/inputs/DatePickerInput'
 export * from './ui/labels/SectionTitle'
 export * from './ui/stars/RenderStars'
 export * from "./ui/table/AdminTable"

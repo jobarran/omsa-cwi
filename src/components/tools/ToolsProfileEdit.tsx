@@ -3,12 +3,11 @@
 import { Tool, ToolCategory } from "@/interfaces/tool.interface";
 import { compressImage, dateToString, stringToDate } from "@/utils";
 import { useEffect, useState } from "react";
-import { AdminProfileInputs, ToolProfileInput, ToolTableModal } from "..";
+import { DatePickerInput, ToolProfileInput, ToolTableModal } from "..";
 import { ToolEditableField } from "@/types";
 import { updateTool, updateToolImage } from "@/actions";
 import { ProjectData } from "@/interfaces/project.interface";
 import { FaPen } from "react-icons/fa6";
-import { FaSave } from "react-icons/fa";
 
 interface Props {
     tool: Tool;
@@ -162,27 +161,14 @@ export const ToolsProfileEdit = ({ tool, projects, categories }: Props) => {
                         handleEditClick={handleEditClick}
                     />
 
-                    <div className="w-full">
-                        <label className="block text-gray-700">
-                            Fecha de compra
-                        </label>
-                        <div className="relative w-full">
-                            <input
-                                disabled={!editableFields.boughtAt}
-                                type="date"
-                                value={currentValues.boughtAt}
-                                onChange={(e) => handleChange("boughtAt", e.target.value)}
-                                className={`border p-2 h-11 rounded pr-56 md:pr-12 w-full max-w-full ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
-                            />
-                            <button
-                                type="button"
-                                onClick={() => (editableFields.boughtAt ? handleSaveClick('boughtAt') : handleEditClick('boughtAt'))}
-                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sky-800"
-                            >
-                                {editableFields.boughtAt ? <FaSave /> : <FaPen />}
-                            </button>
-                        </div>
-                    </div>
+                    <DatePickerInput
+                        label={"Fecha de compra"}
+                        currentValue={currentValues.boughtAt}
+                        handleChange={handleChange}
+                        editableFields={editableFields}
+                        handleSaveClick={handleSaveClick}
+                        handleEditClick={handleEditClick}
+                    />
 
 
 
