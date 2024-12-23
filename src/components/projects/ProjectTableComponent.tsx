@@ -38,7 +38,7 @@ export const ProjectTableComponent = ({ projects, managerUsers, userPermissions 
 
             {(isProjectAdmin) && (
                 <div className="flex flex-row items-center justify-end gap-2 pb-2">
-                    <LinkButtonBig label={"Agregar Nuevo"} link={"/projects/new"} />
+                    <LinkButtonBig label={"+ Obra"} link={"/projects/new"} />
                 </div>
             )}
 

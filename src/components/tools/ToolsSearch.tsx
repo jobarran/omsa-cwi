@@ -18,7 +18,7 @@ export const ToolSearch = ({
     isFiltering
 }: InputSearchSectionProps) => {
     return (
-        <div className="flex flex-row items-center gap-2 pb-2">
+        <div className="flex flex-row items-center gap-2">
             <div className="flex-grow">
                 <InputSearch
                     onSearch={handleSearch}

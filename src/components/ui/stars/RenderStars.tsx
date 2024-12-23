@@ -5,7 +5,7 @@ interface Props {
 
 export const RenderStars = ({ rating }: Props) => {
 
-    if (rating === null) return <p>No ratings yet.</p>;
+    if (rating === null) return <p className="text-gray-600 text-sm italic">Sin calificaciónes</p>;
 
     const filledStars = Math.floor(rating); // Full stars
     const halfStars = rating % 1 >= 0.5 ? 1 : 0; // Half star condition

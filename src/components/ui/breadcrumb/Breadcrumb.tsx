@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from "next/navigation";
-import { FaHome, FaTools } from 'react-icons/fa';
+import { FaAngleRight, FaHome, FaTools } from 'react-icons/fa';
 import { FaBuilding, FaGear, FaUserGroup } from 'react-icons/fa6';
 
 // Icon mapping with Spanish translations
@@ -42,34 +42,36 @@ export const Breadcrumb = () => {
         }),
     ];
 
+    // Add prefix to the third breadcrumb item's text based on the second item's name
+    if (breadcrumbItems.length > 2) {
+        const secondItemName = breadcrumbItems[1].name;
+        const thirdItem = breadcrumbItems[2];
+
+        if (thirdItem.name === 'New') { thirdItem.name = "Nuevo" }
+        else if (secondItemName === 'Operarios' || secondItemName === 'Admin') {
+            thirdItem.name = `Legajo: ${thirdItem.name}`;
+        } else if (secondItemName === 'Herramientas') {
+            thirdItem.name = `Código: ${thirdItem.name}`;
+        } else if (secondItemName === 'Obras') {
+            thirdItem.name = `ID: ${thirdItem.name}`;
+        }
+    }
+
     return (
         <div aria-label="breadcrumb" className="border w-full bg-white p-4 rounded-lg mb-3">
-            <ol className="flex items-center whitespace-nowrap">
+            <ol className="flex items-center whitespace-nowrap overflow-hidden">
                 {breadcrumbItems.map((item, index) => (
                     <div key={index} className="inline-flex items-center">
                         <Link href={item.href} legacyBehavior>
-                            <div className="inline-flex items-start justify-center text-sm text-gray-500 hover:text-sky-800 focus:outline-none focus:text-sky-800 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500 cursor-pointer">
+                            <div className="inline-flex items-start justify-center text-sm text-gray-500 hover:text-sky-800 focus:outline-none focus:text-sky-800 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500 cursor-pointer max-w-xs truncate">
                                 {item.icon && (
                                     <item.icon className="shrink-0 me-1 size-4" />
                                 )}
-                                {item.name}
+                                <span className="truncate">{item.name}</span>
                             </div>
                         </Link>
                         {index < breadcrumbItems.length - 1 && (
-                            <svg
-                                className="shrink-0 mx-2 size-4 text-gray-400 dark:text-neutral-600"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <path d="m9 18 6-6-6-6"></path>
-                            </svg>
+                            <FaAngleRight className="shrink-0 mx-1 size-4 text-gray-400" />
                         )}
                     </div>
                 ))}

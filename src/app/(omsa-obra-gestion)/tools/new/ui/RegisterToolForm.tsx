@@ -70,8 +70,8 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
         });
 
         // Append 'boughtAt' as a string date if it's a valid date
-        if (boughtAt instanceof Date) {
-            const formattedDate = boughtAt.toLocaleDateString("en-GB");
+        if (boughtAt instanceof Date && !isNaN(boughtAt.getTime())) {
+            const formattedDate = boughtAt.toISOString(); // Convert to ISO 8601 format
             formData.append("boughtAt", formattedDate);
         }
 

@@ -1,19 +1,20 @@
-import { getToolById, getToolCategories } from "@/actions";
+import { getToolByCode, getToolCategories } from "@/actions";
 import { getAllProjects } from "@/actions/project/get-all-projects";
 import { SectionTitle, ToolsProfileComponent } from "@/components";
 import { redirect } from "next/navigation";
 
 interface Props {
     params: {
-        id: string;
+        code: string;
     };
 }
 
 
 export default async function ToolByIdPage({ params }: Props) {
 
-    const { id } = params;
-    const tool = await getToolById(id)
+    const { code } = params;
+    console.log(code)
+    const tool = await getToolByCode(code)
     const projects = await getAllProjects()
     const toolCategories = await getToolCategories()
 

@@ -77,24 +77,33 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
 
     return (
         <div className="flex flex-col w-full">
-            <div >
+            <div className="w-full">
                 <ToolSummaryData tools={filteredTools} />
 
-                {(isToolAdmin) && (
-                    <ToolAdminButtons
-                        openModal={openModal}
-                    />
+                {isToolView && (
+                    <div className={`flex flex-col w-full gap-2 sm:gap-2 ${isToolAdmin ? 'sm:flex-row justify-between items-center' : ''}`}>
+                        {/* Admin Buttons (only if isToolAdmin is true) */}
+                        {isToolAdmin && (
+                            <div className="w-full sm:w-auto sm:order-2 flex justify-center">
+                                <ToolAdminButtons openModal={openModal} />
+                            </div>
+                        )}
+
+                        {/* Search Bar (always rendered if isToolView) */}
+                        <div className={`w-full ${isToolAdmin ? 'sm:flex-1 sm:order-1' : ''}`}>
+                            <ToolSearch
+                                searchTerm={searchTerm}
+                                setSearchTerm={setSearchTerm}
+                                handleSearch={handleSearch}
+                                resetSearchTerm={resetSearchTerm}
+                                isFiltering={isFiltering}
+                            />
+                        </div>
+                    </div>
                 )}
 
                 {isToolView || isToolAdmin ? (
                     <div className="pt-2 pb-2">
-                        <ToolSearch
-                            searchTerm={searchTerm}
-                            setSearchTerm={setSearchTerm}
-                            handleSearch={handleSearch}
-                            resetSearchTerm={resetSearchTerm}
-                            isFiltering={isFiltering}
-                        />
                         {(isToolView || isToolAdmin) && (
                             <ToolsFilter
                                 projects={projects}
@@ -116,15 +125,20 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
                     </div>
                 )}
 
-
-                <ToolTable tools={filteredTools} projects={projects} toolCategories={toolCategories} userPermissions={userPermissions} />
+                <ToolTable
+                    tools={filteredTools}
+                    projects={projects}
+                    toolCategories={toolCategories}
+                    userPermissions={userPermissions}
+                />
             </div>
-            {(isModalOpen) && (
+            {isModalOpen && (
                 <ToolCategoryModal
                     closeModal={closeModal}
                     categories={categories || []} // Default to an empty array if categories are null
                 />
             )}
         </div>
+
     );
 };

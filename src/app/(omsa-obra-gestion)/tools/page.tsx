@@ -5,6 +5,7 @@ import { auth } from "@/auth.config";
 import { SectionTitle, ToolsTableComponent } from "@/components";
 
 export default async function ToolsPage() {
+    
     const session = await auth();
 
     let userPermissions = null; 

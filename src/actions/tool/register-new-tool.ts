@@ -17,11 +17,17 @@ const toolSchema = z.object({
     quantity: z.number().int().positive("Quantity must be a positive integer").default(1),
     projectId: z.string().min(1, "Project ID is required"),
     boughtAt: z
-        .string()
-        .refine((date) => !isNaN(new Date(date).getTime()), {
-            message: "Invalid date format for 'boughtAt'",
-        })
-        .optional(),
+    .string()
+    .transform((date) => {
+        // Remove the localized time zone description
+        const normalizedDate = date.replace(/\s\(.+\)$/, '');
+        return new Date(normalizedDate).toISOString();
+    })
+    .refine((isoDate) => !isNaN(new Date(isoDate).getTime()), {
+        message: "Invalid date format for 'boughtAt'",
+    })
+    .optional(),
+
     category: z.string().optional(), // Optional category ID
 });
 
