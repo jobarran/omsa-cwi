@@ -10,7 +10,7 @@ export const getTitleAndDetail = (record: Record) => {
             detail: {
                 firstText: `Comentario creado para el equipo `,
                 name: record.recordTargetName,
-                secondText: ` - id: `,
+                secondText: `id: `,
                 code: record.recordTargetId,
             },
         },

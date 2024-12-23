@@ -41,7 +41,7 @@ const RecordList = ({ records }: Props) => {
               key={record.id}
               className={`bg-white rounded-lg p-3 border border-l-8 ${leftBorderColor}`}
             >
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1 md:gap-2">
                 {record.user && (
                   <div className="flex flex-col md:flex-row md:space-x-2">
                     <p className="text-xs md:text-sm font-semibold whitespace-nowrap">
@@ -58,8 +58,8 @@ const RecordList = ({ records }: Props) => {
                     </div>
                   </div>
                 )}
-                <div className="flex items-center space-x-2">
-                  <p className="text-xs md:text-sm text-gray-600">{detail.firstText}</p>
+                <div className="flex items-center md:space-x-1">
+                  <p className="hidden md:block text-sm text-gray-600">{detail.firstText}</p>
                   <Link
                     href={`/tools/${record.recordTargetId}`}
                   >
@@ -67,7 +67,7 @@ const RecordList = ({ records }: Props) => {
                       {detail.name}
                     </p>
                   </Link>
-                  <p className="text-xs md:text-sm text-gray-600">{detail.secondText}</p>
+                  <p className="text-xs md:text-sm px-1 md:px-0 text-gray-600">{detail.secondText}</p>
                   <Link
                     href={`/tools/${record.recordTargetId}`}
                   >
