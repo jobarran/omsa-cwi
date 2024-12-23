@@ -1,4 +1,4 @@
-import { TopMenu } from "@/components";
+import { Breadcrumb, TopMenu } from "@/components";
 import { auth } from "@/auth.config";
 import React from "react";
 
@@ -22,6 +22,7 @@ export default async function BaseLayout({
                             <div className="max-w-5xl w-full mx-auto">
                                 {/* This ensures that children are constrained to the max width */}
                                 <div className="w-full max-w-5xl mx-auto">
+                                    <Breadcrumb />
                                     {children}
                                 </div>
                             </div>

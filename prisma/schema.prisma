@@ -195,6 +195,7 @@ enum ProjectStatus {
   PLANNING
   IN_PROGRESS
   COMPLETED
+  MAINTENANCE
 }
 
 enum UserRole {

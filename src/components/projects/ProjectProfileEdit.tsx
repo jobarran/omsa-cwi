@@ -157,7 +157,7 @@ export const ProjectProfileEdit = ({ project, managerUsers }: Props) => {
                         editableFields={editableFields}
                         handleSaveClick={handleSaveClick}
                         handleEditClick={handleEditClick}
-                        options={["PLANNING", "IN_PROGRESS", "COMPLETED"]}
+                        options={["PLANNING", "IN_PROGRESS", "COMPLETED", "MAINTENANCE"]}
                     />
 
                     <div className="w-full">

@@ -24,7 +24,8 @@ export const ToolSummaryData = ({ tools }: Props) => {
                 <span className="text-lg font-bold text-green-600">{activeCount}</span>
             </div>
             <div className="p-3 bg-yellow-50 rounded-md flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center">
-                <span className="text-xs sm:text-sm text-gray-600">Mantenimiento</span>
+                <span className="hidden sm:block text-sm text-gray-600">Mantenimiento</span>
+                <span className="sm:hidden text-xs text-gray-600">Mant</span>
                 <span className="text-lg font-bold text-yellow-600">{inRepairCount}</span>
             </div>
             <div className="p-3 bg-red-50 rounded-md flex flex-col sm:flex-row items-center justify-center sm:justify-between text-center">

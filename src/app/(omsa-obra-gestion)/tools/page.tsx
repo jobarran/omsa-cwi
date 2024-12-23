@@ -20,7 +20,6 @@ export default async function ToolsPage() {
 
     return (
         <div className="flex flex-col items-center justify-between space-y-4">
-            <SectionTitle label={"Herramientas"} />
             <ToolsTableComponent
                 tools={tools}
                 projects={projects}

@@ -3,7 +3,7 @@
 import { ProjectSummaryData, ProjectTable } from "..";
 import { ProjectData } from "@/interfaces/project.interface";
 import { LinkButtonBig } from "../ui/buttons/LinkButtonBig";
-import { User, UserRoleData, UserSmallData } from "@/interfaces";
+import { UserSmallData } from "@/interfaces";
 import { UserPermission } from "@prisma/client";
 import { getPermissionBoolean } from "@/utils";
 
@@ -30,6 +30,12 @@ export const ProjectTableComponent = ({ projects, managerUsers, userPermissions 
     return (
         <div className="flex flex-col w-full">
 
+
+            {(isProjectView) && (
+                <ProjectSummaryData projects={projects} />
+            )}
+
+
             {(isProjectAdmin) && (
                 <div className="flex flex-row items-center justify-end gap-2 pb-2">
                     <LinkButtonBig label={"Agregar Nuevo"} link={"/projects/new"} />
@@ -37,14 +43,11 @@ export const ProjectTableComponent = ({ projects, managerUsers, userPermissions 
             )}
 
             {(isProjectAdmin || isProjectView) && (
-                <>
-                    <ProjectSummaryData projects={projects} />
-                    <ProjectTable
-                        projects={projects}
-                        managerUsers={managerUsers}
-                        isProjectAdmin={isProjectAdmin}
-                    />
-                </>
+                <ProjectTable
+                    projects={projects}
+                    managerUsers={managerUsers}
+                    isProjectAdmin={isProjectAdmin}
+                />
             )}
 
 

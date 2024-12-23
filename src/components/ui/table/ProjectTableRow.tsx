@@ -16,7 +16,9 @@ interface Props {
 const statusTranslations: { [key in ProjectStatus]: string } = {
     [ProjectStatus.PLANNING]: "Contratada",
     [ProjectStatus.IN_PROGRESS]: "En ejecución",
-    [ProjectStatus.COMPLETED]: "Completada",
+    [ProjectStatus.COMPLETED]: "Terminada",
+    [ProjectStatus.MAINTENANCE]: "Mantenimiento",
+
 };
 
 // Map project status to dot color
@@ -24,6 +26,7 @@ const statusDotColor: { [key in ProjectStatus]: string } = {
     [ProjectStatus.PLANNING]: "bg-red-500",
     [ProjectStatus.IN_PROGRESS]: "bg-yellow-500",
     [ProjectStatus.COMPLETED]: "bg-green-500",
+    [ProjectStatus.MAINTENANCE]: "bg-yellow-600",
 };
 
 export const ProjectTableRow = ({ project, openModal, isProjectAdmin }: Props) => {

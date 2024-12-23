@@ -32,6 +32,7 @@ export enum ProjectStatus {
   PLANNING = "PLANNING",
   IN_PROGRESS = "IN_PROGRESS",
   COMPLETED = "COMPLETED",
+  MAINTENANCE = "MAINTENANCE"
 }
 
 export interface projectUser {

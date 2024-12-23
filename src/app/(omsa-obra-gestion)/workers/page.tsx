@@ -15,7 +15,6 @@ export default async function WorkersPage() {
 
         <div className="flex flex-col items-center justify-between space-y-4">
 
-            <SectionTitle label={"Recursos"} />
             <WorkersTableComponent
                 workers={workerUsers}
                 projects={projects}

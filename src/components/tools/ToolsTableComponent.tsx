@@ -78,6 +78,7 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
     return (
         <div className="flex flex-col w-full">
             <div >
+                <ToolSummaryData tools={filteredTools} />
 
                 {(isToolAdmin) && (
                     <ToolAdminButtons
@@ -115,7 +116,6 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
                     </div>
                 )}
 
-                <ToolSummaryData tools={filteredTools} />
 
                 <ToolTable tools={filteredTools} projects={projects} toolCategories={toolCategories} userPermissions={userPermissions} />
             </div>

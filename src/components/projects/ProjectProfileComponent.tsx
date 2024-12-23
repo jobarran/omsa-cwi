@@ -13,7 +13,8 @@ interface Props {
 const statusTranslations: { [key in ProjectStatus]: string } = {
     [ProjectStatus.PLANNING]: "Contratada",
     [ProjectStatus.IN_PROGRESS]: "En ejecución",
-    [ProjectStatus.COMPLETED]: "Completada",
+    [ProjectStatus.COMPLETED]: "Terminada",
+    [ProjectStatus.MAINTENANCE]: "Mantenimiento",
 };
 
 export const ProjectProfileComponent = ({ project, managerUsers }: Props) => {
