@@ -25,11 +25,9 @@ export interface User {
 
   // Relations
   permissions?: PrismaUserPermission[]; // Use Prisma's enum for permissions
-  actions?: any;
+  records?: any;
   comments?: any;
   projects?: any;
-  toolAssignments?: any;
-  notifications?: any;
   image: UserImage[];
   workerSkill: WorkerSkill[]
 }

@@ -6,6 +6,8 @@ import { v2 as cloudinary } from 'cloudinary';
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import bcryptjs from 'bcryptjs';
+import { createNewRecord } from "..";
+import { RecordObject, RecordType } from "@prisma/client";
 
 const userSchema = z.object({
     name: z.string().min(1, "Name is required"),
@@ -94,6 +96,18 @@ export const registerNewUser = async (formData: FormData) => {
                 ...userParsed.data,
                 status: "ACTIVE",
             },
+        });
+
+        // Determine the recordObject based on the user's role
+        const recordObject = newUser.role === "WORKER" ? RecordObject.WORKER : RecordObject.USER;
+
+        // Create a record for the new user registration
+        await createNewRecord({
+            type: RecordType.CREATED,
+            recordObject: recordObject, // Use the dynamic value based on the role
+            recordTargetId: newUser.legajo,
+            recordTargetName: newUser.name + " " + newUser.lastName,
+            userId,
         });
 
         const userImage = await uploadLogo(formData.get('image') as File);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { User, UserSmallData } from "@/interfaces";
+import { UserSmallData } from "@/interfaces";
 import { ProjectData, ProjectStatus } from "@/interfaces/project.interface";
 import { updateProject } from "@/actions";
 

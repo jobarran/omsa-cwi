@@ -2,7 +2,9 @@
 
 import { auth } from "@/auth.config";
 import prisma from "@/lib/prisma";
+import { RecordObject, RecordType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { createNewRecord } from "../record/create-new-record";
 
 interface NewCommentProps {
     content: string;
@@ -25,8 +27,16 @@ export const createNewComment = async ({ content, rating, toolId }: NewCommentPr
 
         const userId = session.user.id;
 
-        // Create new comment in the database
-        await prisma.comment.create({
+        const tool = await prisma.tool.findUnique({
+            where: { id: toolId },
+            select: { name: true, code: true },
+        });
+
+        if (!tool) {
+            throw new Error("Tool not found.");
+        }
+
+        const newComment = await prisma.comment.create({
             data: {
                 content: content.trim(),
                 rating,
@@ -35,8 +45,16 @@ export const createNewComment = async ({ content, rating, toolId }: NewCommentPr
             },
         });
 
+        await createNewRecord({
+            type: RecordType.COMMENT_ADDED,
+            recordObject: RecordObject.TOOL,
+            recordTargetId: tool.code,
+            recordTargetName: tool.name,
+            userId,
+        });
+
         // Revalidate the page to show the new comment
-        revalidatePath(`/tools/${toolId}`);
+        revalidatePath(`/tool/${toolId}`);
     } catch (error) {
         console.error("Error creating new comment:", error);
         throw new Error("Failed to create a new comment. Please try again.");

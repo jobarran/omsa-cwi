@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import { usePathname } from "next/navigation";
 import { FaAngleRight, FaHome, FaTools } from 'react-icons/fa';
-import { FaBuilding, FaGear, FaUserGroup } from 'react-icons/fa6';
+import { FaBuilding, FaFingerprint, FaGear, FaUserGroup } from 'react-icons/fa6';
 
 // Icon mapping with Spanish translations
 const iconMapping: { [key: string]: { icon: React.ElementType, label: string } } = {
     '/tools': { icon: FaTools, label: 'Herramientas' },
     '/projects': { icon: FaBuilding, label: 'Obras' },
     '/workers': { icon: FaUserGroup, label: 'Operarios' },
+    '/records': { icon: FaFingerprint, label: 'Registros' },
     '/admin': { icon: FaGear, label: 'Admin' },
 };
 
@@ -63,9 +64,9 @@ export const Breadcrumb = () => {
                 {breadcrumbItems.map((item, index) => (
                     <div key={index} className="inline-flex items-center">
                         <Link href={item.href} legacyBehavior>
-                            <div className="inline-flex items-start justify-center text-sm text-gray-500 hover:text-sky-800 focus:outline-none focus:text-sky-800 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500 cursor-pointer max-w-xs truncate">
+                            <div className="inline-flex items-center justify-center text-sm text-gray-500 hover:text-sky-800 focus:outline-none focus:text-sky-800 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500 cursor-pointer max-w-xs truncate">
                                 {item.icon && (
-                                    <item.icon className="shrink-0 me-1 size-4" />
+                                    <item.icon className="shrink-0 me-1 size-3" />
                                 )}
                                 <span className="truncate">{item.name}</span>
                             </div>

@@ -1,6 +1,5 @@
 import { auth } from '@/auth.config';
-import { HomeSections, SectionTitle } from '@/components';
-import { RunSeedButton } from '@/components/seed/RunSeedButton';
+import { HomeSections } from '@/components';
 
 
 export default async function Home() {

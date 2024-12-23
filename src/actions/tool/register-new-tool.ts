@@ -5,6 +5,8 @@ import prisma from "@/lib/prisma";
 import { v2 as cloudinary } from 'cloudinary';
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { createNewRecord } from "..";
+import { RecordObject, RecordType } from "@prisma/client";
 
 cloudinary.config(process.env.CLOUDINARY_URL ?? '');
 
@@ -112,6 +114,15 @@ export const registerNewTool = async (formData: FormData) => {
                 userId,
                 categories: categoryConnectData.length > 0 ? { connect: categoryConnectData } : undefined,
             },
+        });
+
+        // Create a record for the new tool registration
+        await createNewRecord({
+            type: RecordType.CREATED,
+            recordObject: RecordObject.TOOL,
+            recordTargetId: newTool.code,
+            recordTargetName: newTool.name + " " + newTool.brand,
+            userId,
         });
 
         // Process for uploading and saving images

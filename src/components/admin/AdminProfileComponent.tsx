@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { createNewComment } from "@/actions";
-import { AdminProfileComments, AdminProfileEdit, AdminProfileHistory, RenderStars, TableImage } from "..";
+import { useState } from "react";
+import { AdminProfileComments, AdminProfileEdit, AdminProfileHistory, TableImage } from "..";
 import { User } from "@/interfaces";
 import { Project } from "@/interfaces/project.interface";
 

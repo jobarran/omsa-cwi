@@ -2,7 +2,7 @@ import { getToolCategories, getUserPermissions } from "@/actions";
 import { getAllProjects } from "@/actions/project/get-all-projects";
 import { getAllTools } from "@/actions/tool/get-all-tools";
 import { auth } from "@/auth.config";
-import { SectionTitle, ToolsTableComponent } from "@/components";
+import { ToolsTableComponent } from "@/components";
 
 export default async function ToolsPage() {
     
