@@ -68,7 +68,7 @@ export const WorkersFilter = ({
                     onFilterChange("category", category);
                 }}
             >
-                <option value="">Seleccione una Categoría</option>
+                <option value="" disabled className="text-gray-600">Seleccione una Categoría</option>
                 {Object.entries(userCategoryTranscriptions).map(([key, value]) => (
                 <option key={key} value={key}>
                     {value}
@@ -86,7 +86,7 @@ export const WorkersFilter = ({
                     onFilterChange("status", state);
                 }}
             >
-                <option value="">Seleccione un estado</option>
+                <option value="" disabled className="text-gray-600">Seleccione un estado</option>
                 <option value="ACTIVE">Activo</option>
                 <option value="INACTIVE">Inactivo</option>
             </select>

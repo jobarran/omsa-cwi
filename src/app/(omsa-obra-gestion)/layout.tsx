@@ -11,6 +11,8 @@ export default async function BaseLayout({
     const session = await auth();
     const user = session?.user || null;
 
+    console.log(user)
+
     return (
 
         <main>

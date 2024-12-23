@@ -41,7 +41,7 @@ export const ToolsFilter = ({
                     onFilterChange("project", e.target.value || null);
                 }}
             >
-                <option value="" disabled>
+                <option value="" disabled className="text-gray-500">
                     Obra
                 </option>
                 {projects.map((project) => (
@@ -60,7 +60,7 @@ export const ToolsFilter = ({
                     onFilterChange("brand", e.target.value || null);
                 }}
             >
-                <option value="" disabled>
+                <option  value="" disabled className="text-gray-500">
                     Marca
                 </option>
                 {toolBrands.map((brand) => (
@@ -79,7 +79,7 @@ export const ToolsFilter = ({
                     onFilterChange("state", e.target.value || null);
                 }}
             >
-                <option value="" disabled>
+                <option value="" disabled className="text-gray-500">
                     Estado
                 </option>
                 <option value="ACTIVE">Activo</option>

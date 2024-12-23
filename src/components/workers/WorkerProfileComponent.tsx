@@ -35,11 +35,11 @@ export const WorkerProfileComponent = ({ user }: Props) => {
     );
 
     return (
-        <div className="container mx-auto px-4 py-4 md:py-8 bg-white rounded-lg border">
-            <div className="flex flex-col md:flex-row space-x-4">
+        <div className="container mx-auto px-4 py-4 bg-white rounded-lg border">
+            <div className="flex flex-col md:flex-row md:space-x-4">
 
                 {/* Image Section */}
-                <div className="w-full md:w-72 flex justify-center">
+                <div className="w-full md:w-72 flex justify-center mr-4">
                     {user.image[0]?.url ? (
                         <div className="hidden md:block w-72 h-72 overflow-hidden rounded-lg">
                             <TableImage

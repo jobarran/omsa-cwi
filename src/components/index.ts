@@ -3,6 +3,7 @@ export * from './admin/AdminProfileComponent'
 export * from './admin/AdminProfileEdit'
 export * from './admin/AdminProfileHistory'
 export * from "./admin/AdminTableComponent"
+export * from './admin/PasswordModal'
 export * from './home/HomeSections'
 export * from './projects/ProjectTableComponent'
 export * from './projects/ProjectSummaryData'

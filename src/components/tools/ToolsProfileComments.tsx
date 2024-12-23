@@ -44,7 +44,7 @@ export const ToolsProfileComments = ({ tool, onAddComment }: Props) => {
                         disabled={!newComment}
                         onClick={handleAddComment}
                         className={`px-2 py-1 bg-sky-800 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 
-                            ${!newComment ? 'opacity-50 cursor-not-allowed' : 'hover:bg-sky-900'}`}
+                            ${!newComment ? 'opacity-50' : 'hover:bg-sky-900'}`}
                     >
                         Comentar
                     </button>

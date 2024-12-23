@@ -120,7 +120,7 @@ export const ProjectProfileEdit = ({ project, managerUsers }: Props) => {
                                 type="text"
                                 value={project.code}
                                 disabled={true}
-                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100 cursor-not-allowed`}
+                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100d`}
                             />
                         </div>
                     </div>
@@ -170,7 +170,7 @@ export const ProjectProfileEdit = ({ project, managerUsers }: Props) => {
                                 type="text"
                                 value={currentValues.users}
                                 onChange={() => { }}
-                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100 cursor-not-allowed `}
+                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100`}
                             />
 
                             <button

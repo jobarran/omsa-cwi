@@ -8,11 +8,11 @@ import { useEffect, useRef, useState } from "react";
 interface Props {
     initials: string,
     image?: string,
-    id: string,
+    legajo: string,
     logout: () => {}
 }
 
-export const Avatar = ({ initials, image, id, logout }: Props) => {
+export const Avatar = ({ initials, image, legajo, logout }: Props) => {
 
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -40,7 +40,12 @@ export const Avatar = ({ initials, image, id, logout }: Props) => {
         setIsOpen(!isOpen);
     };
 
+    const handleProfileClick = () => {
+        setIsOpen(!isOpen);
+    }
+
     const handleLogout = () => {
+        setIsOpen(!isOpen);
         logout()
     }
 
@@ -91,13 +96,20 @@ export const Avatar = ({ initials, image, id, logout }: Props) => {
 
             >
                 <Link
-                    href="/"
+                    href={`/admin/${legajo}`}
+                    className="block cursor-pointer w-full whitespace-nowrap px-4 py-2 text-sm font-normal text-gray-600"
+                    data-te-dropdown-item-ref
+                    onClick={handleProfileClick}
+                >
+                    Perfil
+                </Link>
+                <button
                     className="block cursor-pointer w-full whitespace-nowrap px-4 py-2 text-sm font-normal text-gray-600"
                     onClick={handleLogout}
                     data-te-dropdown-item-ref
                 >
                     Cerrar sesión
-                </Link>
+                </button>
             </ul>
         </div>
     )

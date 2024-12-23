@@ -30,7 +30,7 @@ export const AdminProfileInputs = ({
     return (
         <div className="mb-4 w-full">
             <label className="block text-gray-700">
-                {field.charAt(0).toUpperCase() + field.slice(1)}
+                {label.charAt(0).toUpperCase() + label.slice(1)}
             </label>
             <div className="relative w-full">
                 {options.length > 0 ? (
@@ -38,8 +38,8 @@ export const AdminProfileInputs = ({
                         value={currentValue}
                         onChange={(e) => handleChange(field, e.target.value)}
                         disabled={!isEditable}
-                        className={`appearance-none border p-2 h-11 rounded w-full pr-12 ${!isEditable ? "bg-gray-100 cursor-not-allowed" : ""
-                            }`} // Removed default arrow
+                        className={`appearance-none border p-2 h-11 rounded w-full pr-12 ${!isEditable ? "bg-gray-100" : ""
+                            }`} 
                     >
                         {options.map((option) => (
                             <option key={option} value={option}>
@@ -53,7 +53,7 @@ export const AdminProfileInputs = ({
                         value={currentValue}
                         onChange={(e) => handleChange(field, e.target.value)}
                         disabled={!isEditable}
-                        className={`border p-2 h-11 rounded w-full pr-12 ${!isEditable ? 'bg-gray-100 cursor-not-allowed' : ''}`} // Same height for input and disabled style
+                        className={`border p-2 h-11 rounded w-full pr-12 text-gray-600 ${!isEditable ? 'bg-gray-100' : ''}`} // Same height for input and disabled style
                     />
                 )}
                 <button

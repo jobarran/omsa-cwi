@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { User } from "@/interfaces";
 import { updateUserData } from "@/actions";
-import { AdminProfileInputs } from "..";
+import { AdminProfileInputs, PasswordModal } from "..";
 import { compressImage } from "@/utils";
 import { updateImage } from "@/actions/user/update-image";
 
@@ -25,6 +25,7 @@ export const AdminProfileEdit = ({ user }: Props) => {
         image: false,
     });
 
+    const [isPasswordModalOpen, setIsPasswordModalOpen] = useState<Boolean>(false)
     const [file, setFile] = useState<File | null>(null); // State for handling file upload
     const [currentValues, setCurrentValues] = useState<{ [key in EditableField]: string }>({
         name: user.name,
@@ -33,7 +34,7 @@ export const AdminProfileEdit = ({ user }: Props) => {
         category: user.category,
         status: user.status,
         company: user.company,
-        password: "", // Assuming password is being handled separately
+        password: "********",
         image: "",
     });
 
@@ -84,6 +85,14 @@ export const AdminProfileEdit = ({ user }: Props) => {
 
     };
 
+        const openModal = () => {
+            setIsPasswordModalOpen(true);
+        };
+    
+        const closeModal = () => {
+            setIsPasswordModalOpen(false);
+        };
+
     return (
         <div>
             <h2 className="text-xl font-semibold mb-4 text-gray-800">Editar</h2>
@@ -99,7 +108,7 @@ export const AdminProfileEdit = ({ user }: Props) => {
                                 type="text"
                                 value={user.legajo}
                                 disabled={true}
-                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100 cursor-not-allowed`}
+                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100 text-gray-600`}
                             />
                         </div>
                     </div>
@@ -157,10 +166,10 @@ export const AdminProfileEdit = ({ user }: Props) => {
                         field="password"
                         label="Contraseña"
                         currentValue={currentValues.password}
-                        handleChange={handleChange}
+                        handleChange={()=>{}}
                         editableFields={editableFields}
-                        handleSaveClick={handleSaveClick}
-                        handleEditClick={handleEditClick}
+                        handleSaveClick={()=>{}}
+                        handleEditClick={()=>setIsPasswordModalOpen(true)}
                     />
                 </div>
 
@@ -185,7 +194,7 @@ export const AdminProfileEdit = ({ user }: Props) => {
                                 type="text"
                                 value={user.email}
                                 disabled={true}
-                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100 cursor-not-allowed`}
+                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100 text-gray-600 cursor-default`}
                             />
                         </div>
                     </div>
@@ -214,22 +223,25 @@ export const AdminProfileEdit = ({ user }: Props) => {
                             id="image"
                             accept="image/png, image/jpeg"
                             onChange={handleFileChange}
-                            className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 disabled:opacity-50 disabled:pointer-events-none file:bg-gray-50 file:border-0 file:me-4 file:py-3 file:px-4"
+                            className="block w-full border border-gray-200 text-gray-600 shadow-sm rounded-lg text-sm focus:z-10 disabled:opacity-50 disabled:pointer-events-none file:bg-gray-50 file:border-0 file:me-4 file:py-3 file:px-4"
                         />
                         <button
                             type="button"
                             disabled={!file}
                             onClick={() => handleFileUpload(user.id, "image", "")}
-                            className={`flex items-center justify-center px-4 py-3 ${file ? "bg-sky-600 text-white" : "bg-gray-200 text-black" }  rounded-md text-sm whitespace-nowrap`}
+                            className={`flex items-center justify-center px-4 py-3 ${file ? "bg-sky-600 text-white" : "bg-gray-200 text-black"}  rounded-md text-sm whitespace-nowrap`}
                         >
                             Subir Imagen
                         </button>
                     </div>
                 </div>
-
-
-
             </form>
+            {isPasswordModalOpen && (
+                <PasswordModal
+                    userId={user.id}
+                    closeModal={closeModal}
+                />
+            )}
         </div>
     );
 };

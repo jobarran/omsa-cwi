@@ -40,7 +40,7 @@ export const TopMenu = ({ user }: Props) => {
           {/* User Avatar */}
           <Avatar
             initials={user.name[0]! + user.lastName[0]! || ''}
-            id={user.id || ''}
+            legajo={user.legajo || ''}
             image={ undefined}
             logout={logout}
           />

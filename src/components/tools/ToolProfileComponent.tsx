@@ -50,12 +50,12 @@ export const ToolsProfileComponent = ({ tool, categories, projects }: Props) => 
     };
 
     return (
-        <div className="container mx-auto px-4 py-4 md:py-8 bg-white rounded-lg border">
+        <div className="container mx-auto px-4 py-4 bg-white rounded-lg border">
             <div className="flex flex-col md:flex-row">
                 {/* Image Section */}
                 <div className="w-full md:w-2/5 flex justify-center">
                     {tool.image[0]?.url && (
-                        <div className="hidden md:block w-72 h-72 overflow-hidden rounded-lg">
+                        <div className="hidden md:block w-72 h-72 overflow-hidden rounded-lg mr-4">
                             <TableImage
                                 src={tool.image[0]?.url}
                                 alt={tool.name}

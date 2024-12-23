@@ -80,7 +80,7 @@ function LoginButton() {
             type="submit"
             className={clsx({
                 "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full w-full": !pending,
-                "cursor-not-allowed opacity-50": pending
+                "opacity-50": pending
             })}
             disabled={pending}
         >

@@ -23,12 +23,12 @@ export const ProjectProfileComponent = ({ project, managerUsers }: Props) => {
     const workers = project.users.filter((user) => user.role === "WORKER");
 
     return (
-        <div className="container mx-auto px-4 py-4 md:py-6 bg-white rounded-lg border">
+        <div className="container mx-auto px-4 py-4 bg-white rounded-lg border">
             <div className="flex flex-col md:flex-row">
                 {/* Image Section */}
                 <div className="flex pr-4">
                     {project.image[0]?.url && (
-                        <div className="hidden md:block w-72 h-72 overflow-hidden rounded-lg">
+                        <div className="hidden md:block w-72 h-72 overflow-hidden rounded-lg mr-4">
                             <TableImage
                                 src={project.image[0]?.url}
                                 alt={project.name}

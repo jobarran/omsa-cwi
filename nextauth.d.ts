@@ -12,6 +12,7 @@ declare module 'next-auth' {
             role: UserRole;
             permissions: UserPermission[]; // Change this to an array
             createdAt: Date;
+            legajo: string;
         } & DefaultSession['user']
     }
 }

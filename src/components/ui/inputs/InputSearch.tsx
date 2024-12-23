@@ -25,7 +25,7 @@ export const InputSearch = ({ onSearch, resetSearchTerm, searchTerm, setSearchTe
                 type="text"
                 value={searchTerm}
                 onChange={handleInputChange}
-                placeholder="Nombre de equipo o código"
+                placeholder="Buscar..."
                 className="w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 text-sm outline-none"
             />
             {searchTerm && (

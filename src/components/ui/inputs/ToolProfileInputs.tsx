@@ -36,7 +36,7 @@ export const ToolProfileInput = ({
                         onChange={(e) => handleChange(field, e.target.value)}
                         disabled={!isEditable}
                         rows={3}
-                        className={`border p-2 rounded w-full pr-12 resize-none ${!isEditable ? "bg-gray-100 cursor-not-allowed" : ""
+                        className={`border p-2 rounded w-full pr-12 resize-none text-gray-600 ${!isEditable ? "bg-gray-100" : ""
                             }`}
                     />
                 ) : options.length > 0 ? (
@@ -44,7 +44,7 @@ export const ToolProfileInput = ({
                         value={currentValue}
                         onChange={(e) => handleChange(field, e.target.value)}
                         disabled={!isEditable}
-                        className={`appearance-none border p-2 h-11 rounded w-full pr-12 ${!isEditable ? "bg-gray-100 cursor-not-allowed" : ""
+                        className={`appearance-none border p-2 h-11 rounded w-full text-gray-600 pr-12 ${!isEditable ? "bg-gray-100" : ""
                             }`} // Removed default arrow
                     >
                         {options.map((option) => (
@@ -59,7 +59,7 @@ export const ToolProfileInput = ({
                         value={currentValue}
                         onChange={(e) => handleChange(field, e.target.value)}
                         disabled={!isEditable}
-                        className={`border p-2 h-11 rounded w-full pr-12 ${!isEditable ? "bg-gray-100 cursor-not-allowed" : ""
+                        className={`border p-2 h-11 rounded w-full pr-12 text-gray-600 ${!isEditable ? "bg-gray-100" : ""
                             }`} // Same height for input and disabled style
                     />
                 )}

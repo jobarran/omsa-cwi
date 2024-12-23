@@ -28,7 +28,7 @@ export const DatePickerInput = ({ currentValue, editableFields, handleChange, ha
                     onChange={(date) => handleChange('boughtAt', date ? date.toISOString().split('T')[0] : '')}
                     dateFormat="yyyy-MM-dd"
                     disabled={!editableFields.boughtAt}
-                    className={`border p-2 h-11 rounded pr-56 md:pr-12 w-full  ${!editableFields.boughtAt ? "bg-gray-100 cursor-not-allowed" : ""}`}
+                    className={`border p-2 h-11 rounded pr-56 md:pr-12 w-full  ${!editableFields.boughtAt ? "bg-gray-100" : ""}`}
                     locale={es} // Set Spanish locale here
 
                 />

@@ -36,7 +36,7 @@ export const ProjectProfileInputs = ({
                         value={currentValue}
                         onChange={(e) => handleChange(field, e.target.value)}
                         disabled={!isEditable}
-                        className={`appearance-none border p-2 h-11 rounded w-full pr-12 ${!isEditable ? "bg-gray-100 cursor-not-allowed" : ""
+                        className={`appearance-none border p-2 h-11 rounded w-full pr-12 ${!isEditable ? "bg-gray-100" : ""
                             }`} // Removed default arrow
                     >
                         {options.map((option) => (
@@ -51,7 +51,7 @@ export const ProjectProfileInputs = ({
                         value={currentValue}
                         onChange={(e) => handleChange(field, e.target.value)}
                         disabled={!isEditable}
-                        className={`border p-2 h-11 rounded w-full pr-12 ${!isEditable ? 'bg-gray-100 cursor-not-allowed' : ''}`} // Same height for input and disabled style
+                        className={`border p-2 h-11 rounded w-full pr-12 ${!isEditable ? 'bg-gray-100' : ''}`} // Same height for input and disabled style
                     />
                 )}
                 <button

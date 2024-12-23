@@ -71,6 +71,7 @@ export interface SessionUser {
   email: string;
   role: PrismaUserRole;
   createdAt: Date;
+  legajo: string;
 }
 
 export interface UserRoleData {

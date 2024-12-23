@@ -99,7 +99,7 @@ export const WorkerProfileEdit = ({ user }: Props) => {
                                 type="text"
                                 value={user.legajo}
                                 disabled={true}
-                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100 cursor-not-allowed`}
+                                className={`border p-2 h-11 rounded w-full pr-12 bg-gray-100 text-gray-600`}
                             />
                         </div>
                     </div>
@@ -193,7 +193,7 @@ export const WorkerProfileEdit = ({ user }: Props) => {
                             id="image"
                             accept="image/png, image/jpeg"
                             onChange={handleFileChange}
-                            className="block w-full border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 disabled:opacity-50 disabled:pointer-events-none file:bg-gray-50 file:border-0 file:me-4 file:py-3 file:px-4"
+                            className="block w-full border border-gray-200 text-gray-600 shadow-sm rounded-lg text-sm focus:z-10 disabled:opacity-50 disabled:pointer-events-none file:bg-gray-50 file:border-0 file:me-4 file:py-3 file:px-4"
                         />
                         <button
                             type="button"

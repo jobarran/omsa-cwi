@@ -36,7 +36,7 @@ export const RegisterUserForm = () => {
       lastName: "",
       email: "",
       phone: "",
-      password: "123456",
+      password: "",
       role: "PROJECT_MANAGER",
       image: null,
       permissions: [],
