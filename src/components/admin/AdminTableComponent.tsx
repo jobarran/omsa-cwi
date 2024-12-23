@@ -7,6 +7,8 @@ import { User, UserRoleData } from "@/interfaces";
 import { useWorkerFilter } from "@/hooks/useWorkersFilter";
 import { useState } from "react";
 import { ClearFilterButton } from "../ui/buttons/ClearFilterButton";
+import { FaPlus } from "react-icons/fa6";
+import Link from "next/link";
 
 interface Props {
     users: User[];
@@ -27,15 +29,13 @@ export const AdminTableComponent = ({ users, projects, userRoleData }: Props) =>
 
     const handleSearch = (term: string) => {
         setSearchTerm(term);
-        handleFilterChange("search", term || null); // Update the search filter
+        handleFilterChange("search", term || null);
     };
 
     return (
         <div className="flex flex-col w-full">
-
-            <div className="flex flex-row items-center gap-2 pb-4">
+            <div className="flex flex-row items-center gap-2 pb-2">
                 <div className="flex-grow">
-
                     <InputSearch
                         searchTerm={searchTerm}
                         setSearchTerm={setSearchTerm}
@@ -43,11 +43,15 @@ export const AdminTableComponent = ({ users, projects, userRoleData }: Props) =>
                         resetSearchTerm={() => handleFilterChange("search", null)}
                     />
                 </div>
-                <div className="hidden sm:flex">
-                    <ClearFilterButton label="Borrar filtros" action={resetFilters} isFiltering={isFiltering} />
 
-                </div>
-                <LinkButtonBig label={"Agregar"} link={"/admin/new/user"} />
+                <ClearFilterButton label="Borrar filtros" action={resetFilters} isFiltering={isFiltering} />
+
+                <Link
+                    href={"/admin/new/user"}
+                    className="flex flex-row px-2 h-8 items-center rounded-lg border bg-sky-800 text-white text-sm font-medium hover:bg-sky-900 transition">
+                    <p className="hidden sm:flex">+ Usuario</p>
+                    <FaPlus className="sm:hidden text-base" />
+                </Link>
             </div>
 
             <AdminTable
@@ -56,5 +60,6 @@ export const AdminTableComponent = ({ users, projects, userRoleData }: Props) =>
                 userRoleData={userRoleData}
             />
         </div>
+
     );
 };

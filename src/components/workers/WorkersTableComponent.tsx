@@ -38,7 +38,7 @@ export const WorkersTableComponent = ({ workers, projects }: Props) => {
 
     return (
         <div className="flex flex-col w-full">
-            <div className="pt-2 pb-2">
+            <div className="pb-2">
                 <div className="flex flex-row items-center gap-2 pb-2">
                     <div className="flex-grow">
 

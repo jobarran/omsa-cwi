@@ -29,10 +29,10 @@ export default async function AdminPage() {
     // Pass both userRoleData and session.user to AdminTableComponent
     return (
         <div className="flex flex-col items-center justify-between space-y-4">
-\            <AdminTableComponent
+            <AdminTableComponent
                 users={adminUsers}
                 projects={projects}
-                userRoleData={userRoleData}  
+                userRoleData={userRoleData}
             />
         </div>
     );
