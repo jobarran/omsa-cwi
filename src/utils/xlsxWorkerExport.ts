@@ -13,8 +13,10 @@ export const xlsxWorkerExport = ({ filteredWorkers, selectedProject, selectedSta
     const exportData = filteredWorkers.map((worker) => {
 
         // If worker's projects exists, map and join them
-        const workerProjects = worker.projects ? worker.projects.map((project) => project.code).join(", ") : "";
-
+        const workerProjects = worker.projects
+        ? worker.projects.map((project: { code: string }) => project.code).join(", ")
+        : "";
+    
         return {
             "Legajo": worker.legajo,
             "Nombre": `${worker.name} ${worker.lastName}`,  // Full name of the worker

@@ -1,8 +1,7 @@
-import { getUserByLegajo, getUsersByRole } from "@/actions";
+import { getUsersByRole } from "@/actions";
 import { getProjectByCode } from "@/actions/project/get-project-by-code";
-import { getAllUsers } from "@/actions/user/get-all-users";
 import { auth } from "@/auth.config";
-import { AdminProfileComponent, ProjectProfileComponent, WorkerProfileComponent } from "@/components";
+import { ProjectProfileComponent } from "@/components";
 import { UserRole } from "@prisma/client";
 import { redirect } from "next/navigation";
 

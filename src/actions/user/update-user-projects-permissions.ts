@@ -4,8 +4,13 @@ import prisma from "@/lib/prisma"; // Your Prisma client instance
 import { revalidatePath } from "next/cache";
 import { createNewRecord, getProjectNamesByIds } from "..";
 import { RecordObject, RecordType } from "@prisma/client";
+import { auth } from "@/auth.config";
 
 export async function updateUserProjectsPermissions(field: string, userId: string, value: string | string[]) {
+
+    // Authenticate user
+    const session = await auth();
+
     try {
         const updateData: Record<string, any> = {};
 
@@ -52,7 +57,7 @@ export async function updateUserProjectsPermissions(field: string, userId: strin
                 recordObject: RecordObject.USER,
                 recordTargetId: updatedUser.legajo,
                 recordTargetName: updatedUser.name + " " + updatedUser.lastName,
-                userId: userId,
+                userId: session?.user.id ?? '',
                 details: details
             });
         }
