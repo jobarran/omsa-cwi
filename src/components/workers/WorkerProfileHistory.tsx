@@ -2,6 +2,8 @@
 
 import { Record } from "@/interfaces/record.interface";
 import RecordList from "../record/RecordList";
+import { Pagination } from "..";
+import { usePagination } from "@/hooks/usePagination";
 
 interface Props {
     records: Record[]
@@ -9,7 +11,20 @@ interface Props {
 
 export const WorkerProfileHistory = ({ records }: Props) => {
 
+    const { currentPage, totalPages, displayedItems, handlePageChange } = usePagination(records, 7);
+
     return (
-        <RecordList records={records} />
+        <>
+            <RecordList records={displayedItems} />
+
+            {/* Conditionally render pagination */}
+            {displayedItems.length > 7 && (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            )}
+        </>
     );
 };

@@ -3,6 +3,8 @@
 import { Tool } from "@/interfaces/tool.interface";
 import RecordList from "../record/RecordList";
 import { Record } from "@/interfaces/record.interface";
+import { usePagination } from "@/hooks/usePagination";
+import { Pagination } from "..";
 
 interface Props {
     records: Record[]
@@ -10,7 +12,20 @@ interface Props {
 
 export const ToolsProfileHistory = ({ records }: Props) => {
 
+    const { currentPage, totalPages, displayedItems, handlePageChange } = usePagination(records, 7);
+
     return (
-        <RecordList records={records} />
+        <>
+            <RecordList records={displayedItems} />
+
+            {/* Conditionally render pagination */}
+            {displayedItems.length > 7 && (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            )}
+        </>
     );
 };

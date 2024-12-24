@@ -4,12 +4,15 @@ import { Record } from "@/interfaces/record.interface";
 import RecordList from "./RecordList";
 import { useRecordFilter } from "@/hooks/useRecordFilter";
 import { RecordFilter } from "./RecordFilter";
+import { Pagination } from "../ui/table/Pagination";
+import { usePagination } from "@/hooks/usePagination";
 
 interface Props {
   records: Record[];
 }
 
 export const RecordComponent = ({ records }: Props) => {
+
   const {
     searchTerm,
     setSearchTerm,
@@ -21,6 +24,8 @@ export const RecordComponent = ({ records }: Props) => {
     setSelectedType,
     filteredRecords,
   } = useRecordFilter(records);
+
+  const { currentPage, totalPages, displayedItems, handlePageChange } = usePagination(filteredRecords, 10);
 
   return (
     <div className="w-full">
@@ -37,7 +42,17 @@ export const RecordComponent = ({ records }: Props) => {
       />
 
       {/* Filtered Record List */}
-      <RecordList records={filteredRecords} />
+      <RecordList records={displayedItems} />
+
+      {/* Conditionally render pagination */}
+      {displayedItems.length > 10 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
+
     </div>
   );
 };
