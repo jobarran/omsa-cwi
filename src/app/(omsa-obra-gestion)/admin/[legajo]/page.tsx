@@ -1,4 +1,4 @@
-import { getUserByLegajo } from "@/actions";
+import { getRecordsByUser, getUserByLegajo } from "@/actions";
 import { auth } from "@/auth.config";
 import { AdminProfileComponent } from "@/components";
 import { redirect } from "next/navigation";
@@ -27,9 +27,11 @@ export default async function AdminByLegajoPage({ params }: Props) {
         redirect('/admin')
     }
 
+    const records = await getRecordsByUser(user.id)
+
     return (
         <div className="flex flex-col items-center justify-between space-y-4">
-            <AdminProfileComponent user={user} />
+            <AdminProfileComponent user={user} records={records} />
         </div>
     );
 }   

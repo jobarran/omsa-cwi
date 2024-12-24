@@ -10,8 +10,9 @@ export const getTitleAndDetail = (record: Record) => {
             detail: {
                 firstText: `Comentario creado para el equipo `,
                 name: record.recordTargetName,
-                secondText: `id: `,
+                secondText: `id`,
                 code: record.recordTargetId,
+                link: `/tools/${record.recordTargetId}`
             },
         },
         // COMMENT_ADDED for PROJECT
@@ -36,12 +37,12 @@ export const getTitleAndDetail = (record: Record) => {
         },
         // COMMENT_ADDED for WORKER
         [`${RecordType.COMMENT_ADDED}_${RecordObject.WORKER}`]: {
-            title: "Comentario creado para el trabajador",
+            title: "OPERARIO COMENTADO",
             detail: {
                 firstText: `Comentario creado para el trabajador `,
                 name: record.recordTargetName,
-                secondText: ``,
-                code: ``,
+                secondText: `legajo`,
+                code: record.recordTargetId,
             },
         },
         // CREATED for USER
@@ -52,6 +53,7 @@ export const getTitleAndDetail = (record: Record) => {
                 name: record.recordTargetName,
                 secondText: `legajo:`,
                 code: record.recordTargetId,
+                link: `/user/${record.recordTargetId}`
             },
         },
         // CREATED for WORKER
@@ -62,6 +64,7 @@ export const getTitleAndDetail = (record: Record) => {
                 name: record.recordTargetName,
                 secondText: `legajo:`,
                 code: record.recordTargetId,
+                link: `/workers/${record.recordTargetId}`
             },
         },
         // UPDATED for USER
@@ -122,6 +125,7 @@ export const getTitleAndDetail = (record: Record) => {
                 name: record.recordTargetName,
                 secondText: `id`,
                 code: record.recordTargetId,
+                link: `/tools/${record.recordTargetId}`
             },
         },
         [`${RecordType.UPDATED}_${RecordObject.TOOL}`]: {

@@ -1,4 +1,4 @@
-import { getToolByCode, getToolCategories } from "@/actions";
+import { getRecordsByObject, getToolByCode, getToolCategories } from "@/actions";
 import { getAllProjects } from "@/actions/project/get-all-projects";
 import { SectionTitle, ToolsProfileComponent } from "@/components";
 import { redirect } from "next/navigation";
@@ -22,9 +22,11 @@ export default async function ToolByIdPage({ params }: Props) {
         redirect('/tools')
     }
 
+    const records = await getRecordsByObject(tool?.code)
+
     return (
         <div className="flex flex-col items-center justify-between space-y-4">
-            <ToolsProfileComponent tool={tool} projects={projects} categories={toolCategories} />
+            <ToolsProfileComponent tool={tool} projects={projects} categories={toolCategories} records={records} />
         </div>
     );
 }   

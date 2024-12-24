@@ -47,10 +47,12 @@ model Comment {
   createdAt DateTime @default(now())
 
   // Relations - Up
-  user   User    @relation(fields: [userId], references: [id])
-  userId String
-  tool   Tool?   @relation(fields: [toolId], references: [id])
-  toolId String?
+  user            User    @relation(fields: [userId], references: [id])
+  userId          String
+  tool            Tool?   @relation(fields: [toolId], references: [id])
+  toolId          String?
+  commentedUser   User?   @relation("UserComments", fields: [commentedUserId], references: [id])
+  commentedUserId String?
 }
 
 model Project {
@@ -93,14 +95,15 @@ model User {
   category  UserCategory @default(N_A)
 
   // Relations - Down
-  role        UserRole         @default(PROJECT_MANAGER)
-  permissions UserPermission[] // Array of enum values
-  actions     Record[]
-  comments    Comment[]
-  projects    Project[]        @relation("UserProjects")
-  tools       Tool[]
-  image       UserImage[]
-  workerSkill WorkerSkill[]
+  role             UserRole         @default(PROJECT_MANAGER)
+  permissions      UserPermission[] // Array of enum values
+  actions          Record[]
+  comments         Comment[]
+  receivedComments Comment[]        @relation("UserComments") // Comments received by this user
+  projects         Project[]        @relation("UserProjects")
+  tools            Tool[]
+  image            UserImage[]
+  workerSkill      WorkerSkill[]
 }
 
 model WorkerSkill {

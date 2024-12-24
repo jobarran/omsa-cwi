@@ -1,24 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TableImage, WorkerProfileComments, WorkerProfileEdit, WorkerProfileHistory } from "..";
 import { User } from "@/interfaces";
 import { Project } from "@/interfaces/project.interface";
+import { Record } from "@/interfaces/record.interface";
+import { toolRagting } from "@/utils";
+import { createNewComment, createNewWorkerComment } from "@/actions";
 
 interface Props {
     user: User;
+    records: Record[]
 }
 
-export const WorkerProfileComponent = ({ user }: Props) => {
+export const WorkerProfileComponent = ({ user, records }: Props) => {
 
-    const [activeTab, setActiveTab] = useState("Historial");
+    const [activeTab, setActiveTab] = useState("Registros");
+    const [activeUser, setActiveUser] = useState<User>(user);
+    const [rating, setRating] = useState<number | null>(null); // State to hold the average rating
+
+    useEffect(() => {
+        const avgRating = toolRagting(user.receivedComments); // Assuming tool has a comments array
+        setRating(avgRating);
+    }, [user]);
+
+    const handleAddComment = async (comment: string, rating: number | null) => {
+        try {
+            await createNewWorkerComment({
+                content: comment,
+                rating,
+                workerLegajo: activeUser.legajo,
+            });
+        } catch (error) {
+            console.error("Error adding comment:", error);
+        }
+    };
 
     const renderContent = () => {
         switch (activeTab) {
-            case "Historial":
-                return <WorkerProfileHistory user={user} />;
+            case "Registros":
+                return <WorkerProfileHistory records={records} />;
             case "Comentarios":
-                return <WorkerProfileComments user={user} />;
+                return <WorkerProfileComments user={user} onAddComment={handleAddComment} />;
             case "Editar":
                 return <WorkerProfileEdit user={user} />;
             default:
@@ -99,7 +122,7 @@ export const WorkerProfileComponent = ({ user }: Props) => {
             {/* Menu */}
             <div className="mt-8">
                 <div className="flex border-b">
-                    {["Historial", "Comentarios", "Editar"].map((tab) => (
+                    {["Registros", "Comentarios", "Editar"].map((tab) => (
                         <button
                             key={tab}
                             className={`px-4 py-2 -mb-px font-semibold ${activeTab === tab ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-500"}`}

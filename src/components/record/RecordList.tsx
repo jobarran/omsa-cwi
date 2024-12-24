@@ -11,11 +11,8 @@ interface Props {
 }
 
 const RecordList = ({ records }: Props) => {
-  const [loading, setLoading] = useState(false);
 
-  if (loading) {
-    return <div className="text-center py-10">Loading records...</div>;
-  }
+  console.log(records)
 
   if (!records.length) {
     return (
@@ -28,6 +25,13 @@ const RecordList = ({ records }: Props) => {
       <div className="flex flex-col gap-2">
         {records.map((record) => {
           const { title, detail } = getTitleAndDetail(record); // Get title and detail for each record
+
+          const sectionLink =
+            record.recordObject === "USER" ? "admin" :
+              record.recordObject === "WORKER" ? "workers" :
+                record.recordObject === "TOOL" ? "tools" :
+                  record.recordObject === "PROJECT" ? "projects" :
+                    null;
 
           const leftBorderColor = {
             [RecordObject.TOOL]: "border-l-blue-500",
@@ -43,15 +47,18 @@ const RecordList = ({ records }: Props) => {
             >
               <div className="flex flex-col gap-1 md:gap-2">
                 {record.user && (
-                  <div className="flex flex-col md:flex-row md:space-x-2">
+                  <div className="flex flex-row justify-between">
                     <p className="text-xs md:text-sm font-semibold whitespace-nowrap">
                       {title} {/* Render title */}
                     </p>
-                    <div className="flex flex-row space-x-2">
-                      <p className="text-xs md:text-sm text-gray-500">
+                    <div className="flex flex-row space-x-1">
+                      <p className="hidden md:inline text-sm text-gray-500">
                         {record.user.name} {record.user.lastName}
                       </p>
-                      <p className="italic text-xs md:text-sm text-gray-500 hidden md:inline">-</p>
+                      <p className="text-xs md:hidden text-gray-500">
+                        {record.user.name[0]} {record.user.lastName}
+                      </p>
+                      <p className="italic text-xs md:text-sm text-gray-500 inline">-</p>
                       <p className="italic text-xs md:text-sm text-gray-500">
                         {new Date(record.createdAt).toLocaleDateString("es-ES")}
                       </p>
@@ -61,7 +68,7 @@ const RecordList = ({ records }: Props) => {
                 <div className="flex items-center md:space-x-1">
                   <p className="hidden md:block text-sm text-gray-600">{detail.firstText}</p>
                   <Link
-                    href={`/tools/${record.recordTargetId}`}
+                    href={`/${sectionLink}/${record.recordTargetId}`}
                   >
                     <p className="text-xs md:text-sm text-blue-500 hover:text-blue-700 font-medium ">
                       {detail.name}
@@ -69,7 +76,7 @@ const RecordList = ({ records }: Props) => {
                   </Link>
                   <p className="text-xs md:text-sm px-1 md:px-0 text-gray-600">{detail.secondText}</p>
                   <Link
-                    href={`/tools/${record.recordTargetId}`}
+                    href={`/${sectionLink}/${record.recordTargetId}`}
                   >
                     <p className="text-xs md:text-sm text-blue-500 hover:text-blue-700 font-medium ">
                       {detail.code}

@@ -10,6 +10,20 @@ export const getUserByLegajo = async (legajo: string): Promise<User | null> => {
             include: {
                 image: true, // Include related user images
                 workerSkill: true, // Include related worker skills
+                receivedComments: {
+                    select: {
+                        id: true,
+                        content: true,
+                        rating: true,
+                        createdAt: true, // Add createdAt
+                        user: {
+                            select: {
+                                name: true, // Add user with name
+                                lastName: true,
+                            }
+                        }
+                    }
+                },
             },
         });
 

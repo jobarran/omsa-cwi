@@ -9,13 +9,13 @@ import { createNewRecord } from "../record/create-new-record";
 interface NewCommentProps {
     content: string;
     rating: number | null;
-    toolId: string;
+    workerLegajo: string;
 }
 
-export const createNewComment = async ({ content, rating, toolId }: NewCommentProps) => {
+export const createNewWorkerComment = async ({ content, rating, workerLegajo }: NewCommentProps) => {
     try {
         // Validate inputs
-        if (!content.trim() || !toolId) {
+        if (!content.trim() || !workerLegajo) {
             throw new Error("Content and Tool ID are required.");
         }
 
@@ -27,34 +27,35 @@ export const createNewComment = async ({ content, rating, toolId }: NewCommentPr
 
         const userId = session.user.id;
 
-        const tool = await prisma.tool.findUnique({
-            where: { id: toolId },
-            select: { name: true, code: true, brand: true },
+        const user = await prisma.user.findUnique({
+            where: { legajo: workerLegajo },
+            select: { name: true, lastName: true, id: true },
         });
 
-        if (!tool) {
-            throw new Error("Tool not found.");
+        if (!user) {
+            throw new Error("Worker not found.");
         }
 
         const newComment = await prisma.comment.create({
             data: {
                 content: content.trim(),
                 rating,
-                toolId,
                 userId,
+                commentedUserId: user.id,
+
             },
         });
 
         await createNewRecord({
             type: RecordType.COMMENT_ADDED,
-            recordObject: RecordObject.TOOL,
-            recordTargetId: tool.code,
-            recordTargetName: tool.name + " " + tool.brand,
+            recordObject: RecordObject.WORKER,
+            recordTargetId: workerLegajo,
+            recordTargetName: user.name + " " + user.lastName,
             userId,
         });
 
         // Revalidate the page to show the new comment
-        revalidatePath(`/tool/${toolId}`);
+        revalidatePath(`/workers/${workerLegajo}`);
     } catch (error) {
         console.error("Error creating new comment:", error);
         throw new Error("Failed to create a new comment. Please try again.");

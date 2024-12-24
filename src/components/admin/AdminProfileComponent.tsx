@@ -4,21 +4,21 @@ import { useState } from "react";
 import { AdminProfileComments, AdminProfileEdit, AdminProfileHistory, TableImage } from "..";
 import { User } from "@/interfaces";
 import { Project } from "@/interfaces/project.interface";
+import { Record } from "@/interfaces/record.interface";
 
 interface Props {
     user: User;
+    records: Record[]
 }
 
-export const AdminProfileComponent = ({ user }: Props) => {
+export const AdminProfileComponent = ({ user, records }: Props) => {
 
-    const [activeTab, setActiveTab] = useState("Historial");
+    const [activeTab, setActiveTab] = useState("Registros");
 
     const renderContent = () => {
         switch (activeTab) {
-            case "Historial":
-                return <AdminProfileHistory user={user} />;
-            case "Comentarios":
-                return <AdminProfileComments user={user} />;
+            case "Registros":
+                return <AdminProfileHistory records={records} />;
             case "Editar":
                 return <AdminProfileEdit user={user} />;
             default:
@@ -99,7 +99,7 @@ export const AdminProfileComponent = ({ user }: Props) => {
             {/* Menu */}
             <div className="mt-8">
                 <div className="flex border-b">
-                    {["Historial", "Comentarios", "Editar"].map((tab) => (
+                    {["Registros", "Editar"].map((tab) => (
                         <button
                             key={tab}
                             className={`px-4 py-2 -mb-px font-semibold ${activeTab === tab ? "border-b-2 border-blue-500 text-blue-500" : "text-gray-500"}`}

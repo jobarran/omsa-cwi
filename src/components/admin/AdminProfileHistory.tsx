@@ -1,19 +1,16 @@
 "use client";
 
 import { User } from "@/interfaces";
+import { Record } from "@/interfaces/record.interface";
+import RecordList from "../record/RecordList";
 
 interface Props {
-    user: User
+    records: Record[]
 }
 
-export const AdminProfileHistory = ({ user }: Props) => {
+export const AdminProfileHistory = ({ records }: Props) => {
 
     return (
-        <div>
-            <h2 className="text-xl font-semibold mb-4 text-gray-800">Historial</h2>
-            <p className="text-gray-700">Aquí puedes editar la información de la herramienta.</p>
-            {user.name}
-            {/* Add edit form here */}
-        </div>
+        <RecordList records={records} />
     );
 };

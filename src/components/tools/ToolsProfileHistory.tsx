@@ -1,19 +1,16 @@
 "use client";
 
 import { Tool } from "@/interfaces/tool.interface";
+import RecordList from "../record/RecordList";
+import { Record } from "@/interfaces/record.interface";
 
 interface Props {
-    tool: Tool
+    records: Record[]
 }
 
-export const ToolsProfileHistory = ({ tool }: Props) => {
+export const ToolsProfileHistory = ({ records }: Props) => {
 
     return (
-        <div>
-            <h2 className="text-xl font-semibold mb-4 text-gray-800">Historial</h2>
-            <p className="text-gray-700">Aquí puedes editar la información de la herramienta.</p>
-            {tool.name}
-            {/* Add edit form here */}
-        </div>
+        <RecordList records={records} />
     );
 };

@@ -68,7 +68,9 @@ export const WorkerTable = ({ workers, projects }: Props) => {
                                 <tr key={worker.id} className="bg-white border-b hover:bg-gray-50">
                                     <td className="px-6 py-4 text-center">{index + 1}</td>
                                     <td className="px-6 py-4 text-center">{worker.legajo || "N/A"}</td>
-                                    <td className="px-6 py-4 text-center">{worker.lastName}, {worker.name}</td>
+                                    <td className="px-6 py-4 text-center whitespace-nowrap">
+                                        {worker.lastName}, {worker.name}
+                                    </td>
                                     <td className="px-6 py-4 text-center">{transcribeCategory(worker.category)}</td>
                                     <td className="px-4 py-2 text-center">
                                         <div className="flex items-center justify-center">

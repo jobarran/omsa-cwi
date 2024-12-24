@@ -6,16 +6,18 @@ import { RenderStars, TableImage, ToolsProfileComments, ToolsProfileEdit, ToolsP
 import { createNewComment } from "@/actions";
 import { toolRagting } from "@/utils";
 import { ProjectData } from "@/interfaces/project.interface";
+import { Record } from "@/interfaces/record.interface";
 
 interface Props {
     tool: Tool;
     categories: ToolCategory[] | null;
     projects: ProjectData[]
+    records: Record[]
 }
 
-export const ToolsProfileComponent = ({ tool, categories, projects }: Props) => {
+export const ToolsProfileComponent = ({ tool, categories, projects, records }: Props) => {
 
-    const [activeTab, setActiveTab] = useState("Historial");
+    const [activeTab, setActiveTab] = useState("Registros");
     const [activeTool, setActiveTool] = useState<Tool>(tool);
     const [rating, setRating] = useState<number | null>(null); // State to hold the average rating
 
@@ -38,8 +40,8 @@ export const ToolsProfileComponent = ({ tool, categories, projects }: Props) => 
 
     const renderContent = () => {
         switch (activeTab) {
-            case "Historial":
-                return <ToolsProfileHistory tool={tool} />;
+            case "Registros":
+                return <ToolsProfileHistory records={records} />;
             case "Comentarios":
                 return <ToolsProfileComments tool={tool} onAddComment={handleAddComment} />;
             case "Editar":
@@ -129,7 +131,7 @@ export const ToolsProfileComponent = ({ tool, categories, projects }: Props) => 
             <div className="mt-8">
                 <div className="flex border-b">
                     {[
-                        { label: "Historial", id: "Historial" },
+                        { label: "Registros", id: "Registros" },
                         { label: "Comentarios", id: "Comentarios" },
                         { label: "Editar", id: "Editar" },
                     ].map((tab) => (

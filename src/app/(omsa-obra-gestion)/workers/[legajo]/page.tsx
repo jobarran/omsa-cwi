@@ -1,4 +1,4 @@
-import { getUserByLegajo } from "@/actions";
+import { getRecordsByObject, getUserByLegajo } from "@/actions";
 import { auth } from "@/auth.config";
 import { AdminProfileComponent, WorkerProfileComponent } from "@/components";
 import { redirect } from "next/navigation";
@@ -22,13 +22,17 @@ export default async function WorkerByLegajoPage({ params }: Props) {
     const { legajo } = params;
     const user = await getUserByLegajo(legajo)
 
+    console.log(user)
+
     if (user === null) {
         redirect('/workers')
     }
 
+    const records = await getRecordsByObject(user.legajo)
+
     return (
         <div className="flex flex-col items-center justify-between space-y-4">
-            <WorkerProfileComponent user={user} />
+            <WorkerProfileComponent user={user} records={records} />
         </div>
     );
 }   

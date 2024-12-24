@@ -1,3 +1,4 @@
+
 export const toolRagting = (comments: { rating: number | null }[]) => {
 
     const validRatings = comments.filter(comment => comment.rating !== null).map(comment => comment.rating as number);

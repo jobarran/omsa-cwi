@@ -1,7 +1,6 @@
 import { getUsersByRole } from "@/actions";
 import { getAllProjects } from "@/actions/project/get-all-projects";
-import { getAllUsers } from "@/actions/user/get-all-users";
-import { SectionTitle, WorkersTableComponent } from "@/components";
+import { WorkersTableComponent } from "@/components";
 import { UserRole } from "@prisma/client";
 
 export default async function WorkersPage() {
