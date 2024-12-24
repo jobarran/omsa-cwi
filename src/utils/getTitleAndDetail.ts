@@ -47,7 +47,7 @@ export const getTitleAndDetail = (record: Record) => {
         },
         // CREATED for USER
         [`${RecordType.CREATED}_${RecordObject.USER}`]: {
-            title: "USUARIO REGISTRADO",
+            title: "USUARIO CREADO",
             detail: {
                 firstText: `Un nuevo usuario ha sido registrado: `,
                 name: record.recordTargetName,
@@ -58,7 +58,7 @@ export const getTitleAndDetail = (record: Record) => {
         },
         // CREATED for WORKER
         [`${RecordType.CREATED}_${RecordObject.WORKER}`]: {
-            title: "OPERARIO REGISTRADO",
+            title: "OPERARIO CREADO",
             detail: {
                 firstText: `Un nuevo opeario ha sido registrado: `,
                 name: record.recordTargetName,
@@ -119,7 +119,7 @@ export const getTitleAndDetail = (record: Record) => {
         },
         // Default case for any unknown record type or object
         [`${RecordType.CREATED}_${RecordObject.TOOL}`]: {
-            title: "HERRAMIENTA CREADO",
+            title: "HERRAMIENTA CREADA",
             detail: {
                 firstText: `Se ha creado la herramienta `,
                 name: record.recordTargetName,

@@ -47,7 +47,7 @@ const RecordList = ({ records }: Props) => {
                 {record.user && (
                   <div className="flex flex-row justify-between">
                     <p className="text-xs md:text-sm font-semibold whitespace-nowrap">
-                      {title} {/* Render title */}
+                      {title} 
                     </p>
                     <div className="flex flex-row space-x-1">
                       <p className="hidden md:inline text-sm text-gray-500">
