@@ -9,7 +9,7 @@ import { useWorkerFilter } from "@/hooks/useWorkersFilter";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 import { UserPermission } from "@prisma/client";
-import { xlsxToolExport, xlsxWorkerExport } from "@/utils";
+import { xlsxWorkerExport } from "@/utils";
 
 interface Props {
     workers: User[];
@@ -18,22 +18,24 @@ interface Props {
 }
 
 export const WorkersTableComponent = ({ workers, projects, userPermissions }: Props) => {
-
-    // Check if user has permissions
-    if (!userPermissions || !userPermissions.some(permission => ['TOTAL', 'PEOPLE_ADMIN', 'PEOPLE_VIEW'].includes(permission))) {
-        return (
-            <div className="text-center text-gray-600 mt-8">
-                No tienes permisos para ver esta página.
-            </div>
-        );
-    }
-
+    // Always call hooks at the top level
     const { filters, handleFilterChange, restoreFilters, filteredWorkers } = useWorkerFilter(workers);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedProject, setSelectedProject] = useState<string | null>(null);
     const [selectedState, setSelectedState] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
+    // Check if the user has permissions
+    const hasPermissions = userPermissions?.some(permission => ['TOTAL', 'PEOPLE_ADMIN', 'PEOPLE_VIEW'].includes(permission));
+
+    // If no permissions, return early (without affecting hook calls)
+    if (!hasPermissions) {
+        return (
+            <div className="text-center text-gray-600 mt-8">
+                No tienes permisos para ver esta página.
+            </div>
+        );
+    }
 
     const isFiltering = Boolean(filters.search || filters.projectId || filters.status || filters.category);
 
@@ -63,7 +65,6 @@ export const WorkersTableComponent = ({ workers, projects, userPermissions }: Pr
             <div className="pb-2">
                 <div className="flex flex-row items-center gap-2 pb-2">
                     <div className="flex-grow">
-
                         <InputSearch
                             searchTerm={searchTerm}
                             setSearchTerm={setSearchTerm}
