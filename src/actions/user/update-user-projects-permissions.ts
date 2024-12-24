@@ -14,14 +14,21 @@ export async function updateUserProjectsPermissions(field: string, userId: strin
     try {
         const updateData: Record<string, any> = {};
 
-        if (field === "projects" && Array.isArray(value)) {
-            // Sanitize the value to remove undefined or invalid IDs
-            const sanitizedProjectIds = value.filter((projectId) => projectId !== undefined);
+        if (field === "projects") {
+            if (Array.isArray(value)) {
+                // Sanitize the array value to remove undefined or invalid IDs
+                const sanitizedProjectIds = value.filter((projectId) => projectId !== undefined);
 
-            updateData.projects = {
-                set: sanitizedProjectIds.map((projectId) => ({ id: projectId })), // Disconnect all existing and set new associations
-            };
-
+                // Set projects using sanitized array
+                updateData.projects = {
+                    set: sanitizedProjectIds.map((projectId) => ({ id: projectId })), // Disconnect all existing and set new associations
+                };
+            } else {
+                // If it's not an array (single value), handle it as a single project
+                updateData.projects = {
+                    set: [{ id: value }] // Set a single project association
+                };
+            }
         } else if (field === "permissions" && Array.isArray(value)) {
             // Directly update permissions as an array
             updateData.permissions = value;
@@ -38,7 +45,7 @@ export async function updateUserProjectsPermissions(field: string, userId: strin
 
         if (field === 'projects' || field === 'permissions') {
             const recordType = field === "projects" ? RecordType.TRANSFERRED : RecordType.PERMISSION_CHANGED;
-
+            const recordObject = updatedUser.role === "WORKER" ? RecordObject.WORKER : RecordObject.USER;
             // Initialize details variable
             let details: string;
 
@@ -54,7 +61,7 @@ export async function updateUserProjectsPermissions(field: string, userId: strin
             // Create the new record
             await createNewRecord({
                 type: recordType,
-                recordObject: RecordObject.USER,
+                recordObject: recordObject,
                 recordTargetId: updatedUser.legajo,
                 recordTargetName: updatedUser.name + " " + updatedUser.lastName,
                 userId: session?.user.id ?? '',

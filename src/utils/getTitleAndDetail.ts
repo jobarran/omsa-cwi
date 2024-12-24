@@ -1,10 +1,21 @@
 import { Record } from "@/interfaces/record.interface";
 import { RecordObject, RecordType } from "@prisma/client";
+import { getFieldTranslation, getToolStateTranslation, toolStateTranslations } from "./toolStateTranslations";
+import { getUserStatusTranslation } from ".";
 
 export const getTitleAndDetail = (record: Record) => {
-    // Define titles and details for each combination of type and object
     const titleDetailsMap = {
-        // COMMENT_ADDED for TOOL
+        // TOOL
+        [`${RecordType.CREATED}_${RecordObject.TOOL}`]: {
+            title: "HERRAMIENTA CREADA",
+            detail: {
+                firstText: `Se ha creado la herramienta`,
+                name: record.recordTargetName,
+                secondText: `id`,
+                code: record.recordTargetId,
+                link: `/tools/${record.recordTargetId}`,
+            },
+        },
         [`${RecordType.COMMENT_ADDED}_${RecordObject.TOOL}`]: {
             title: "HERRAMIENTA COMENTADA",
             detail: {
@@ -12,40 +23,173 @@ export const getTitleAndDetail = (record: Record) => {
                 name: record.recordTargetName,
                 secondText: `id`,
                 code: record.recordTargetId,
-                link: `/tools/${record.recordTargetId}`
+                link: `/tools/${record.recordTargetId}`,
             },
         },
-        // COMMENT_ADDED for PROJECT
-        [`${RecordType.COMMENT_ADDED}_${RecordObject.PROJECT}`]: {
-            title: "Comentario creado para el proyecto",
+        [`${RecordType.UPDATED}_${RecordObject.TOOL}`]: {
+            title: "HERRAMIENTA ACTUALIZADA",
             detail: {
-                firstText: `Comentario creado para el proyecto `,
-                name: record.recordTargetName,
-                secondText: ``,
-                code: ``,
-            },
-        },
-        // STATE_CHANGED for PROJECT
-        [`${RecordType.STATE_CHANGED}_${RecordObject.PROJECT}`]: {
-            title: "OBRA ESTADO",
-            detail: {
-                firstText: `Cambio de estado para la obra `,
+                firstText: `Se ha actualizado la herramienta`,
                 name: record.recordTargetName,
                 secondText: `código`,
                 code: record.recordTargetId,
+                thirdText: 'campo',
+                details: getFieldTranslation(record.details),
+                link: `/tools/${record.recordTargetId}`,
             },
         },
-        // COMMENT_ADDED for USER
-        [`${RecordType.COMMENT_ADDED}_${RecordObject.USER}`]: {
-            title: "Comentario creado para el usuario",
+        [`${RecordType.TRANSFERRED}_${RecordObject.TOOL}`]: {
+            title: "HERRAMIENTA TRANSFERIDA",
             detail: {
-                firstText: `Comentario creado para el usuario `,
+                firstText: `Se ha transferido la herramienta`,
                 name: record.recordTargetName,
-                secondText: ``,
-                code: ``,
+                secondText: `código`,
+                code: record.recordTargetId,
+                link: `/tools/${record.recordTargetId}`,
+                thirdText: `a la obra`,
+                details: record.details
+                    ? record.details.split(' ').join(', ')
+                    : '',
             },
         },
-        // COMMENT_ADDED for WORKER
+        [`${RecordType.STATE_CHANGED}_${RecordObject.TOOL}`]: {
+            title: "HERRAMIENTA ESTADO",
+            detail: {
+                firstText: `Cambió el estado de la herramienta`,
+                name: record.recordTargetName,
+                secondText: `código`,
+                code: record.recordTargetId,
+                thirdText: `a`,
+                details: getToolStateTranslation(record.details),
+                link: `/tools/${record.recordTargetId}`,
+            },
+        },
+        // PROJECT
+        [`${RecordType.CREATED}_${RecordObject.PROJECT}`]: {
+            title: "OBRA CREADA",
+            detail: {
+                firstText: `Una nueva obra ha sido registrada con el nombre de`,
+                name: record.recordTargetName,
+                secondText: `id`,
+                code: record.recordTargetId,
+            },
+        },
+        [`${RecordType.STATE_CHANGED}_${RecordObject.PROJECT}`]: {
+            title: "OBRA ESTADO",
+            detail: {
+                firstText: `Cambio de estado para la obra`,
+                name: record.recordTargetName,
+                secondText: `id`,
+                code: record.recordTargetId,
+            },
+        },
+        // USER
+        [`${RecordType.CREATED}_${RecordObject.USER}`]: {
+            title: "USUARIO CREADO",
+            detail: {
+                firstText: `Un nuevo usuario ha sido registrado con el nombre de `,
+                name: record.recordTargetName,
+                secondText: `legajo`,
+                code: record.recordTargetId,
+                link: `/user/${record.recordTargetId}`,
+            },
+        },
+        [`${RecordType.UPDATED}_${RecordObject.USER}`]: {
+            title: "USUARIO ACTUALIZADO",
+            detail: {
+                firstText: `Se ha actualizado al usuario`,
+                name: record.recordTargetName,
+                secondText: `legajo`,
+                code: record.recordTargetId,
+                details: record.details,
+                link: `/admin/${record.recordTargetId}`,
+            },
+        },
+        [`${RecordType.STATE_CHANGED}_${RecordObject.USER}`]: {
+            title: "USUARIO ESTADO",
+            detail: {
+                firstText: `Cambió el estado del usuario`,
+                name: record.recordTargetName,
+                secondText: `legajo`,
+                code: record.recordTargetId,
+                thirdText: 'a',
+                details: getUserStatusTranslation(record.details),
+                link: `/admin/${record.recordTargetId}`,
+            },
+        },
+        [`${RecordType.TRANSFERRED}_${RecordObject.USER}`]: {
+            title: "USUARIO TRANSFERIDO",
+            detail: {
+                firstText: `Se ha transferido de obra al usuario`,
+                name: record.recordTargetName,
+                secondText: `legajo`,
+                code: record.recordTargetId,
+                link: `/admin/${record.recordTargetId}`,
+                thirdText: `obras `,
+                details: record.details
+                    ? record.details.split(' ').join(', ')
+                    : 'sin asignar',
+            },
+        },
+        [`${RecordType.PERMISSION_CHANGED}_${RecordObject.USER}`]: {
+            title: "USUARIO PERMISOS",
+            detail: {
+                firstText: `Se han otorgado o quitado permisos al usuario `,
+                name: record.recordTargetName,
+                secondText: `legajo:`,
+                code: record.recordTargetId,
+                link: `/admin/${record.recordTargetId}`,
+            },
+        },
+
+        // WORKER
+        [`${RecordType.CREATED}_${RecordObject.WORKER}`]: {
+            title: "OPERARIO CREADO",
+            detail: {
+                firstText: `Un nuevo operario ha sido registrado con el nombre de`,
+                name: record.recordTargetName,
+                secondText: `legajo`,
+                code: record.recordTargetId,
+                link: `/workers/${record.recordTargetId}`,
+            },
+        },
+        [`${RecordType.UPDATED}_${RecordObject.WORKER}`]: {
+            title: "OPERARIO ACTUALIZADO",
+            detail: {
+                firstText: `Se ha actualizado al operario`,
+                name: record.recordTargetName,
+                secondText: `legajo`,
+                code: record.recordTargetId,
+                details: record.details,
+                link: `/workers/${record.recordTargetId}`,
+            },
+        },
+        [`${RecordType.STATE_CHANGED}_${RecordObject.WORKER}`]: {
+            title: "OPERARIO ESTADO",
+            detail: {
+                firstText: `Cambió el estado del operario`,
+                name: record.recordTargetName,
+                secondText: `legajo`,
+                code: record.recordTargetId,
+                thirdText: 'a',
+                details: getUserStatusTranslation(record.details),
+                link: `/workers/${record.recordTargetId}`,
+            },
+        },
+        [`${RecordType.TRANSFERRED}_${RecordObject.WORKER}`]: {
+            title: "OPERARIO TRANSFERIDO",
+            detail: {
+                firstText: `Se ha transferido de obra al operario`,
+                name: record.recordTargetName,
+                secondText: `legajo`,
+                code: record.recordTargetId,
+                link: `/workers/${record.recordTargetId}`,
+                thirdText: `obra`,
+                details: record.details
+                    ? record.details.split(' ').join(', ')
+                    : 'sin asignar',
+            },
+        },
         [`${RecordType.COMMENT_ADDED}_${RecordObject.WORKER}`]: {
             title: "OPERARIO COMENTADO",
             detail: {
@@ -55,138 +199,8 @@ export const getTitleAndDetail = (record: Record) => {
                 code: record.recordTargetId,
             },
         },
-        // CREATED for USER
-        [`${RecordType.CREATED}_${RecordObject.USER}`]: {
-            title: "USUARIO CREADO",
-            detail: {
-                firstText: `Un nuevo usuario ha sido registrado: `,
-                name: record.recordTargetName,
-                secondText: `legajo:`,
-                code: record.recordTargetId,
-                link: `/user/${record.recordTargetId}`
-            },
-        },
-        // PERMISSION for USER
-        [`${RecordType.PERMISSION_CHANGED}_${RecordObject.USER}`]: {
-            title: "USUARIO PERMISOS",
-            detail: {
-                firstText: `Se han otorgado o quitado permisos al usuario `,
-                name: record.recordTargetName,
-                secondText: `legajo:`,
-                code: record.recordTargetId,
-                link: `/user/${record.recordTargetId}`
-            },
-        },
-        // TRSFERRED for USER
-        [`${RecordType.TRANSFERRED}_${RecordObject.USER}`]: {
-            title: "USUARIO TRANSFERIDO",
-            detail: {
-                firstText: `Se a transferio de obra al usuario `,
-                name: record.recordTargetName,
-                secondText: `legajo`,
-                code: record.recordTargetId,
-                link: `/user/${record.recordTargetId}`,
-                thirdText: `obras `,
-                details: record.details
-                    ? (record.details.includes(' ')
-                        ? record.details.split(' ').join(', ')
-                        : record.details)
-                    : ''  // If details is null, return an empty string
-            },
-        },
-        // CREATED for WORKER
-        [`${RecordType.CREATED}_${RecordObject.WORKER}`]: {
-            title: "OPERARIO CREADO",
-            detail: {
-                firstText: `Un nuevo opeario ha sido registrado: `,
-                name: record.recordTargetName,
-                secondText: `legajo:`,
-                code: record.recordTargetId,
-                link: `/workers/${record.recordTargetId}`
-            },
-        },
-        // UPDATED for USER
-        [`${RecordType.UPDATED}_${RecordObject.USER}`]: {
-            title: "Usuario actualizado",
-            detail: {
-                firstText: `El usuario `,
-                name: record.recordTargetName,
-                secondText: ` ha sido actualizado.`,
-                code: ``,
-            },
-        },
-        // DELETED for USER
-        [`${RecordType.DELETED}_${RecordObject.USER}`]: {
-            title: "Usuario eliminado",
-            detail: {
-                firstText: `El usuario `,
-                name: record.recordTargetName,
-                secondText: ` ha sido eliminado.`,
-                code: ``,
-            },
-        },
-        // TRANSFERRED for TOOL
-        [`${RecordType.TRANSFERRED}_${RecordObject.TOOL}`]: {
-            title: "Herramienta transferida",
-            detail: {
-                firstText: `La herramienta `,
-                name: record.recordTargetName,
-                secondText: ` ha sido transferida.`,
-                code: ``,
-            },
-        },
-        // STATE_CHANGED for TOOL
-        [`${RecordType.STATE_CHANGED}_${RecordObject.TOOL}`]: {
-            title: "Estado de la herramienta cambiado",
-            detail: {
-                firstText: `El estado de la herramienta `,
-                name: record.recordTargetName,
-                secondText: ` ha sido cambiado.`,
-                code: ``,
-            },
-        },
-        // STATE_CHANGED for USER
-        [`${RecordType.STATE_CHANGED}_${RecordObject.USER}`]: {
-            title: "Estado del usuario cambiado",
-            detail: {
-                firstText: `El estado del usuario `,
-                name: record.recordTargetName,
-                secondText: ` ha sido cambiado.`,
-                code: ``,
-            },
-        },
-        // Default case for any unknown record type or object
-        [`${RecordType.CREATED}_${RecordObject.TOOL}`]: {
-            title: "HERRAMIENTA CREADA",
-            detail: {
-                firstText: `Se ha creado la herramienta `,
-                name: record.recordTargetName,
-                secondText: `id`,
-                code: record.recordTargetId,
-                link: `/tools/${record.recordTargetId}`
-            },
-        },
-        [`${RecordType.UPDATED}_${RecordObject.TOOL}`]: {
-            title: "Herramienta actualizada",
-            detail: {
-                firstText: `La herramienta `,
-                name: record.recordTargetName,
-                secondText: ` ha sido actualizada.`,
-                code: ``,
-            },
-        },
-        [`${RecordType.DELETED}_${RecordObject.TOOL}`]: {
-            title: "Herramienta eliminada",
-            detail: {
-                firstText: `La herramienta `,
-                name: record.recordTargetName,
-                secondText: ` ha sido eliminada.`,
-                code: ``,
-            },
-        },
     };
 
-    // Return the title and structured detail for the given record, or default to a generic message
     const { title, detail } = titleDetailsMap[`${record.type}_${record.recordObject}`] || {
         title: record.type,
         detail: {

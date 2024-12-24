@@ -5,6 +5,8 @@ import prisma from "@/lib/prisma";
 import { v2 as cloudinary } from 'cloudinary';
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { createNewRecord } from "..";
+import { RecordObject, RecordType } from "@prisma/client";
 
 cloudinary.config(process.env.CLOUDINARY_URL ?? '');
 
@@ -16,13 +18,9 @@ const projectSchema = z.object({
 
 export const registerNewProject = async (formData: FormData) => {
 
-    console.log('iniciando guardado')
-
     const session = await auth();
 
     if (!session?.user?.id) {
-
-        console.log('No user')
 
         return {
             ok: false,
@@ -41,7 +39,6 @@ export const registerNewProject = async (formData: FormData) => {
     });
 
     if (!projectParsed.success) {
-        console.error("Validation failed: ", projectParsed.error.format());
         return {
             ok: false,
             message: 'Validation failed',
@@ -57,14 +54,12 @@ export const registerNewProject = async (formData: FormData) => {
     }
 
     try {
-        console.log('Guardadndo')
 
         const existingProject = await prisma.project.findUnique({
             where: { code: projectParsed.data.code },
         });
 
         if (existingProject) {
-            console.log('Repetido')
 
             return {
                 ok: false,
@@ -72,10 +67,8 @@ export const registerNewProject = async (formData: FormData) => {
             };
         }
 
-        console.log('Creando')
 
         const newProject = await prisma.project.create({
-
             data: {
                 code: projectParsed.data.code,
                 name: projectParsed.data.name,
@@ -98,8 +91,16 @@ export const registerNewProject = async (formData: FormData) => {
             }
         }
 
+        await createNewRecord({
+            type: RecordType.CREATED,
+            recordObject: RecordObject.PROJECT,
+            recordTargetId: newProject.code,
+            recordTargetName: newProject.name,
+            userId: session.user.id,
+        });
+
         revalidatePath('/projects');
-        console.log('ok')
+
         return {
             ok: true,
             project: newProject,

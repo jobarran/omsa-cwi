@@ -38,7 +38,7 @@ export const ProjectEditModal = ({ field, project, closeModal, managerUsers }: P
 
     return (
         <div
-            className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center"
+            className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50"
             onClick={closeModal}
         >
             <div

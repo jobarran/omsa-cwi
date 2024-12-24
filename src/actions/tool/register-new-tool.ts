@@ -34,6 +34,7 @@ const toolSchema = z.object({
 });
 
 export const registerNewTool = async (formData: FormData) => {
+    
     const session = await auth();
 
     // Ensure the session is valid and contains a user ID

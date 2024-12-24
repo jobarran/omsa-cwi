@@ -2,9 +2,25 @@
 
 import prisma from "@/lib/prisma"; // Your Prisma client instance
 import { revalidatePath } from "next/cache";
+import { createNewRecord } from "../record/create-new-record";
+import { RecordObject, RecordType } from "@prisma/client";
+import { auth } from "@/auth.config";
+import { getProjectNamesByIds } from "..";
 
 export async function updateTool(field: string, toolId: string, value: string | string[] | Date) {
+
+  const session = await auth();
+
+  // Ensure the session is valid and contains a user ID
+  if (!session?.user?.id) {
+    return {
+      ok: false,
+      message: 'User is not authenticated',
+    };
+  }
+
   try {
+
     const validFields = [
       "code",
       "name",
@@ -44,6 +60,42 @@ export async function updateTool(field: string, toolId: string, value: string | 
     const updatedTool = await prisma.tool.update({
       where: { id: toolId },
       data: { [field]: fieldValue },
+    });
+
+    // Define the recordType based on the field
+    const recordType =
+      field === "projectId"
+        ? RecordType.TRANSFERRED
+        : field === "state"
+          ? RecordType.STATE_CHANGED
+          : RecordType.UPDATED;
+
+    // Set `details` based on whether the field is `projectId`
+    let details: string;
+
+    if (field === "projectId") {
+      if (typeof value === "string" || Array.isArray(value)) {
+        const projectCodes = await getProjectNamesByIds(
+          Array.isArray(value) ? value : [value]
+        );
+        details = projectCodes.join(" ");
+      } else {
+        throw new Error("Invalid value for projectId. Expected string or string[].");
+      }
+    } else if (field === "state") {
+      details = updatedTool.state
+    } else {
+      details = field;
+    }
+
+    await createNewRecord({
+      type: recordType,
+      recordObject: RecordObject.TOOL,
+      recordTargetId: updatedTool.code,
+      recordTargetName: updatedTool.name + " " + updatedTool.brand,
+      userId: session.user.id,
+      details: details
+
     });
 
     revalidatePath("/tools");

@@ -16,19 +16,28 @@ interface Props {
 
 export const AdminTableModal = ({ user, field, projects, closeModal }: Props) => {
 
+    // State to hold the value of the selected field
     const [localValue, setLocalValue] = useState<string | string[]>(
         field === "permissions"
             ? user.permissions || []
             : field === "projects"
-                ? user.projects?.map((project: ProjectData) => project.id) || [] // Initialize with project IDs
-                : user.role
+            ? user.projects?.map((project: ProjectData) => project.id) || [] // Initialize with project IDs
+            : field === "role" && user.role === "WORKER"
+            ? user.role // Ensure it's a string for "WORKER"
+            : user.role || '' // Handle other roles, default to empty string
+    );
+
+    // Separate state for WORKER users handling one project only
+    const [workerProject, setWorkerProject] = useState<string>(
+        user.role === UserRole.WORKER && user.projects?.length === 1
+            ? user.projects[0].id
+            : null
     );
 
     const [isPending, startTransition] = useTransition(); // Handle loading state
 
     const handleFieldChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
         let newValue: string | string[];
-
         if ((field === "permissions" || field === "projects") && e.target instanceof HTMLSelectElement) {
             newValue = Array.from(e.target.selectedOptions).map((option) => option.value);
         } else {
@@ -38,10 +47,19 @@ export const AdminTableModal = ({ user, field, projects, closeModal }: Props) =>
         setLocalValue(newValue);
     };
 
+    const handleWorkerProjectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setWorkerProject(e.target.value);
+    };
+
     const saveChanges = () => {
         startTransition(async () => {
             try {
-                await updateUserProjectsPermissions(field, user.id, localValue); // Call the server action
+                // For WORKER users, use the workerProject state
+                const valueToSave = field === "projects" && user.role === UserRole.WORKER
+                    ? workerProject
+                    : localValue;
+                console.log(valueToSave)
+                await updateUserProjectsPermissions(field, user.id, valueToSave); // Call the server action
                 closeModal(); // Close the modal on success
             } catch (error) {
                 console.error("Failed to update user:", error);
@@ -51,7 +69,7 @@ export const AdminTableModal = ({ user, field, projects, closeModal }: Props) =>
 
     return (
         <div
-            className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center"
+            className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50"
             onClick={closeModal}
         >
             <div
@@ -73,28 +91,32 @@ export const AdminTableModal = ({ user, field, projects, closeModal }: Props) =>
                     </select>
                 )}
                 {field === "projects" && (
-                    <div className="grid gap-2">
-                        {projects.map((project) => (
-                            <label key={project.id} className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    value={project.id}
-                                    checked={(localValue as string[]).includes(project.id)} // Check if the project ID is selected
-                                    onChange={(e) => {
-                                        const selected = new Set(localValue as string[]);
-                                        if (e.target.checked) {
-                                            selected.add(project.id);
-                                        } else {
-                                            selected.delete(project.id);
-                                        }
-                                        setLocalValue(Array.from(selected));
-                                    }}
-                                    className="mr-2"
-                                />
-                                {project.code} - {project.name}
-                            </label>
-                        ))}
-                    </div>
+                    user.role === UserRole.WORKER ? (
+                        <select
+                            value={workerProject || ""}
+                            onChange={handleWorkerProjectChange}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                        >
+                            {projects.map((project) => (
+                                <option key={project.id} value={project.id}>
+                                    {project.code} - {project.name}
+                                </option>
+                            ))}
+                        </select>
+                    ) : (
+                        <select
+                            value={localValue as string[]}
+                            onChange={handleFieldChange}
+                            multiple
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md h-72"
+                        >
+                            {projects.map((project) => (
+                                <option key={project.id} value={project.id}>
+                                    {project.code} - {project.name}
+                                </option>
+                            ))}
+                        </select>
+                    )
                 )}
                 {field === "permissions" && (
                     <div className="grid gap-2">

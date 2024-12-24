@@ -87,8 +87,8 @@ const RecordList = ({ records, fullData }: Props) => {
                       {detail.code}
                     </p>
                   </Link>
-                  <p className="text-xs md:text-sm px-1 md:px-0 text-gray-600">{detail.thirdText}</p>
-                  <p className="text-xs md:text-sm px-1 md:px-0 text-blue-500">{detail.details}</p>
+                  <p className="hidden md:block text-xs md:text-sm px-1 md:px-0 text-gray-600">{detail.thirdText}</p>
+                  <p className="hidden md:block text-xs md:text-sm px-1 md:px-0 text-blue-500">{detail.details}</p>
                 </div>
               </div>
             </div>
