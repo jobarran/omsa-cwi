@@ -70,6 +70,7 @@ export const AdminTable = ({ users, projects, userRoleData }: Props) => {
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
+                isVisible={totalPages > 1}
             />
         </div>
     );

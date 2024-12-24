@@ -23,7 +23,6 @@ export const ProjectEditModal = ({ field, project, closeModal, managerUsers }: P
 
         startTransition(async () => {
             try {
-                console.log({ field, project: project.id, value: localValue });
                 // For "category", handle the many-to-many relation with categories
                 if (field === "users" && Array.isArray(localValue)) {
                     // Save the updated categories list to the tool

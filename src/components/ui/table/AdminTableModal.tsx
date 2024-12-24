@@ -58,7 +58,6 @@ export const AdminTableModal = ({ user, field, projects, closeModal }: Props) =>
                 const valueToSave = field === "projects" && user.role === UserRole.WORKER
                     ? workerProject
                     : localValue;
-                console.log(valueToSave)
                 await updateUserProjectsPermissions(field, user.id, valueToSave); // Call the server action
                 closeModal(); // Close the modal on success
             } catch (error) {

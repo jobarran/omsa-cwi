@@ -177,6 +177,7 @@ export const ToolTable = ({ tools, projects, toolCategories, userPermissions }: 
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
+                isVisible={totalPages > 1}
             />
 
         </div>

@@ -74,6 +74,7 @@ export const ProjectTable = ({ projects, managerUsers, isProjectAdmin }: Props) 
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
+                isVisible={totalPages > 1}
             />
         </div>
     );

@@ -128,6 +128,7 @@ export const WorkerTable = ({ workers, projects }: Props) => {
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
+                isVisible={totalPages > 1}
             />
         </div>
     );

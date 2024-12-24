@@ -22,8 +22,6 @@ export default async function WorkerByLegajoPage({ params }: Props) {
     const { legajo } = params;
     const user = await getUserByLegajo(legajo)
 
-    console.log(user)
-
     if (user === null) {
         redirect('/workers')
     }

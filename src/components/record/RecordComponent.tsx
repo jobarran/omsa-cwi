@@ -48,6 +48,7 @@ export const RecordComponent = ({ records }: Props) => {
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
+          isVisible={totalPages > 1}
         />
 
     </div>

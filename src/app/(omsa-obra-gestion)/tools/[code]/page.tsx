@@ -13,7 +13,6 @@ interface Props {
 export default async function ToolByIdPage({ params }: Props) {
 
     const { code } = params;
-    console.log(code)
     const tool = await getToolByCode(code)
     const projects = await getAllProjects()
     const toolCategories = await getToolCategories()

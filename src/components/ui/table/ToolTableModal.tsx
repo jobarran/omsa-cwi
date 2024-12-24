@@ -34,7 +34,6 @@ export const ToolTableModal = ({ tool, field, projects, closeModal, categories }
 
         startTransition(async () => {
             try {
-                console.log({ field, tool: tool.id, value: localValue });
                 // For "category", handle the many-to-many relation with categories
                 if (field === "category" && Array.isArray(localValue)) {
                     // Save the updated categories list to the tool

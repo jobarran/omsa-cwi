@@ -4,9 +4,13 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  isVisible: boolean
 }
 
-export const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) => {
+export const Pagination = ({ currentPage, totalPages, onPageChange, isVisible }: PaginationProps) => {
+  
+  if (!isVisible) return null
+
   const handlePrevious = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
@@ -48,11 +52,10 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
         <button
           key={index}
           type="button"
-          className={`min-h-[38px] min-w-[38px] flex justify-center items-center border ${
-            currentPage === index + 1
+          className={`min-h-[38px] min-w-[38px] flex justify-center items-center border ${currentPage === index + 1
               ? "border-gray-200 text-gray-800"
               : "border-transparent text-gray-800 hover:bg-gray-100"
-          } py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100`}
+            } py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100`}
           onClick={() => onPageChange(index + 1)}
           aria-current={currentPage === index + 1 ? "page" : undefined}
         >

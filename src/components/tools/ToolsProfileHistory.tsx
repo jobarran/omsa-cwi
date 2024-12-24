@@ -22,6 +22,7 @@ export const ToolsProfileHistory = ({ records }: Props) => {
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={handlePageChange}
+                    isVisible={totalPages > 1}
                 />
         </>
     );
