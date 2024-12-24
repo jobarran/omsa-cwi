@@ -18,14 +18,12 @@ export const AdminProfileHistory = ({ records }: Props) => {
         <>
             <RecordList records={displayedItems} />
 
-            {/* Conditionally render pagination */}
-            {displayedItems.length > 7 && (
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                />
-            )}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
+
         </>
     );
 };

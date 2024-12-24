@@ -44,14 +44,11 @@ export const RecordComponent = ({ records }: Props) => {
       {/* Filtered Record List */}
       <RecordList records={displayedItems} />
 
-      {/* Conditionally render pagination */}
-      {displayedItems.length > 10 && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />
-      )}
 
     </div>
   );
