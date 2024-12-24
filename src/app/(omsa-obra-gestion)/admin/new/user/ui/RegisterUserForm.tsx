@@ -78,7 +78,7 @@ export const RegisterUserForm = () => {
   };
 
   return (
-    <div className="flex flex-wrap gap-4 p-4">
+    <div className="flex flex-wrap gap-4">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         {/* First row: Name, LastName, Email */}
         <div className="flex flex-col md:flex-row md:gap-4 mb-4">

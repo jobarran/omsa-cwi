@@ -1,7 +1,7 @@
 import { getUserPermissions, getUsersByRole } from "@/actions";
 import { getAllProjects } from "@/actions/project/get-all-projects";
 import { auth } from "@/auth.config";
-import { ProjectTableComponent, SectionTitle } from "@/components";
+import { ProjectTableComponent } from "@/components";
 import { leanUsers } from "@/utils";
 import { UserRole } from "@prisma/client";
 

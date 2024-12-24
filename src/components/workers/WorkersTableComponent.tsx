@@ -53,7 +53,7 @@ export const WorkersTableComponent = ({ workers, projects }: Props) => {
                     <Link
                         href={"/workers/new"}
                         className="flex flex-row px-2 h-8 items-center rounded-lg border bg-sky-800 text-white text-sm font-medium hover:bg-sky-900 transition">
-                        <p className="hidden sm:flex">Agregar nuevo</p>
+                        <p className="hidden sm:flex">+ Operario</p>
                         <FaPlus className="sm:hidden text-base" />
                     </Link>
                 </div>

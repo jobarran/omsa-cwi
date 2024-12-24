@@ -6,9 +6,9 @@ export const getTitleAndDetail = (record: Record) => {
     const titleDetailsMap = {
         // COMMENT_ADDED for TOOL
         [`${RecordType.COMMENT_ADDED}_${RecordObject.TOOL}`]: {
-            title: "EQUIPO COMENTADO",
+            title: "HERRAMIENTA COMENTADO",
             detail: {
-                firstText: `Comentario creado para el equipo `,
+                firstText: `Comentario creado para la herramienta `,
                 name: record.recordTargetName,
                 secondText: `id`,
                 code: record.recordTargetId,
@@ -119,7 +119,7 @@ export const getTitleAndDetail = (record: Record) => {
         },
         // Default case for any unknown record type or object
         [`${RecordType.CREATED}_${RecordObject.TOOL}`]: {
-            title: "EQUIPO CREADO",
+            title: "HERRAMIENTA CREADO",
             detail: {
                 firstText: `Se ha creado la herramienta `,
                 name: record.recordTargetName,

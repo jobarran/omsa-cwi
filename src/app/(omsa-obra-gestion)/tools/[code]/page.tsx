@@ -1,6 +1,6 @@
 import { getRecordsByObject, getToolByCode, getToolCategories } from "@/actions";
 import { getAllProjects } from "@/actions/project/get-all-projects";
-import { SectionTitle, ToolsProfileComponent } from "@/components";
+import { ToolsProfileComponent } from "@/components";
 import { redirect } from "next/navigation";
 
 interface Props {

@@ -1,5 +1,5 @@
 import { getAllRecords } from "@/actions";
-import RecordList from "@/components/record/RecordList";
+import { RecordComponent } from "@/components";
 
 export default async function WorkersPage() {
 
@@ -9,9 +9,7 @@ export default async function WorkersPage() {
 
         <div className="flex flex-col items-center justify-between space-y-4">
 
-            <RecordList
-                records={records}
-            />
+            <RecordComponent records={records} />
 
         </div>
 

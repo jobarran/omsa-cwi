@@ -1,8 +1,7 @@
 import { getUsersByRole } from "@/actions";
 import { getAllProjects } from "@/actions/project/get-all-projects";
-import { getAllUsers } from "@/actions/user/get-all-users";
 import { auth } from "@/auth.config";
-import { AdminTableComponent, SectionTitle } from "@/components";
+import { AdminTableComponent } from "@/components";
 import { UserRoleData } from "@/interfaces";
 import { UserRole } from "@prisma/client";
 import { redirect } from "next/navigation";

@@ -12,8 +12,6 @@ interface Props {
 
 const RecordList = ({ records }: Props) => {
 
-  console.log(records)
-
   if (!records.length) {
     return (
       <div className="text-center py-10 text-gray-500">No records available.</div>

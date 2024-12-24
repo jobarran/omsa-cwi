@@ -95,7 +95,7 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
 
 
     return (
-        <div className="flex flex-wrap gap-4 p-4">
+        <div className="flex flex-wrap gap-4">
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
 
                 {/* First row: Name, Code, Brand */}
@@ -120,14 +120,14 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
                             htmlFor="name"
                             className="mb-1 text-sm font-medium text-gray-700"
                         >
-                            Nombre del equipo <span className="text-red-500">*</span>
+                            Nombre de la herramienta <span className="text-red-500">*</span>
                         </label>
                         <input
                             {...register("name", { required: true })}
                             type="text"
                             id="name"
                             className="border rounded p-2 border-gray-300"
-                            placeholder="Ingrese el nombre del equipo"
+                            placeholder="Ingrese el nombre de la herramienta"
                         />
                     </div>
                     <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
@@ -135,14 +135,14 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
                             htmlFor="brand"
                             className="mb-1 text-sm font-medium text-gray-700"
                         >
-                            Marca del equipo
+                            Marca de la herramienta
                         </label>
                         <input
                             {...register("brand")}
                             type="text"
                             id="brand"
                             className="border rounded p-2 border-gray-300"
-                            placeholder="Ingrese la marca del equipo"
+                            placeholder="Ingrese la marca de la herramienta"
                         />
                     </div>
                 </div>
