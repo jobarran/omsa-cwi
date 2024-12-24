@@ -7,6 +7,7 @@ import {
   WorkerSkill as PrismaWorkerSkill,
   UserCategory as PrismaUserCategory
 } from '@prisma/client'; // Import Prisma's enums
+import { ProjectData } from './project.interface';
 
 // Use Prisma's enums in your interface
 
@@ -28,7 +29,7 @@ export interface User {
   records?: any;
   comments?: any;
   receivedComments?: any;
-  projects?: any;
+  projects?: ProjectData[];  // Ensure this field is properly typed
   image: UserImage[];
   workerSkill: WorkerSkill[]
 }

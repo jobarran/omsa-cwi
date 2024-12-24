@@ -8,13 +8,26 @@ import { User } from "@/interfaces";
 import { useWorkerFilter } from "@/hooks/useWorkersFilter";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
+import { UserPermission } from "@prisma/client";
+import { xlsxToolExport, xlsxWorkerExport } from "@/utils";
 
 interface Props {
     workers: User[];
     projects: ProjectData[];
+    userPermissions: UserPermission[] | null;
 }
 
-export const WorkersTableComponent = ({ workers, projects }: Props) => {
+export const WorkersTableComponent = ({ workers, projects, userPermissions }: Props) => {
+
+    // Check if user has permissions
+    if (!userPermissions || !userPermissions.some(permission => ['TOTAL', 'PEOPLE_ADMIN', 'PEOPLE_VIEW'].includes(permission))) {
+        return (
+            <div className="text-center text-gray-600 mt-8">
+                No tienes permisos para ver esta página.
+            </div>
+        );
+    }
+
     const { filters, handleFilterChange, restoreFilters, filteredWorkers } = useWorkerFilter(workers);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedProject, setSelectedProject] = useState<string | null>(null);
@@ -34,6 +47,15 @@ export const WorkersTableComponent = ({ workers, projects }: Props) => {
     const handleSearch = (term: string) => {
         setSearchTerm(term);
         handleFilterChange("search", term || null); // Update the search filter
+    };
+
+    const handleExportToExcel = () => {
+        xlsxWorkerExport({
+            filteredWorkers,
+            selectedProject,
+            selectedState,
+            selectedCategory
+        });
     };
 
     return (
@@ -66,6 +88,7 @@ export const WorkersTableComponent = ({ workers, projects }: Props) => {
                     setSelectedProject={setSelectedProject}
                     setSelectedState={setSelectedState}
                     setSelectedCategory={setSelectedCategory}
+                    onExportToExcel={handleExportToExcel}
                 />
             </div>
             <WorkerTable workers={filteredWorkers} projects={projects} />

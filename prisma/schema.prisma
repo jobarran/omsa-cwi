@@ -184,6 +184,7 @@ enum RecordType {
   TRANSFERRED
   COMMENT_ADDED
   STATE_CHANGED
+  PERMISSION_CHANGED
 }
 
 enum UserPermission {

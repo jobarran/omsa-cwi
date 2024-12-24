@@ -25,6 +25,16 @@ export const getTitleAndDetail = (record: Record) => {
                 code: ``,
             },
         },
+        // STATE_CHANGED for PROJECT
+        [`${RecordType.STATE_CHANGED}_${RecordObject.PROJECT}`]: {
+            title: "OBRA ESTADO",
+            detail: {
+                firstText: `Cambio de estado para la obra `,
+                name: record.recordTargetName,
+                secondText: `código`,
+                code: record.recordTargetId,
+            },
+        },
         // COMMENT_ADDED for USER
         [`${RecordType.COMMENT_ADDED}_${RecordObject.USER}`]: {
             title: "Comentario creado para el usuario",
@@ -54,6 +64,34 @@ export const getTitleAndDetail = (record: Record) => {
                 secondText: `legajo:`,
                 code: record.recordTargetId,
                 link: `/user/${record.recordTargetId}`
+            },
+        },
+        // PERMISSION for USER
+        [`${RecordType.PERMISSION_CHANGED}_${RecordObject.USER}`]: {
+            title: "USUARIO PERMISOS",
+            detail: {
+                firstText: `Se han otorgado o quitado permisos al usuario `,
+                name: record.recordTargetName,
+                secondText: `legajo:`,
+                code: record.recordTargetId,
+                link: `/user/${record.recordTargetId}`
+            },
+        },
+        // TRSFERRED for USER
+        [`${RecordType.TRANSFERRED}_${RecordObject.USER}`]: {
+            title: "USUARIO TRANSFERIDO",
+            detail: {
+                firstText: `Se a transferio de obra al usuario `,
+                name: record.recordTargetName,
+                secondText: `legajo`,
+                code: record.recordTargetId,
+                link: `/user/${record.recordTargetId}`,
+                thirdText: `obras `,
+                details: record.details
+                    ? (record.details.includes(' ')
+                        ? record.details.split(' ').join(', ')
+                        : record.details)
+                    : ''  // If details is null, return an empty string
             },
         },
         // CREATED for WORKER

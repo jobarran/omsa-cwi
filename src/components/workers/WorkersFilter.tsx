@@ -12,6 +12,7 @@ interface Props {
     setSelectedProject: (value: string | null) => void;
     setSelectedState: (value: string | null) => void;
     setSelectedCategory: (value: string | null) => void;
+    onExportToExcel: () => void
 }
 
 export const WorkersFilter = ({
@@ -23,10 +24,8 @@ export const WorkersFilter = ({
     setSelectedProject,
     setSelectedState,
     setSelectedCategory,
+    onExportToExcel
 }: Props) => {
-    const handleExportToExcel = () => {
-        alert("FUNCION SIN IMPLEMENTAR");
-    };
 
     const userCategoryTranscriptions: Record<UserCategory, string> = {
         [UserCategory.N_A]: "No Aplica",
@@ -93,7 +92,7 @@ export const WorkersFilter = ({
 
             {/* Export to Excel Button */}
             <button
-                onClick={handleExportToExcel}
+                onClick={onExportToExcel}
                 className="hidden sm:flex px-3 py-1 items-center rounded-md bg-sky-800 text-white text-sm font-medium hover:bg-sky-900 transition"
             >
                 Exportar a Excel

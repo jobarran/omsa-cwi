@@ -18,4 +18,5 @@ export const recordTypeTranslations: Record<RecordType, string> = {
   [RecordType.TRANSFERRED]: "Transferido",
   [RecordType.COMMENT_ADDED]: "Comentado",
   [RecordType.STATE_CHANGED]: "Estado",
+  [RecordType.PERMISSION_CHANGED]: "Permiso",
 };
