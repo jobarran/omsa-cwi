@@ -6,7 +6,7 @@ export const getTitleAndDetail = (record: Record) => {
     const titleDetailsMap = {
         // COMMENT_ADDED for TOOL
         [`${RecordType.COMMENT_ADDED}_${RecordObject.TOOL}`]: {
-            title: "HERRAMIENTA COMENTADO",
+            title: "HERRAMIENTA COMENTADA",
             detail: {
                 firstText: `Comentario creado para la herramienta `,
                 name: record.recordTargetName,

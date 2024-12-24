@@ -42,7 +42,7 @@ export const RecordComponent = ({ records }: Props) => {
       />
 
       {/* Filtered Record List */}
-      <RecordList records={displayedItems} />
+      <RecordList records={displayedItems} fullData={true} />
 
         <Pagination
           currentPage={currentPage}

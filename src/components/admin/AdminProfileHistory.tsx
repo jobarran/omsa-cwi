@@ -16,7 +16,7 @@ export const AdminProfileHistory = ({ records }: Props) => {
 
     return (
         <>
-            <RecordList records={displayedItems} />
+            <RecordList records={displayedItems} fullData={false} />
 
             <Pagination
                 currentPage={currentPage}

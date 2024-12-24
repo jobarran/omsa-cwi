@@ -8,9 +8,10 @@ import { getTitleAndDetail } from "@/utils/getTitleAndDetail"; // Assuming this 
 
 interface Props {
   records: Record[];
+  fullData: boolean
 }
 
-const RecordList = ({ records }: Props) => {
+const RecordList = ({ records, fullData }: Props) => {
 
   if (!records.length) {
     return (
@@ -23,6 +24,10 @@ const RecordList = ({ records }: Props) => {
       <div className="flex flex-col gap-2">
         {records.map((record) => {
           const { title, detail } = getTitleAndDetail(record); // Get title and detail for each record
+
+          const displayTitle = fullData
+            ? title
+            : title.split(" ")[1] || ""; // Take the second word if not fullData
 
           const sectionLink =
             record.recordObject === "USER" ? "admin" :
@@ -47,7 +52,7 @@ const RecordList = ({ records }: Props) => {
                 {record.user && (
                   <div className="flex flex-row justify-between">
                     <p className="text-xs md:text-sm font-semibold whitespace-nowrap">
-                      {title} 
+                      {displayTitle} 
                     </p>
                     <div className="flex flex-row space-x-1">
                       <p className="hidden md:inline text-sm text-gray-500">
