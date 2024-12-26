@@ -26,6 +26,7 @@ export async function getUsersByRole(roles: UserRole[]): Promise<User[]> {
         email: true,
         phone: true,
         role: true,
+        entryDate: true,
         category: true,
         createdAt: true,
         image: { select: { url: true } },
