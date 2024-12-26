@@ -95,7 +95,7 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
 
 
     return (
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4 w-full">
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
 
                 {/* First row: Name, Code, Brand */}

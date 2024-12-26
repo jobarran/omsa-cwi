@@ -90,6 +90,7 @@ model User {
   email     String       @unique
   phone     String
   password  String
+  entryDate DateTime?
   createdAt DateTime     @default(now())
   status    UserStatus   @default(ACTIVE)
   category  UserCategory @default(N_A)

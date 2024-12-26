@@ -6,6 +6,9 @@ import { UserCategory } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { es } from 'date-fns/locale'; // Import Spanish locale
 
 type FormInputs = {
   name: string;
@@ -15,6 +18,8 @@ type FormInputs = {
   legajo: string;
   company: "OMSA" | "CWI";
   category: "N_A" | "AYUDANTE" | "MEDIO_OFICIAL" | "OFICIAL" | "OFICIAL_ESPECIALIZADO" | "CAPATAZ";
+  entryDate: string
+
 };
 
 export const RegisterWorkerForm = () => {
@@ -36,6 +41,7 @@ export const RegisterWorkerForm = () => {
       legajo: "",
       company: "CWI",
       category: "N_A",
+      entryDate: ""
     },
   });
 
@@ -73,7 +79,7 @@ export const RegisterWorkerForm = () => {
   };
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4 w-full">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         {/* First row: Name, LastName */}
         <div className="flex flex-col md:flex-row md:gap-4 mb-4">
@@ -105,7 +111,7 @@ export const RegisterWorkerForm = () => {
 
         {/* Second row: Phone, Company */}
         <div className="flex flex-col md:flex-row md:gap-4 mb-4">
-          <div className="flex flex-col w-full md:w-2/3 mb-4 md:mb-0">
+          <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
             <label htmlFor="phone" className="mb-1 text-sm font-medium text-gray-700">
               Teléfono
             </label>
@@ -130,6 +136,20 @@ export const RegisterWorkerForm = () => {
               <option value="CWI">CWI</option>
             </select>
           </div>
+
+          <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
+            <label htmlFor="entryDate" className="mb-1 text-sm font-medium text-gray-700">
+              Fecha de ingreso <span className="text-red-500">*</span>
+            </label>
+            <DatePicker
+              selected={watch("entryDate") ? new Date(watch("entryDate")) : null}
+              onChange={(date: Date | null) => setValue("entryDate", date ? date.toISOString().split("T")[0] : "")}
+              dateFormat="yyyy-MM-dd"
+              className="border p-2 h-11 rounded w-full"
+              locale={es}
+            />
+          </div>
+
         </div>
 
         {/* Third row: Legajo and Category */}

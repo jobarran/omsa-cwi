@@ -4,8 +4,11 @@ import { registerNewUser } from "@/actions";
 import { compressImage } from "@/utils";
 import { UserCategory, UserPermission } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import { es } from 'date-fns/locale'; // Import Spanish locale
 
 type FormInputs = {
   name: string;
@@ -18,6 +21,7 @@ type FormInputs = {
   permissions: UserPermission[];
   legajo: string;
   company: "OMSA" | "CWI";
+  entryDate: string
 };
 
 export const RegisterUserForm = () => {
@@ -42,6 +46,7 @@ export const RegisterUserForm = () => {
       permissions: [],
       legajo: "",
       company: "CWI",
+      entryDate: ""
     },
   });
 
@@ -55,6 +60,8 @@ export const RegisterUserForm = () => {
     });
 
     formData.append("category", UserCategory.N_A); // Fixed password
+
+
 
 
     // Handle image compression and append compressed image
@@ -78,7 +85,7 @@ export const RegisterUserForm = () => {
   };
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4 w-full">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         {/* First row: Name, LastName, Email */}
         <div className="flex flex-col md:flex-row md:gap-4 mb-4">
@@ -146,6 +153,19 @@ export const RegisterUserForm = () => {
               placeholder="Ingrese su correo electrónico"
             />
           </div>
+          <div className="flex flex-col w-full md:w-2/3 mb-4 md:mb-0">
+            <label htmlFor="entryDate" className="mb-1 text-sm font-medium text-gray-700">
+              Fecha de ingreso <span className="text-red-500">*</span>
+            </label>
+            <DatePicker
+              selected={watch("entryDate") ? new Date(watch("entryDate")) : null}
+              onChange={(date: Date | null) => setValue("entryDate", date ? date.toISOString().split("T")[0] : "")}
+              dateFormat="yyyy-MM-dd"
+              className="border p-2 h-11 rounded w-full"
+              locale={es}
+            />
+          </div>
+
         </div>
 
 

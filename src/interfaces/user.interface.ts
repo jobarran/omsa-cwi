@@ -19,6 +19,7 @@ export interface User {
   email: string;
   phone: string;
   role: PrismaUserRole;  // Use Prisma's enum for role
+  entryDate: Date | null;
   createdAt: Date;
   status: PrismaUserStatus; // Use Prisma's enum for status
   category: PrismaUserCategory;

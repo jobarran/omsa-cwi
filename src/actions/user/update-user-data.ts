@@ -9,7 +9,7 @@ import { createNewRecord } from '..';
 import { getUserCategoryTranslation, getUserFieldTranslation } from '@/utils';
 
 // Update user data function
-export async function updateUserData(field: string, userId: string, value: string | string[]) {
+export async function updateUserData(field: string, userId: string, value: string | string[] | Date) {
 
   const session = await auth();
 
@@ -38,6 +38,7 @@ export async function updateUserData(field: string, userId: string, value: strin
       "password",
       "status",
       "category",
+      "entryDate",
     ];
 
     if (!validFields.includes(field)) {

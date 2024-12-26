@@ -111,10 +111,10 @@ export const WorkerProfileComponent = ({ user, records }: Props) => {
                         <p><strong>Teléfono:</strong> {user.phone}</p>
                         <p><strong>Estado:</strong> {user.status}</p>
                         <p><strong>Rol:</strong> {user.role}</p>
-                        <p><strong>Proyectos:</strong> {user.projects?.map((project: Project, index: number) => (
-                            <span key={index}>{project.name}{index < user.projects.length - 1 ? ', ' : ''}</span>
+                        <p><strong>Proyecto/s:</strong> {user.projects?.map((project: Project, index: number) => (
+                            <span key={index}>{project.code}{index < user.projects.length - 1 ? ', ' : ''}</span>
                         ))}</p>
-                        <p><strong>Fecha de registro:</strong> {new Date(user.createdAt).toLocaleString("es-ES", { dateStyle: "short", timeStyle: "short" })}</p>
+                        <p><strong>Fecha de ingreso:</strong> {user.entryDate ? new Date(user.entryDate).toLocaleString("es-ES", { dateStyle: "short" }) : ''}</p>
                     </div>
                 </div>
             </div>

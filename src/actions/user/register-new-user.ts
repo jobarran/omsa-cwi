@@ -25,6 +25,17 @@ const userSchema = z.object({
     category: z.enum(["N_A", "AYUDANTE", "MEDIO_OFICIAL", "OFICIAL", "OFICIAL_ESPECIALIZADO", "CAPATAZ"], {
         errorMap: () => ({ message: "Invalid category" }),
     }),
+    entryDate: z
+        .string()
+        .transform((date) => {
+            // Remove the localized time zone description
+            const normalizedDate = date.replace(/\s\(.+\)$/, '');
+            return new Date(normalizedDate).toISOString();
+        })
+        .refine((isoDate) => !isNaN(new Date(isoDate).getTime()), {
+            message: "Invalid date format for 'entryDate'",
+        })
+        .optional(),
 });
 
 export const registerNewUser = async (formData: FormData) => {
@@ -59,7 +70,8 @@ export const registerNewUser = async (formData: FormData) => {
         password,
         phone: data.phone,
         role: data.role,
-        category: data.category
+        category: data.category,
+        entryDate: data.entryDate as string | undefined,
     });
 
     if (!userParsed.success) {

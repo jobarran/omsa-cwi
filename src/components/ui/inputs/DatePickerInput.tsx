@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { FaSave, FaPen } from 'react-icons/fa';
 import { es } from 'date-fns/locale'; // Import Spanish locale
+import { createLocalDate } from '@/utils';
 
 interface Props {
     label: string;
@@ -24,7 +25,7 @@ export const DatePickerInput = ({ currentValue, editableFields, handleChange, ha
             <label className="block text-gray-700">Fecha de compra</label>
             <div className="relative flex w-full">
                 <DatePicker
-                    selected={currentValue ? new Date(currentValue) : null}
+                    selected={currentValue ? createLocalDate(currentValue) : null}
                     onChange={(date) => handleChange('boughtAt', date ? date.toISOString().split('T')[0] : '')}
                     dateFormat="yyyy-MM-dd"
                     disabled={!editableFields.boughtAt}

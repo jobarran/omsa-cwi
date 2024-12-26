@@ -4,17 +4,17 @@ import { useState } from "react";
 import { User } from "@/interfaces";
 import { updateUserData } from "@/actions";
 import { AdminProfileInputs } from "..";
-import { compressImage } from "@/utils";
+import { compressImage, dateToString, stringToDate } from "@/utils";
 import { updateImage } from "@/actions/user/update-image";
+import { AdminPickerInput } from "../ui/inputs/AdminPickerInput";
+import { AdminEditableField } from "@/types";
 
 interface Props {
     user: User;
 }
 
-type EditableField = "name" | "lastName" | "phone" | "category" | "status" | "company" | "password" | "image";
-
 export const WorkerProfileEdit = ({ user }: Props) => {
-    const [editableFields, setEditableFields] = useState<{ [key in EditableField]: boolean }>({
+    const [editableFields, setEditableFields] = useState<{ [key in AdminEditableField]: boolean }>({
         name: false,
         lastName: false,
         phone: false,
@@ -23,10 +23,11 @@ export const WorkerProfileEdit = ({ user }: Props) => {
         company: false,
         password: false,
         image: false,
+        entryDate: false
     });
 
     const [file, setFile] = useState<File | null>(null); // State for handling file upload
-    const [currentValues, setCurrentValues] = useState<{ [key in EditableField]: string }>({
+    const [currentValues, setCurrentValues] = useState<{ [key in AdminEditableField]: string }>({
         name: user.name,
         lastName: user.lastName,
         phone: user.phone,
@@ -35,23 +36,30 @@ export const WorkerProfileEdit = ({ user }: Props) => {
         company: user.company,
         password: "", // Assuming password is being handled separately
         image: "",
+        entryDate: dateToString(user.entryDate)
     });
 
-    const handleEditClick = (field: EditableField) => {
+    const handleEditClick = (field: AdminEditableField) => {
         setEditableFields((prev) => ({ ...prev, [field]: true }));
     };
 
-    const handleSaveClick = (field: EditableField) => {
+    const handleSaveClick = (field: AdminEditableField) => {
         setEditableFields((prev) => ({ ...prev, [field]: false }));
         handleUpdateUser(user.id, field, currentValues[field]);
     };
 
-    const handleChange = (field: EditableField, value: string) => {
+    const handleChange = (field: AdminEditableField, value: string) => {
         setCurrentValues((prev) => ({ ...prev, [field]: value }));
     };
 
-    const handleUpdateUser = (userId: string, field: EditableField, value: string) => {
-        updateUserData(field, userId, value);
+    const handleUpdateUser = (userId: string, field: AdminEditableField, value: string) => {
+        if (field === "entryDate") {
+            // Convert to Date object before sending to backend
+            const dateValue = stringToDate(value); // Convert the value to Date
+            updateUserData(field, userId, dateValue);
+        } else {
+            updateUserData(field, userId, value)
+        }
     };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +69,7 @@ export const WorkerProfileEdit = ({ user }: Props) => {
         }
     };
 
-    const handleFileUpload = async (userId: string, field: EditableField, value: string) => {
+    const handleFileUpload = async (userId: string, field: AdminEditableField, value: string) => {
 
         const formData = new FormData();
         formData.append("userId", userId);
@@ -155,7 +163,7 @@ export const WorkerProfileEdit = ({ user }: Props) => {
                 </div>
 
                 {/* 2nd Line: Phone, Status, Category */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
                     {/* Phone */}
                     <AdminProfileInputs
                         field="phone"
@@ -166,8 +174,6 @@ export const WorkerProfileEdit = ({ user }: Props) => {
                         handleSaveClick={handleSaveClick}
                         handleEditClick={handleEditClick}
                     />
-
-
 
                     {/* Category */}
                     <AdminProfileInputs
@@ -180,6 +186,16 @@ export const WorkerProfileEdit = ({ user }: Props) => {
                         handleEditClick={handleEditClick}
                         options={["N_A", "AYUDANTE", "MEDIO_OFICIAL", "OFICIAL", "OFICIAL_ESPECIALIZADO", "CAPATAZ"]}
                     />
+
+                    <AdminPickerInput
+                        label={"Fecha de ingreso"}
+                        currentValue={currentValues.entryDate}
+                        handleChange={handleChange}
+                        editableFields={editableFields}
+                        handleSaveClick={handleSaveClick}
+                        handleEditClick={handleEditClick}
+                    />
+
                 </div>
 
                 {/* File Upload Section */}

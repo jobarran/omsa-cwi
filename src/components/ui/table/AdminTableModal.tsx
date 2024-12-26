@@ -21,10 +21,10 @@ export const AdminTableModal = ({ user, field, projects, closeModal }: Props) =>
         field === "permissions"
             ? user.permissions || []
             : field === "projects"
-            ? user.projects?.map((project: ProjectData) => project.id) || [] // Initialize with project IDs
-            : field === "role" && user.role === "WORKER"
-            ? user.role // Ensure it's a string for "WORKER"
-            : user.role || '' // Handle other roles, default to empty string
+                ? user.projects?.map((project: ProjectData) => project.id) || [] // Initialize with project IDs
+                : field === "role" && user.role === "WORKER"
+                    ? user.role // Ensure it's a string for "WORKER"
+                    : user.role || '' // Handle other roles, default to empty string
     );
 
     // Separate state for WORKER users handling one project only
@@ -103,18 +103,27 @@ export const AdminTableModal = ({ user, field, projects, closeModal }: Props) =>
                             ))}
                         </select>
                     ) : (
-                        <select
-                            value={localValue as string[]}
-                            onChange={handleFieldChange}
-                            multiple
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md h-72"
-                        >
-                            {projects.map((project) => (
-                                <option key={project.id} value={project.id}>
-                                    {project.code} - {project.name}
-                                </option>
-                            ))}
-                        </select>
+
+                        projects.map((project) => (
+                            <label key={project.id} className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    value={project.id}
+                                    checked={(localValue as string[]).includes(project.id)} // Check if the project is selected
+                                    onChange={(e) => {
+                                        const selected = new Set(localValue as string[]);
+                                        if (e.target.checked) {
+                                            selected.add(project.id);
+                                        } else {
+                                            selected.delete(project.id);
+                                        }
+                                        setLocalValue(Array.from(selected));
+                                    }}
+                                    className="mr-2"
+                                />
+                                {project.code} - {project.name} {/* Display project information */}
+                            </label>
+                        ))
                     )
                 )}
                 {field === "permissions" && (
