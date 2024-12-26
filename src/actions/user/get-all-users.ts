@@ -17,6 +17,7 @@ export async function getAllUsers(): Promise<User[]> {
         role: true,
         category: true,
         createdAt: true,
+        entryDate: true,
         image: { select: { url: true } },
         projects: {
           select: {
