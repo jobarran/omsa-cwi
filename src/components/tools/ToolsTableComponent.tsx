@@ -17,6 +17,7 @@ interface Props {
 }
 
 export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCategories }: Props) => {
+
     const { filteredTools, handleFilterChange, restoreFilters } = useToolFilter(tools);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedProject, setSelectedProject] = useState<string | null>(null);
@@ -75,6 +76,8 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
     const isToolAdmin = getPermissionBoolean(userPermissions, "ADMIN", "TOOL")
     const isToolView = getPermissionBoolean(userPermissions, "VIEW", "TOOL")
 
+    const toolNames = Array.from(new Set(tools.map(tool => tool.name)));
+
     return (
         <div className="flex flex-col w-full">
             <div className="w-full">
@@ -97,6 +100,7 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
                                 handleSearch={handleSearch}
                                 resetSearchTerm={resetSearchTerm}
                                 isFiltering={isFiltering}
+                                toolNames={toolNames}
                             />
                         </div>
                     </div>

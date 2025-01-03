@@ -1,5 +1,5 @@
 import { ClearFilterButton } from "../ui/buttons/ClearFilterButton";
-import { InputSearch } from "..";
+import { InputSearch, InputSearchDropdown } from "..";
 import { FaFilterCircleXmark } from "react-icons/fa6";
 
 interface InputSearchSectionProps {
@@ -8,6 +8,7 @@ interface InputSearchSectionProps {
     handleSearch: (term: string) => void;
     resetSearchTerm: () => void;
     isFiltering: boolean;
+    toolNames: string[]
 }
 
 export const ToolSearch = ({
@@ -15,16 +16,18 @@ export const ToolSearch = ({
     setSearchTerm,
     handleSearch,
     resetSearchTerm,
-    isFiltering
+    isFiltering,
+    toolNames
 }: InputSearchSectionProps) => {
     return (
         <div className="flex flex-row items-center gap-2">
             <div className="flex-grow">
-                <InputSearch
+                <InputSearchDropdown
                     onSearch={handleSearch}
                     resetSearchTerm={resetSearchTerm}
                     searchTerm={searchTerm}
                     setSearchTerm={setSearchTerm}
+                    options={toolNames}
                 />
             </div>
             <ClearFilterButton

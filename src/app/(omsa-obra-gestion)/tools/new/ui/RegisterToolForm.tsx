@@ -5,12 +5,13 @@ import { ProjectData } from '@/interfaces/project.interface';
 import { ToolCategory } from '@/interfaces/tool.interface';
 import { compressImage } from '@/utils';
 import { useRouter } from "next/navigation";
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller } from 'react-hook-form';
 import { es } from 'date-fns/locale'; // Import Spanish locale
+import { SearchDropdown } from '@/components';
 
 type FormInputs = {
     code: string;
@@ -30,9 +31,10 @@ type FormInputs = {
 interface Props {
     projects: ProjectData[];
     categories: ToolCategory[];
+    toolsNameAndBrand: { name: string; brand: string | null }[];
 }
 
-export const RegisterToolForm = ({ projects, categories }: Props) => {
+export const RegisterToolForm = ({ projects, categories, toolsNameAndBrand }: Props) => {
 
     const router = useRouter();
 
@@ -40,6 +42,7 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
         handleSubmit,
         register,
         control,
+        setValue, // Get setValue from useForm
         formState: { isValid },
     } = useForm<FormInputs>({
         mode: 'onChange',
@@ -57,6 +60,26 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
             category: '', // Default to empty string for single category
         },
     });
+
+    // Function to handle the selection of name
+    const handleNameSelect = (selectedName: string) => {
+        setValue('name', selectedName);  // Set the name field value
+    };
+
+    // Function to handle the addition of a new name
+    const handleNameAdd = (newName: string) => {
+        setValue('name', newName);  // Set the name field value
+    };
+
+    // Function to handle the selection of brand
+    const handleBrandSelect = (selectedBrand: string) => {
+        setValue('brand', selectedBrand);  // Set the brand field value
+    };
+
+    // Function to handle the addition of a new brand
+    const handleBrandAdd = (newBrand: string) => {
+        setValue('brand', newBrand);  // Set the brand field value
+    };
 
     const onSubmit = async (data: FormInputs) => {
         const formData = new FormData();
@@ -92,8 +115,6 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
         }
     };
 
-
-
     return (
         <div className="flex flex-wrap gap-4 w-full">
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -115,36 +136,22 @@ export const RegisterToolForm = ({ projects, categories }: Props) => {
                             placeholder="Ingrese el código"
                         />
                     </div>
-                    <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
-                        <label
-                            htmlFor="name"
-                            className="mb-1 text-sm font-medium text-gray-700"
-                        >
-                            Nombre de la herramienta <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            {...register("name", { required: true })}
-                            type="text"
-                            id="name"
-                            className="border rounded p-2 border-gray-300"
-                            placeholder="Ingrese el nombre de la herramienta"
-                        />
-                    </div>
-                    <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
-                        <label
-                            htmlFor="brand"
-                            className="mb-1 text-sm font-medium text-gray-700"
-                        >
-                            Marca de la herramienta
-                        </label>
-                        <input
-                            {...register("brand")}
-                            type="text"
-                            id="brand"
-                            className="border rounded p-2 border-gray-300"
-                            placeholder="Ingrese la marca de la herramienta"
-                        />
-                    </div>
+
+                    {/* Name Search Dropdown */}
+                    <SearchDropdown
+                        options={toolsNameAndBrand.map(tool => tool.name)} // Extract only the names
+                        onWordAdd={handleNameAdd}
+                        onWordSelect={handleNameSelect}
+                        label="Nombre de la herramienta"
+                    />
+
+                    {/* Brand Search Dropdown */}
+                    <SearchDropdown
+                        options={toolsNameAndBrand.map(tool => tool.brand)} // Extract only the brands
+                        onWordAdd={handleBrandAdd}
+                        onWordSelect={handleBrandSelect}
+                        label="Marca de la herramienta"
+                    />
                 </div>
 
                 {/* Second row: Description */}
