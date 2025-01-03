@@ -1,6 +1,8 @@
 import './globals.css'
 import { roboto } from '@/config/fonts'
 import type { Metadata } from 'next'
+import { Head } from 'next/document'
+
 
 export const metadata: Metadata = {
   title: 'OMSA - CWI',
@@ -15,7 +17,9 @@ export default function RootLayout({
 
   return (
     <html lang="es">
-      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+      </Head>
       <body suppressHydrationWarning={true} className={roboto.className}>
         {children}
       </body>
