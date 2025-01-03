@@ -68,9 +68,8 @@ export const InputSearchDropdown = ({
                 value={searchTerm}
                 onChange={handleInputChange}
                 placeholder="Buscar..."
-                className="w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 outline-none"
+                className="w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 text-sm outline-none"
                 onBlur={handleBlur}
-                style={{ fontSize: '16px' }} // Ensure the font size is at least 16px
 
             />
             {searchTerm && (
@@ -87,7 +86,7 @@ export const InputSearchDropdown = ({
                     {filteredOptions.map((option, index) => (
                         <div
                             key={index}
-                            className="p-2 cursor-pointer hover:bg-gray-200"
+                            className="px-2 py-1 cursor-pointer hover:bg-gray-200 text-md"
                             onClick={() => handleOptionSelect(option)}
                         >
                             {option}
