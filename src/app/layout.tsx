@@ -1,7 +1,7 @@
 import './globals.css'
 import { roboto } from '@/config/fonts'
 import type { Metadata } from 'next'
-import { Head } from 'next/document'
+import Head from 'next/head'
 
 
 export const metadata: Metadata = {
