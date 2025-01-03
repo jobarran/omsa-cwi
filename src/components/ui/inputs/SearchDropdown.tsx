@@ -113,8 +113,9 @@ export const SearchDropdown = ({ options, onWordAdd, onWordSelect, label }: Prop
                                 className="p-2 cursor-pointer hover:bg-gray-200"
                                 onClick={handleWordAddClick}
                             >
-                                Añadir "{inputValue}"
+                                Añadir &quot;{inputValue}&quot;
                             </div>
+
                         </div>
                     )}
                 </div>
