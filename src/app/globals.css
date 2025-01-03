@@ -9,11 +9,6 @@ body {
   /* background-color: #F4F4F4; */
 }
 
-html, body {
-  touch-action: manipulation; /* Prevent zoom on touch */
-  -ms-touch-action: manipulation; /* For older versions of Internet Explorer */
-}
-
 .react-datepicker__header {
   background-color: white !important;
   border-bottom: 1px solid #ddd;

@@ -21,12 +21,6 @@ export const ClearFilterButton = ({ label, icon, action, isFiltering }: Props) =
                 className={`hidden sm:flex ${buttonClass}`}>
                 {label}
             </button>
-
-            {/* Small screens */}
-            <div className={`sm:hidden flex ${buttonClass}`}>
-                {/* Show icon only if provided, else show label */}
-                {icon ? React.createElement(icon) : label}
-            </div>
         </>
     );
 };
