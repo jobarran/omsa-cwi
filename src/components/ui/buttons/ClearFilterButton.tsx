@@ -10,8 +10,8 @@ interface Props {
 export const ClearFilterButton = ({ label, icon, action, isFiltering }: Props) => {
 
     const buttonClass = isFiltering
-        ? "px-2 h-8 items-center rounded-lg border border-gray-300 bg-sky-800 text-white text-sm hover:text-white hover:bg-sky-900 transition" // Blue button
-        : "px-2 h-8 items-center rounded-lg border border-gray-300 text-slate-800 text-sm hover:text-white hover:bg-sky-800 transition"; // Default style
+        ? "px-2 h-8 items-center rounded-lg border border-gray-300 bg-sky-800 text-white text-base hover:text-white hover:bg-sky-900 transition" // Blue button
+        : "px-2 h-8 items-center rounded-lg border border-gray-300 text-slate-800 text-base hover:text-white hover:bg-sky-800 transition"; // Default style
 
     return (
         <>
