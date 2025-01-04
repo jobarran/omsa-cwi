@@ -39,7 +39,7 @@ export const RecordFilter = ({
                 onChange={(e) =>
                     setSelectedObject(e.target.value as RecordObject | "")
                 }
-                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 text-sm outline-none"
+                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 h-8 text-base outline-none"
             >
                 <option value="">Objetos</option>
                 {Object.values(RecordObject).map((obj) => (
@@ -53,7 +53,7 @@ export const RecordFilter = ({
             <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value as RecordType | "")}
-                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 text-sm outline-none"
+                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 h-8 text-base outline-none"
             >
                 <option value="">Tipos</option>
                 {Object.values(RecordType).map((type) => (
