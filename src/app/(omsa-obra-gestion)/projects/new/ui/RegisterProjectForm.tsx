@@ -86,7 +86,7 @@ export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
               {...register("name", { required: true })}
               type="text"
               id="name"
-              className="border rounded p-2 border-gray-300"
+              className="border rounded p-2 border-gray-300 text-base"
               placeholder="Ingrese el nombre del proyecto"
             />
           </div>
@@ -98,7 +98,7 @@ export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
               {...register("address", { required: true })}
               type="text"
               id="address"
-              className="border rounded p-2 border-gray-300"
+              className="border rounded p-2 border-gray-300 text-base"
               placeholder="Ingrese la dirección del proyecto"
             />
           </div>
@@ -113,7 +113,7 @@ export const RegisterProjectForm = ({ users }: RegisterProjectFormProps) => {
             {...register("code", { required: true })}
             type="text"
             id="code"
-            className="border rounded p-2 border-gray-300"
+            className="border rounded p-2 border-gray-300 text-base"
             placeholder="Ingrese un código único para el proyecto"
           />
         </div>

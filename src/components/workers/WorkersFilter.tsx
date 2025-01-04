@@ -2,6 +2,7 @@
 
 import { ProjectData } from "@/interfaces/project.interface";
 import { UserCategory } from "@prisma/client";
+import { FaRegFileExcel } from "react-icons/fa6";
 
 interface Props {
     projects: ProjectData[];
@@ -41,7 +42,7 @@ export const WorkersFilter = ({
 
             {/* Project Dropdown */}
             <select
-                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 text-sm outline-none"
+                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 h-8 text-md outline-none"
                 value={selectedProject || ""}
                 onChange={(e) => {
                     const projectId = e.target.value || null;
@@ -59,7 +60,7 @@ export const WorkersFilter = ({
 
             {/* Category Dropdown */}
             <select
-                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 text-sm outline-none"
+                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 h-8 text-md outline-none"
                 value={selectedCategory || ""}
                 onChange={(e) => {
                     const category = e.target.value || null;
@@ -69,15 +70,15 @@ export const WorkersFilter = ({
             >
                 <option value="" disabled className="text-gray-600">Seleccione una Categoría</option>
                 {Object.entries(userCategoryTranscriptions).map(([key, value]) => (
-                <option key={key} value={key}>
-                    {value}
-                </option>
-            ))}
+                    <option key={key} value={key}>
+                        {value}
+                    </option>
+                ))}
             </select>
 
             {/* State Dropdown */}
             <select
-                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 text-sm outline-none"
+                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 h-8 text-md outline-none"
                 value={selectedState || ""}
                 onChange={(e) => {
                     const state = e.target.value || null;
@@ -93,9 +94,10 @@ export const WorkersFilter = ({
             {/* Export to Excel Button */}
             <button
                 onClick={onExportToExcel}
-                className="hidden sm:flex px-3 py-1 items-center rounded-md bg-sky-800 text-white text-sm font-medium hover:bg-sky-900 transition"
+                className="hidden sm:flex px-2 py-1 h-8 text-sm items-center rounded-md bg-sky-800 text-white font-medium hover:bg-sky-900 transition"
             >
-                Exportar a Excel
+                <FaRegFileExcel className="sm:mr-2" />
+                <p>Exportar a Excel</p>
             </button>
         </div>
     );

@@ -91,7 +91,7 @@ export const SearchDropdown = ({ options, onWordAdd, onWordSelect, label }: Prop
                 onChange={handleInputChange}
                 onClick={toggleDropdown}
                 onBlur={handleBlur}
-                className="w-full border rounded p-2 border-gray-300"
+                className="w-full border rounded p-2 border-gray-300 text-base"
                 placeholder="Buscar o agregar..."
             />
             {isDropdownVisible && (

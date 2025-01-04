@@ -120,7 +120,7 @@ export const RegisterToolForm = ({ projects, categories, toolsNameAndBrand }: Pr
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
 
                 {/* First row: Name, Code, Brand */}
-                <div className="flex flex-col md:flex-row md:gap-4 mb-4">
+                <div className="flex flex-col md:flex-row md:gap-4 md:mb-4">
                     <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
                         <label
                             htmlFor="code"
@@ -132,7 +132,7 @@ export const RegisterToolForm = ({ projects, categories, toolsNameAndBrand }: Pr
                             {...register("code", { required: true })}
                             type="text"
                             id="code"
-                            className="border rounded p-2 border-gray-300"
+                            className="border rounded p-2 border-gray-300 text-base"
                             placeholder="Ingrese el código"
                         />
                     </div>
@@ -166,7 +166,7 @@ export const RegisterToolForm = ({ projects, categories, toolsNameAndBrand }: Pr
                         {...register("description")}
                         rows={3}
                         id="description"
-                        className="border rounded p-2 border-gray-300"
+                        className="border rounded p-2 border-gray-300 text-base"
                         placeholder="Ingrese la descripción"
                     />
                 </div>
@@ -184,7 +184,7 @@ export const RegisterToolForm = ({ projects, categories, toolsNameAndBrand }: Pr
                         <select
                             {...register("category", { required: true })}
                             id="category"
-                            className="border rounded p-2 border-gray-300 h-10"
+                            className="border rounded p-2 border-gray-300 h-10 text-base"
                         >
                             {categories.map((category) => (
                                 <option key={category.id} value={category.id}>
@@ -204,7 +204,7 @@ export const RegisterToolForm = ({ projects, categories, toolsNameAndBrand }: Pr
                         <select
                             {...register("state", { required: true })}
                             id="state"
-                            className="border rounded p-2 border-gray-300 h-10"
+                            className="border rounded p-2 border-gray-300 h-10 text-base"
                         >
                             <option value="ACTIVE">Activo</option>
                             <option value="INACTIVE">Inactivo</option>
@@ -222,7 +222,7 @@ export const RegisterToolForm = ({ projects, categories, toolsNameAndBrand }: Pr
                         <select
                             {...register("projectId", { required: true })}
                             id="projectId"
-                            className="border rounded p-2 border-gray-300 h-10"
+                            className="border rounded p-2 border-gray-300 h-10 text-base"
                         >
                             {projects.map((project) => (
                                 <option key={project.id} value={project.id}>
@@ -247,7 +247,7 @@ export const RegisterToolForm = ({ projects, categories, toolsNameAndBrand }: Pr
                                     onChange={(date: Date | null) => onChange(date)} // Handle both Date and null
                                     onBlur={onBlur}
                                     dateFormat="yyyy-MM-dd"
-                                    className="border p-2 h-11 rounded pr-56 md:pr-12 w-full"
+                                    className="border border-gray-300 p-2 h-10 rounded pr-56 md:pr-12 w-full text-base"
                                     disabled={false}
                                     locale={es} // Set Spanish locale here
 

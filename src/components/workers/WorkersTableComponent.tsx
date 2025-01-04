@@ -75,7 +75,7 @@ export const WorkersTableComponent = ({ workers, projects, userPermissions }: Pr
                     <ClearFilterButton label="Borrar filtros" action={resetFilters} isFiltering={isFiltering} />
                     <Link
                         href={"/workers/new"}
-                        className="flex flex-row px-2 h-8 items-center rounded-lg border bg-sky-800 text-white text-sm font-medium hover:bg-sky-900 transition">
+                        className="flex flex-row px-2 py-1 h-8 text-sm items-center rounded-lg border bg-sky-800 text-white font-medium hover:bg-sky-900 transition">
                         <p className="hidden sm:flex">+ Operario</p>
                         <FaPlus className="sm:hidden text-base" />
                     </Link>

@@ -82,7 +82,7 @@ export const RegisterWorkerForm = () => {
     <div className="flex flex-wrap gap-4 w-full">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         {/* First row: Name, LastName */}
-        <div className="flex flex-col md:flex-row md:gap-4 mb-4">
+        <div className="flex flex-col md:flex-row md:gap-4 md:mb-4">
           <div className="flex flex-col w-full md:w-1/2 mb-4 md:mb-0">
             <label htmlFor="name" className="mb-1 text-sm font-medium text-gray-700">
               Nombre <span className="text-red-500">*</span>
@@ -91,7 +91,7 @@ export const RegisterWorkerForm = () => {
               {...register("name", { required: true })}
               type="text"
               id="name"
-              className="border rounded p-2 border-gray-300"
+              className="border rounded p-2 border-gray-300 text-base"
               placeholder="Ingrese su nombre"
             />
           </div>
@@ -103,14 +103,14 @@ export const RegisterWorkerForm = () => {
               {...register("lastName", { required: true })}
               type="text"
               id="lastName"
-              className="border rounded p-2 border-gray-300"
+              className="border rounded p-2 border-gray-300 text-base"
               placeholder="Ingrese su apellido"
             />
           </div>
         </div>
 
         {/* Second row: Phone, Company */}
-        <div className="flex flex-col md:flex-row md:gap-4 mb-4">
+        <div className="flex flex-col md:flex-row md:gap-4 md:mb-4">
           <div className="flex flex-col w-full md:w-1/3 mb-4 md:mb-0">
             <label htmlFor="phone" className="mb-1 text-sm font-medium text-gray-700">
               Teléfono
@@ -119,7 +119,7 @@ export const RegisterWorkerForm = () => {
               {...register("phone")}
               type="text"
               id="phone"
-              className="border rounded p-2 border-gray-300"
+              className="border rounded p-2 border-gray-300 h-11 text-base"
               placeholder="Ingrese su teléfono"
             />
           </div>
@@ -130,7 +130,7 @@ export const RegisterWorkerForm = () => {
             <select
               {...register("company", { required: true })}
               id="company"
-              className="border rounded p-2 border-gray-300 h-10"
+              className="border rounded p-2 border-gray-300 h-11 text-base"
             >
               <option value="OMSA">OMSA</option>
               <option value="CWI">CWI</option>
@@ -145,7 +145,7 @@ export const RegisterWorkerForm = () => {
               selected={watch("entryDate") ? new Date(watch("entryDate")) : null}
               onChange={(date: Date | null) => setValue("entryDate", date ? date.toISOString().split("T")[0] : "")}
               dateFormat="yyyy-MM-dd"
-              className="border p-2 h-11 rounded w-full"
+              className="border p-2 border-gray-300 h-11 text-base rounded w-full"
               locale={es}
             />
           </div>
@@ -153,7 +153,7 @@ export const RegisterWorkerForm = () => {
         </div>
 
         {/* Third row: Legajo and Category */}
-        <div className="flex flex-col md:flex-row md:gap-4 mb-4">
+        <div className="flex flex-col md:flex-row md:gap-4 md:mb-4">
           <div className="flex flex-col w-full md:w-1/2 mb-4 md:mb-0">
             <label htmlFor="legajo" className="mb-1 text-sm font-medium text-gray-700">
               Legajo <span className="text-red-500">*</span>
@@ -162,7 +162,7 @@ export const RegisterWorkerForm = () => {
               {...register("legajo", { required: true })}
               type="text"
               id="legajo"
-              className="border rounded p-2 border-gray-300"
+              className="border rounded p-2 border-gray-300 h-11 text-base"
               placeholder="Ingrese el legajo"
             />
           </div>
@@ -173,7 +173,7 @@ export const RegisterWorkerForm = () => {
             <select
               {...register("category", { required: true })}
               id="category"
-              className="border rounded p-2 border-gray-300 h-10"
+              className="border rounded p-2 border-gray-300  h-11 text-base"
             >
               <option value="N_A">No Aplica</option>
               <option value="AYUDANTE">Ayudante</option>
