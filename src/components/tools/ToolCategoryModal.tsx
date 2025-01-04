@@ -43,7 +43,7 @@ export const ToolCategoryModal = ({ closeModal, categories }: Props) => {
 
                 {/* Category input field */}
                 <div className="mb-4">
-                    <label htmlFor="category-name" className="block text-sm font-medium text-gray-700">Nombre de la Categoría</label>
+                    <label htmlFor="category-name" className="block text-base font-medium text-gray-700">Nombre de la Categoría</label>
                     <input
                         type="text"
                         id="category-name"

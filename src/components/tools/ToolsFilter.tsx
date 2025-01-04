@@ -34,7 +34,7 @@ export const ToolsFilter = ({
         <div className="flex flex-wrap items-center gap-2 pb-2 w-full">
             {/* Proyecto Dropdown */}
             <select
-                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 text-sm outline-none"
+                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 h-8 text-md outline-none"
                 value={selectedProject || ""}
                 onChange={(e) => {
                     setSelectedProject(e.target.value || null);
@@ -53,7 +53,7 @@ export const ToolsFilter = ({
 
             {/* Marca Dropdown */}
             <select
-                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 text-sm outline-none"
+                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 h-8 text-md outline-none"
                 value={selectedBrand || ""}
                 onChange={(e) => {
                     setSelectedBrand(e.target.value || null);
@@ -72,7 +72,7 @@ export const ToolsFilter = ({
 
             {/* Estado Dropdown */}
             <select
-                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 text-sm outline-none"
+                className="flex-grow sm:w-auto w-full rounded-md border bg-gray-50 border-gray-300 text-slate-800 px-2 py-1 h-8 text-md outline-none"
                 value={selectedState || ""}
                 onChange={(e) => {
                     setSelectedState(e.target.value || null);
@@ -90,10 +90,10 @@ export const ToolsFilter = ({
             {/* Exportar a Excel Button */}
             <button
                 onClick={onExportToExcel}
-                className="hidden sm:flex px-3 py-1 items-center rounded-md bg-sky-800 text-white text-sm font-medium hover:bg-sky-900 transition"
+                className="hidden sm:flex px-2 py-1 h-8 text-sm items-center rounded-md bg-sky-800 text-white font-medium hover:bg-sky-900 transition"
             >
                 <FaRegFileExcel className="sm:mr-2" />
-                <p className="hidden sm:block text-sm">Exportar a Excel</p>
+                <p>Exportar a Excel</p>
             </button>
         </div>
     );
