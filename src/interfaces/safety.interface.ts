@@ -51,7 +51,6 @@ export interface SafetyTable {
     createdAt: Date;
     updatedAt: Date;
     safetyRecords: SafetyRecord[];
-    expirationDate: string;
     project: {
         name: string;
         code: string;
@@ -59,6 +58,7 @@ export interface SafetyTable {
     };
     user: {
         name: string;
+        lastName: string;
         legajo: string;
         status: UserStatus
     };

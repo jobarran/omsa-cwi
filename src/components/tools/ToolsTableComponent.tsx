@@ -84,7 +84,7 @@ export const ToolsTableComponent = ({ tools, projects, userPermissions, toolCate
                 <ToolSummaryData tools={filteredTools} />
 
                 {isToolView && (
-                    <div className={`flex flex-col w-full gap-2 sm:gap-2 ${isToolAdmin ? 'sm:flex-row justify-between items-center' : ''}`}>
+                    <div className={`flex flex-col w-full gap-2 ${isToolAdmin ? 'sm:flex-row justify-between items-center' : ''}`}>
                         {/* Admin Buttons (only if isToolAdmin is true) */}
                         {isToolAdmin && (
                             <div className="w-full sm:w-auto sm:order-2 flex justify-center">

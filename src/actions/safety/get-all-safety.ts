@@ -1,6 +1,6 @@
 'use server';
 
-import { SafetyRecord, SafetyTable } from '@/interfaces/safety.interface';
+import { SafetyTable } from '@/interfaces/safety.interface';
 import prisma from '@/lib/prisma';
 
 export const getAllSafety = async () => {
@@ -18,6 +18,7 @@ export const getAllSafety = async () => {
                 user: {
                     select: {
                         name: true,
+                        lastName: true,
                         legajo: true,
                         status: true,
                     }
