@@ -1,4 +1,4 @@
-import { Company, Company as PrismaCompany, Project, User } from "@prisma/client";
+import { Company, Company as PrismaCompany, Project, ProjectStatus, User, UserStatus } from "@prisma/client";
 
 // Safety Interface
 export interface Safety {
@@ -42,3 +42,25 @@ export interface SafetyRecordInput {
     expirationDate: string;
     documentationLink: string;
 }
+
+export interface SafetyTable {
+    id: string;
+    company: string;
+    projectId: string;
+    userId: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+    safetyRecords: SafetyRecord[];
+    expirationDate: string;
+    project: {
+        name: string;
+        code: string;
+        status: ProjectStatus
+    };
+    user: {
+        name: string;
+        legajo: string;
+        status: UserStatus
+    };
+}
+

@@ -69,9 +69,7 @@ export const SafetyRecordsComponent = ({ safety }: Props) => {
             });
 
             setRecords([]);
-            alert("Records saved successfully!");
         } catch (error) {
-            console.error(error);
             setError("Failed to save records. Please try again.");
         } finally {
             setLoading(false);
