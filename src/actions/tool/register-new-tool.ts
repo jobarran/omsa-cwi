@@ -29,7 +29,6 @@ const toolSchema = z.object({
         message: "Invalid date format for 'boughtAt'",
     })
     .optional(),
-
     category: z.string().optional(), // Optional category ID
 });
 

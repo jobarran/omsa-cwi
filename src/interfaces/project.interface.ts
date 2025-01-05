@@ -1,5 +1,6 @@
 import { UserRole as PrismaUserRole } from "@prisma/client";
 import { Tool } from "./tool.interface";
+import { Safety, SafetySmall } from "./safety.interface";
 
 export interface Project {
   id: string;
@@ -40,4 +41,10 @@ export interface projectUser {
   name: string,
   lastName: string
   role: PrismaUserRole
+}
+
+export interface projectidName {
+  id: string;
+  name: string;
+  safety?: SafetySmall[] | null;
 }

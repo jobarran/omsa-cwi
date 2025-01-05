@@ -68,6 +68,7 @@ model Project {
 
   // Relations - Down
   tools  Tool[]
+  safety Safety[]
   status ProjectStatus  @default(PLANNING)
   image  ProjectImage[]
 }
@@ -105,6 +106,7 @@ model User {
   tools            Tool[]
   image            UserImage[]
   workerSkill      WorkerSkill[]
+  safety           Safety?
 }
 
 model WorkerSkill {
@@ -145,6 +147,40 @@ model Category {
 
   // Relations - Down
   tools Tool[]
+}
+
+model Safety {
+  id      String  @id @default(uuid())
+  company Company @default(CWI)
+
+  // One-to-One Relations
+  project   Project? @relation(fields: [projectId], references: [id])
+  projectId String?
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?  @unique
+
+  // Relations - Down
+  safetyRecords SafetyRecord[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SafetyRecord {
+  id                String    @id @default(uuid())
+  name              String
+  required          Boolean
+  expirationDate    DateTime?
+  documentationLink String?
+
+  // Relations - Up
+  safety   Safety @relation(fields: [safetyId], references: [id])
+  safetyId String
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum ToolState {

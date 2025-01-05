@@ -7,6 +7,7 @@ import {
   WorkerSkill as PrismaWorkerSkill,
   UserCategory as PrismaUserCategory
 } from '@prisma/client'; // Import Prisma's enums
+import { Safety } from './safety.interface';
 
 // Use Prisma's enums in your interface
 
@@ -83,4 +84,14 @@ export interface UserSmallData {
   id: string;
   name: string;
   lastName: string
+}
+
+export interface UserSafetyData {
+  id: string;
+  name: string;
+  lastName: string;
+  company: PrismaUserCompany;
+  legajo: string;
+  permissions?: PrismaUserPermission[]; 
+  safety?: Safety | null;
 }

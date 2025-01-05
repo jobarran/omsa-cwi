@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from "next/navigation";
 import { FaAngleRight, FaHome, FaTools } from 'react-icons/fa';
-import { FaBuilding, FaFingerprint, FaGear, FaUserGroup } from 'react-icons/fa6';
+import { FaBuilding, FaFingerprint, FaGear, FaHelmetSafety, FaUserGroup } from 'react-icons/fa6';
 
 // Icon mapping with Spanish translations
 const iconMapping: { [key: string]: { icon: React.ElementType, label: string } } = {
@@ -12,6 +12,7 @@ const iconMapping: { [key: string]: { icon: React.ElementType, label: string } }
     '/workers': { icon: FaUserGroup, label: 'Operarios' },
     '/records': { icon: FaFingerprint, label: 'Registros' },
     '/admin': { icon: FaGear, label: 'Admin' },
+    '/safety': { icon: FaHelmetSafety, label: 'Seguridad' },
 };
 
 export const Breadcrumb = () => {

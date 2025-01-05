@@ -11,8 +11,17 @@
 // FILTERS IN PRINCIPAL REGISTROLIST
 
 // EMI:
-// SEGURIDAD SECTION
+// SEGURIDAD SECTION - table of projects and workers with status / in project and worker profile add all doc
 // ALERTAS DE VENCIMIENTOS
 // DOC VIGENTE EN ART
 // AGREGAR EN OBRA ESTADO DE SEGURIDAD
 // HERRAMIENTAS - BUSCAR POR MENU DESPL (NORMALIZAR NOMBRES) AUTOCOMPLETAR
+
+Safety
+- remove image upload (and for pisma)
+- add link on pisma (string)
+- config Drive for safety docs (create a dirve config file)
+- same for drawings?
+- remove issued (is same as createdAt)
+- safetyRecords design
+- add remove to safetyRecords before saving
