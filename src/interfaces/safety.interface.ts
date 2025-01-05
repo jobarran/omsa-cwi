@@ -26,15 +26,6 @@ export interface SafetyRecord {
     updatedAt: Date;
 }
 
-// SafetyRecordImage Interface
-export interface SafetyRecordImage {
-    id: string;
-    url: string;
-    safetyRecord?: SafetyRecord | null;
-    safetyRecordId?: string | null;
-}
-
-
 export interface SafetySmall {
     id: string;
     createdAt: Date;

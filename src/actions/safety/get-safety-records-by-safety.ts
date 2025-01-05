@@ -9,7 +9,6 @@ export const getSafetyRecordsBySafety = async (safetyId: string): Promise<Safety
             where: { safetyId },
             include: {
                 safety: true,
-                safetyRecordImage: true,
             },
             orderBy: {
                 name: 'desc',
