@@ -4,7 +4,7 @@ import { generateFileName } from "@/utils";
 import { FaGoogleDrive, FaPaste, FaRegCopy, FaUserPlus } from "react-icons/fa6";
 import { IoMdLink } from "react-icons/io";
 import { Company as PrismaCompany } from "@prisma/client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 interface Props {
     handleCopyToClipboard: () => void;
@@ -25,19 +25,21 @@ export const SafetyRecordDriveModal = ({
 }: Props) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
-    // Close modal if clicking outside
-    const handleClickOutside = (event: MouseEvent) => {
-        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-            setIsModalOpen(false);
-        }
-    };
+    const handleClickOutside = useCallback(
+        (event: MouseEvent) => {
+            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+                setIsModalOpen(false);
+            }
+        },
+        [setIsModalOpen]
+    );
 
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, []);
+    }, [handleClickOutside]);
 
     return (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
@@ -94,7 +96,7 @@ export const SafetyRecordDriveModal = ({
                         <p className="flex text-sky-700 items-center">Pegar</p>
                         <FaPaste className="text-sky-700" />
                         <p>el link en el campo</p>
-                        <p className="text-sky-700">"Documentación / Link"</p>
+                        <p className="text-sky-700">&quot;Documentación / Link&quot;</p>
                     </div>
                 </div>
                 <button
