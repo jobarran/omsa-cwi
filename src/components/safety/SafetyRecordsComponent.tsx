@@ -85,6 +85,7 @@ export const SafetyRecordsComponent = ({ safety }: Props) => {
                 loading={loading}
                 handleAddSafetyRecord={handleAddSafetyRecord}
                 error={error}
+                safety={safety}
             />
             <SafetyRecordList records={records} handleRemoveRecord={handleRemoveRecord} />
             <button

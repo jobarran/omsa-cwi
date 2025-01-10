@@ -1,11 +1,16 @@
 "use client";
 
-import { SafetyRecordInput } from "@/interfaces/safety.interface";
+import { useState } from "react";
+import { Safety, SafetyRecordInput } from "@/interfaces/safety.interface";
 import { SafetyRecords } from "@/types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { es } from "date-fns/locale";
-import { FaCheck, FaPlus } from "react-icons/fa"; // Import the "+" icon
+import { FaGoogleDrive, FaRegCopy } from "react-icons/fa";
+import { FaCheck, FaPaste, FaPlus, FaUserPlus } from "react-icons/fa6";
+import { IoMdLink } from "react-icons/io";
+import { generateFileName } from "@/utils";
+import { SafetyRecordDriveModal } from "./SafetyRecordDriveModal";
 
 interface Props {
     formData: SafetyRecordInput;
@@ -13,6 +18,7 @@ interface Props {
     loading: boolean;
     handleAddSafetyRecord: () => void;
     error: string | null;
+    safety: Safety;
 }
 
 export const SafetyRecordForm = ({
@@ -21,11 +27,30 @@ export const SafetyRecordForm = ({
     loading,
     handleAddSafetyRecord,
     error,
+    safety,
 }: Props) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const isButtonDisabled = !formData.name || !formData.expirationDate || loading;
+
+    const fileNameData = {
+        projectId: safety.projectId,
+        userId: safety.userId,
+        company: safety.company,
+        recordName: formData.name,
+        name: safety.project?.code ? safety.project.code : safety.user?.lastName ? safety.user?.lastName : ""
+    };
+
+    const handleCopyToClipboard = () => {
+        const fileName = generateFileName(fileNameData);
+        navigator.clipboard.writeText(fileName);
+    };
 
     return (
         <div className="w-full justify-center items-center">
+            {/* Title */}
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">Carga de registros de seguridad</h1>
+
             <div className="grid grid-cols-1 md:grid-cols-[3fr_3fr_3fr_auto] gap-4 items-end">
                 {/* Name Field */}
                 <div>
@@ -75,22 +100,33 @@ export const SafetyRecordForm = ({
                     <label htmlFor="documentationLink" className="mb-1 text-sm font-medium text-gray-700">
                         Documentación <span className="text-gray-400">/ Link</span>
                     </label>
-                    <input
-                        value={formData.documentationLink}
-                        onChange={handleChange}
-                        type="text"
-                        id="documentationLink"
-                        name="documentationLink"
-                        className="border rounded p-2 border-gray-300 text-base w-full h-11"
-                        placeholder="Ingrese link de Drive"
-                        required
-                    />
+                    <div className="flex items-center">
+                        <input
+                            value={formData.documentationLink}
+                            onChange={handleChange}
+                            type="text"
+                            id="documentationLink"
+                            name="documentationLink"
+                            className="border rounded-l p-2 border-gray-300 text-base w-full h-11"
+                            placeholder="Ingrese link de Drive"
+                            required
+                            disabled={!formData.name}
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setIsModalOpen(true)}
+                            className={`bg-sky-800 hover:bg-sky-900 text-white h-11 px-4 rounded-r flex items-center justify-center ${!formData.name ? "opacity-50 cursor-not-allowed" : ""
+                                }`}
+                            disabled={!formData.name}
+                        >
+                            <FaGoogleDrive className="text-xl" />
+                        </button>
+                    </div>
                 </div>
-
                 {/* Required Checkbox */}
                 <div className="flex flex-row justify-center items-center space-x-4">
                     <div className="flex flex-col items-center">
-                        <label htmlFor="required" className="mb-1 text-sm font-medium text-gray-700 text-center">
+                        <label htmlFor="required" className="mb-1 text-sm font-medium text-gray-700">
                             Req.
                         </label>
                         <div className="relative flex items-center justify-center">
@@ -111,10 +147,9 @@ export const SafetyRecordForm = ({
                         </div>
                     </div>
 
-
                     {/* Submit Button */}
                     <div className="flex flex-col items-center">
-                        <label htmlFor="required" className="mb-1 text-sm font-medium text-gray-700 text-center">
+                        <label htmlFor="required" className="mb-1 text-sm font-medium text-gray-700">
                             Agregar
                         </label>
                         <button
@@ -128,6 +163,15 @@ export const SafetyRecordForm = ({
                     </div>
                 </div>
             </div>
+
+            {/* Modal */}
+            {isModalOpen && (
+                <SafetyRecordDriveModal
+                    handleCopyToClipboard={handleCopyToClipboard}
+                    setIsModalOpen={setIsModalOpen}
+                    fileNameData={fileNameData}
+                />
+            )}
         </div>
     );
 };
