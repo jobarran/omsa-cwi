@@ -1,6 +1,6 @@
 'use server';
 
-import { ProjectData, ProjectStatus, ProjectImage, projectidName } from '@/interfaces/project.interface';
+import { projectidName } from '@/interfaces/project.interface';
 import prisma from '@/lib/prisma';
 
 export const getAllProjectsIdName = async (): Promise<projectidName[]> => {
@@ -17,7 +17,6 @@ export const getAllProjectsIdName = async (): Promise<projectidName[]> => {
                   updatedAt: true,
                   company: true,
                   projectId: true,
-                  userId: true,
                 },
               },
             },

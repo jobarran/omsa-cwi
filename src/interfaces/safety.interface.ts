@@ -30,7 +30,6 @@ export interface SafetySmall {
     company: Company;
     requireRecords?: string[] | null;
     projectId: string | null;
-    userId: string | null;
 }
 
 export interface SafetyRecordInput {
