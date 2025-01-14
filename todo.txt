@@ -21,6 +21,41 @@ Safety
 - All safety records must be linked with a project (is not project or user)
 - Safety record can be for employer or employee but always has projectId
 - safetyRecords design
+- add legajo to drive link name
+- First line: obra / Company
+- Second line: Employer or Employee (if employee take data from user.project) / recordType / expiration / link / req
 
 * Registro de cambio o adicional en Obras
 * Summary en Operarios
+
+
+<td className="px-4 py-2 text-center">
+                                    <div className="flex justify-center space-x-1">
+                                        {safety.safetyRecords
+                                            .filter((rec) => rec.expirationDate)
+                                            .sort(
+                                                (a, b) =>
+                                                    new Date(a.expirationDate!).getTime() -
+                                                    new Date(b.expirationDate!).getTime()
+                                            )
+                                            .map((rec, i) => {
+                                                const dotStyle = calculateDotColor(rec.expirationDate);
+                                                return (
+                                                    <span
+                                                        key={i}
+                                                        className="h-4 w-4 rounded-full"
+                                                        style={dotStyle}
+                                                        title={rec.name}
+                                                    />
+                                                );
+                                            })}
+                                    </div>
+                                </td>
+
+
+
+
+Fileter by project
+correct summary labels
+
+continue with add register safety modal "empresa"

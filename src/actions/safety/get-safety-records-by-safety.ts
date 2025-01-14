@@ -8,12 +8,17 @@ export const getSafetyRecordsBySafety = async (safetyId: string): Promise<Safety
         const safetyRecords = await prisma.safetyRecord.findMany({
             where: { safetyId },
             include: {
-                safety: true,
+                safety: {
+                    include: {
+                        project: true,  // Ensure the `project` field is included
+                    }
+                },
             },
             orderBy: {
                 name: 'desc',
             },
         });
+
 
         return safetyRecords as SafetyRecord[];
     } catch (error) {

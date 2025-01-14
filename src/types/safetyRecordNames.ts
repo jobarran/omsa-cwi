@@ -1,93 +1,157 @@
 export interface SafetyRecord {
     name: string;
     shortName: string;
+    slug: string;
+    type: string;
     description: string;
-    link: string;
 }
 
 export const SafetyRecords: SafetyRecord[] = [
     {
-        name: 'Inscripción AFIP',
-        shortName: 'AFIP',
-        description: 'Inscripción en la Administración Federal de Ingresos Públicos.',
-        link: 'https://www.afip.gob.ar/',
+        name: 'Alta/Baja De Afip Firmada Por El Empleado',
+        shortName: 'AFIP Alta',
+        slug: 'afip-alta',
+        type: 'empleado',
+        description: 'Formulario de alta o baja en AFIP.'
     },
     {
-        name: 'Anexo declaración de recursos afectados',
-        shortName: 'Recursos',
-        description: 'Declaración de los recursos afectados según normativa.',
-        link: 'https://www.afip.gob.ar/',
+        name: 'Apto Médico Preocupacional',
+        shortName: 'Preocupacional',
+        slug: 'preocupacional',
+        type: 'empleado',
+        description: 'Certificado médico preocupacional.'
     },
     {
-        name: 'F-931 DJ y Presentación',
-        shortName: 'F931 DJ',
-        description: 'Declaración jurada y presentación del formulario 931.',
-        link: 'https://www.afip.gob.ar/',
+        name: 'Aviso Inicio De Obra Res 522/01 Art 12',
+        shortName: 'Aviso de Obra',
+        slug: 'aviso-de-obra',
+        type: 'empresa',
+        description: 'Notificación oficial de inicio de obra.'
     },
     {
-        name: 'F-931 VEP y Pago',
-        shortName: 'F931 Pago',
-        description: 'Generación de VEP y pago del formulario 931.',
-        link: 'https://www.afip.gob.ar/',
-    },
-    {
-        name: 'F-931 Nómina de empleados',
-        shortName: 'F931',
-        description: 'Listado detallado de los empleados según formulario 931.',
-        link: 'https://www.afip.gob.ar/',
-    },
-    {
-        name: 'Póliza de accidentes de trabajo',
-        shortName: 'Póliza',
-        description: 'Cobertura de accidentes laborales para empleados.',
-        link: '/',
-    },
-    {
-        name: 'Certificado de cobertura ART',
-        shortName: 'ART',
-        description: 'Certificado de cobertura ART.',
-        link: '/',
-    },
-    {
-        name: 'Póliza seguro de vida obligatorio',
-        shortName: 'Seguro Vida',
-        description: 'Seguro de vida obligatorio para empleados.',
-        link: 'https://www.afip.gob.ar/',
-    },
-    {
-        name: 'Inscripción anual IERIC',
-        shortName: 'IERIC Inscripción',
-        description: 'Inscripción anual en el Instituto de Estadística y Registro de la Industria de la Construcción.',
-        link: 'https://www.ieric.org.ar/',
-    },
-    {
-        name: 'Boleta y pago IERIC',
-        shortName: 'IERIC Pago',
-        description: 'Generación y pago de la boleta del IERIC.',
-        link: 'https://www.ieric.org.ar/',
-    },
-    {
-        name: 'Boleta y pago UOCRA',
-        shortName: 'UOCRA',
-        description: 'Pago de la boleta de la Unión Obrera de la Construcción de la República Argentina.',
-        link: 'https://www.uocra.org/',
-    },
-    {
-        name: 'Aviso de obra',
-        shortName: 'Aviso Obra',
-        description: 'Notificación oficial de inicio de obra.',
-        link: '/',
-    },
-    {
-        name: 'Programa de seguridad',
-        shortName: 'Seguridad',
-        description: 'Programa de seguridad e higiene en el trabajo.',
-        link: '/',
-    },
-    {
-        name: 'Clausula de no repeticion',
+        name: 'Certificado Art C/Clausula De No Repeticion',
         shortName: 'No repeticion',
-        description: 'Cláusula legal que establece la no repetición de actos en situaciones contractuales.',
-        link: '/',
+        slug: 'no-repeticion',
+        type: 'empleado',
+        description: 'Certificado ART con cláusula de no repetición.'
     },
+    {
+        name: 'Certificado Seguro Vida Obligatorio',
+        shortName: 'SVO',
+        slug: 'svo',
+        type: 'empleado',
+        description: 'Seguro de vida obligatorio para empleados.'
+    },
+    {
+        name: 'Constancia Entrega EPP Res 299/11',
+        shortName: 'EPP',
+        slug: 'epp',
+        type: 'empleado',
+        description: 'Constancia de entrega de equipos de protección personal.'
+    },
+    {
+        name: 'Constancia Plan De Capacitacion',
+        shortName: 'Capacitacion',
+        slug: 'capacitacion',
+        type: 'empleado',
+        description: 'Documento de plan de capacitación.'
+    },
+    {
+        name: 'F-931 DJ y Presentacion',
+        shortName: 'F931 Presentacion',
+        slug: 'f931-presentacion',
+        type: 'empresa',
+        description: 'Declaración jurada y presentación del formulario F-931.'
+    },
+    {
+        name: 'F-931 Nomina De Empleados',
+        shortName: 'F931 Nomina',
+        slug: 'f931-nomina',
+        type: 'empresa',
+        description: 'Listado de empleados en el formulario F-931.'
+    },
+    {
+        name: 'F-931 VEP Y Pago',
+        shortName: 'F931 Pago',
+        slug: 'f931-pago',
+        type: 'empresa',
+        description: 'Generación de VEP y pago del formulario F-931.'
+    },
+    {
+        name: 'IERIC (Boleta Y Pago)',
+        shortName: 'IERIC',
+        slug: 'ieric',
+        type: 'empresa',
+        description: 'Pago y boleta de IERIC.'
+    },
+    {
+        name: 'Inscripcion AFIP',
+        shortName: 'AFIP Inscripcion',
+        slug: 'afip-inscripcion',
+        type: 'empresa',
+        description: 'Inscripción en la AFIP.'
+    },
+    {
+        name: 'Inscripcion Anual IERIC',
+        shortName: 'IERIC Inscripcion',
+        slug: 'ieric-inscripcion',
+        type: 'empresa',
+        description: 'Inscripción anual en IERIC.'
+    },
+    {
+        name: 'Matricula Habilitante Tec Seg E Hig',
+        shortName: 'Matr SeH',
+        slug: 'matr-seh',
+        type: 'empleado',
+        description: 'Matrícula habilitante técnica en seguridad e higiene.'
+    },
+    {
+        name: 'Pago Fondo Cese Laboral',
+        shortName: 'Fondo cese laboral',
+        slug: 'fondo-cese-laboral',
+        type: 'empleado',
+        description: 'Pago del fondo de cese laboral.'
+    },
+    {
+        name: 'Pago Matricula',
+        shortName: 'Matr ShE pago',
+        slug: 'matr-she-pago',
+        type: 'empleado',
+        description: 'Pago de matrícula en seguridad e higiene.'
+    },
+    {
+        name: 'Poliza De Accidentes Del Trabajo',
+        shortName: 'Poliza',
+        slug: 'poliza',
+        type: 'empresa',
+        description: 'Póliza de accidentes laborales.'
+    },
+    {
+        name: 'Poliza Seguro De Vida Obligatorio',
+        shortName: 'Poliza SVO',
+        slug: 'poliza-svo',
+        type: 'empresa',
+        description: 'Seguro de vida obligatorio.'
+    },
+    {
+        name: 'Programa De Seg E Hig Aprobado ART',
+        shortName: 'Programa Seg',
+        slug: 'programa-seg',
+        type: 'empresa',
+        description: 'Programa de seguridad e higiene aprobado por ART.'
+    },
+    {
+        name: 'Recibos De Haberes',
+        shortName: 'Recibo',
+        slug: 'recibo',
+        type: 'empleado',
+        description: 'Comprobantes de recibos de haberes.'
+    },
+    {
+        name: 'UOCRA (Presentacion, Boleta Y Pago)',
+        shortName: 'UOCRA',
+        slug: 'uocra',
+        type: 'empresa',
+        description: 'Boleta, presentación y pago en UOCRA.'
+    }
 ];

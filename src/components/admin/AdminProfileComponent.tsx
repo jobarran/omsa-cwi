@@ -13,8 +13,6 @@ interface Props {
 
 export const AdminProfileComponent = ({ user, records }: Props) => {
 
-    console.log(user)
-
     const [activeTab, setActiveTab] = useState("Registros");
 
     const renderContent = () => {

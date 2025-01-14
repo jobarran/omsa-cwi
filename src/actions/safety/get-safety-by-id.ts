@@ -9,7 +9,6 @@ export const getSafetyById = async (id: string): Promise<Safety | null> => {
             },
             include: {
                 project: true,
-                user: true,
                 safetyRecords: true
             },
         });

@@ -15,14 +15,6 @@ export const getAllSafety = async () => {
                         status: true,
                     }
                 },
-                user: {
-                    select: {
-                        name: true,
-                        lastName: true,
-                        legajo: true,
-                        status: true,
-                    }
-                }
             },
             orderBy: {
                 projectId: 'desc',

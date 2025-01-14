@@ -106,7 +106,7 @@ model User {
   tools            Tool[]
   image            UserImage[]
   workerSkill      WorkerSkill[]
-  safety           Safety?
+  safetyRecord     SafetyRecord[]
 }
 
 model WorkerSkill {
@@ -150,14 +150,13 @@ model Category {
 }
 
 model Safety {
-  id      String  @id @default(uuid())
-  company Company @default(CWI)
+  id             String   @id @default(uuid())
+  company        Company  @default(CWI)
+  requireRecords String[]
 
-  // One-to-One Relations
-  project   Project? @relation(fields: [projectId], references: [id])
-  projectId String?
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    String?  @unique
+  // Relations - Up
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId String
 
   // Relations - Down
   safetyRecords SafetyRecord[]
@@ -168,15 +167,31 @@ model Safety {
 }
 
 model SafetyRecord {
+  id       String  @id @default(uuid())
+  name     String
+
+  // Relations - Up
+  safety   Safety  @relation(fields: [safetyId], references: [id])
+  safetyId String
+  user     User?   @relation(fields: [userId], references: [id])
+  userId   String?
+
+  // Relations - Down
+  safetyRecordFiles SafetyRecordFile[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SafetyRecordFile {
   id                String    @id @default(uuid())
-  name              String
-  required          Boolean
   expirationDate    DateTime?
   documentationLink String?
 
   // Relations - Up
-  safety   Safety @relation(fields: [safetyId], references: [id])
-  safetyId String
+  safetyRecord   SafetyRecord @relation(fields: [safetyRecordId], references: [id])
+  safetyRecordId String
 
   // Timestamps
   createdAt DateTime @default(now())

@@ -1,7 +1,6 @@
 import { auth } from '@/auth.config';
 import { HomeSections } from '@/components';
 
-
 export default async function Home() {
 
   const session = await auth();

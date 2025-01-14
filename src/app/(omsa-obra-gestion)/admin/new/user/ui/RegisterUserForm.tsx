@@ -61,9 +61,6 @@ export const RegisterUserForm = () => {
 
     formData.append("category", UserCategory.N_A); // Fixed password
 
-
-
-
     // Handle image compression and append compressed image
     if (image && image.length > 0) {
       try {

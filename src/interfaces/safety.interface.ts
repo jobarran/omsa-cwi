@@ -1,14 +1,13 @@
-import { Company, Company as PrismaCompany, Project, ProjectStatus, User, UserStatus } from "@prisma/client";
+import { Company, Project, ProjectStatus } from "@prisma/client";
 
 // Safety Interface
 export interface Safety {
     id: string;
-    company: PrismaCompany;
-    project?: Project | null;
-    projectId?: string | null;
-    user?: User | null;
-    userId?: string | null;
+    company: Company;  // Changed PrismaCompany to Company enum
+    project: Project;
+    projectId: string;
     safetyRecords?: SafetyRecord[] | null;
+    requireRecords?: string[] | null;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -17,13 +16,11 @@ export interface Safety {
 export interface SafetyRecord {
     id: string;
     name: string;
-    required: boolean;
-    expirationDate?: Date | null;
-    safety: Safety;
-    safetyId: string;
-    documentationLink: string;
     createdAt: Date;
+    safetyId: string;
+    userId: string | null;
     updatedAt: Date;
+
 }
 
 export interface SafetySmall {
@@ -31,6 +28,7 @@ export interface SafetySmall {
     createdAt: Date;
     updatedAt: Date;
     company: Company;
+    requireRecords?: string[] | null;
     projectId: string | null;
     userId: string | null;
 }
@@ -38,29 +36,53 @@ export interface SafetySmall {
 export interface SafetyRecordInput {
     id?: string;
     name: string;
-    required: boolean;
+    userId: string;
+    userName: string;
+    origen: string;
     expirationDate: string;
     documentationLink: string;
 }
 
 export interface SafetyTable {
-    id: string;
-    company: string;
-    projectId: string;
-    userId: string | null;
-    createdAt: Date;
-    updatedAt: Date;
     safetyRecords: SafetyRecord[];
     project: {
         name: string;
         code: string;
-        status: ProjectStatus
-    };
-    user: {
-        name: string;
-        lastName: string;
-        legajo: string;
-        status: UserStatus
+        status: ProjectStatus;
     };
 }
 
+export interface ProjectSafetyTable {
+    id: string;
+    name: string;
+    code: string;
+    status: ProjectStatus;
+    users: { legajo: string, name: string, lastName: string, id: string, company: Company }[] | [],
+    safety: {
+        id: string;
+        company: Company;
+        projectId: string | null;
+        requireRecords?: string[] | null;
+        safetyRecords: {
+            id: string;
+            name: string;
+            user: { name: string, lastName: string, legajo: string } | null;
+            safetyRecordFiles: { documentationLink: string | null, expirationDate: Date | null }[];  // Correct property order
+        }[];
+    }[];
+}
+
+
+export interface SafetyList {
+    safety: {
+        id: string;
+        company: string;
+        projectId: string | null;
+        requireRecords?: string[] | null;
+        safetyRecords: {
+            id: string;
+            name: string;
+            safetyRecordFiles: { documentationLink: string | null, expirationDate: Date | null }
+        }[];
+    }[];
+}

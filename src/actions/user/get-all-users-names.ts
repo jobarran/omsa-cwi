@@ -1,9 +1,9 @@
 'use server';
 
-import { User, UserSafetyData } from '@/interfaces/user.interface';
+import { User, UserNameData, UserSafetyData } from '@/interfaces/user.interface';
 import prisma from '@/lib/prisma';
 
-export async function getAllUsersSafety(): Promise<UserSafetyData[]> {
+export async function getAllUsersNames(): Promise<UserNameData[]> {
   try {
     const users = await prisma.user.findMany({
       select: {
@@ -12,11 +12,9 @@ export async function getAllUsersSafety(): Promise<UserSafetyData[]> {
         company: true,
         name: true,
         lastName: true,
-        permissions: true,
-        safetyRecord: true
       },
       orderBy: {
-        status: 'desc', // Active users first, assuming 'ACTIVE' is a higher priority than 'INACTIVE'
+        lastName: 'desc', // Active users first, assuming 'ACTIVE' is a higher priority than 'INACTIVE'
       },
     });
 

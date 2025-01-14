@@ -4,55 +4,36 @@ import { generateFileName } from "@/utils";
 import { FaGoogleDrive, FaPaste, FaRegCopy, FaUserPlus } from "react-icons/fa6";
 import { IoMdLink } from "react-icons/io";
 import { Company as PrismaCompany } from "@prisma/client";
-import { useEffect, useRef, useCallback } from "react";
+import { useRef } from "react";
 
 interface Props {
     handleCopyToClipboard: () => void;
-    setIsModalOpen: (arg0: boolean) => void;
     fileNameData: {
-        projectId?: string | null;
-        userId?: string | null;
+        origin: string,
+        projectCode?: string | null;
         company: PrismaCompany;
-        name: string;
+        userName: string;
         recordName?: string | null;
     };
 }
 
-export const SafetyRecordDriveModal = ({
+export const SafetyRecordDriveInstructions = ({
     handleCopyToClipboard,
     fileNameData,
-    setIsModalOpen,
 }: Props) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
-    const handleClickOutside = useCallback(
-        (event: MouseEvent) => {
-            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-                setIsModalOpen(false);
-            }
-        },
-        [setIsModalOpen]
-    );
-
-    useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [handleClickOutside]);
-
     return (
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50">
             <div
                 ref={modalRef}
-                className="bg-white p-6 rounded-lg shadow-lg w-5/6 sm:w-3/6"
+                className="bg-gray-50 my-4 p-4 rounded-lg"
             >
                 <h2 className="flex flex-row text-xl font-bold text-sky-700 mb-4 items-center ">
                     <FaGoogleDrive className="mr-2" />
-                    Cómo cargar el link
+                    Carga de Link
                 </h2>
                 <div className="mt-2 text-gray-700 space-y-1">
-                    <p>Para cargar el link de Drive sigue estos pasos:</p>
+                    <p className="text-sm">Para cargar el link de Drive sigue estos pasos:</p>
                     {/* Step 1 */}
                     <div className="flex items-center space-x-1 text-sm text-gray-600">
                         <p className="flex">1. Ingresá al</p>
@@ -99,13 +80,6 @@ export const SafetyRecordDriveModal = ({
                         <p className="text-sky-700">&quot;Documentación / Link&quot;</p>
                     </div>
                 </div>
-                <button
-                    onClick={() => setIsModalOpen(false)}
-                    className="mt-4 bg-sky-800 hover:bg-sky-900 text-white py-2 px-4 rounded"
-                >
-                    Cerrar
-                </button>
             </div>
-        </div>
     );
 };
