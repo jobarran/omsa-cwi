@@ -20,7 +20,6 @@ export const getBadgeStatus = ({ projectSafety, company, type }: Props): "apto" 
         id: string;
         name: string;
         user: { name: string; lastName: string; legajo: string } | null;
-        required: boolean;
         safetyRecordFiles: { documentationLink: string | null; expirationDate: Date | null }[];
     }) => {
         // Filter out null expirationDate and find the most recent one
