@@ -9,15 +9,14 @@ export const runSeed = async () => {
     console.log('Starting seed')
 
     // Clear existing data
-    // await prisma.safetyRecordFile.deleteMany({});
-    await prisma.safetyRecord.deleteMany({});
-    await prisma.safety.deleteMany({});
+    await prisma.user.deleteMany({});
+    await prisma.project.deleteMany({});
 
-    // // Insert users
-    // const { users } = initialData;
-    // await prisma.user.createMany({
-    //     data: users,
-    // });
+    // Insert users
+    const { users } = initialData;
+    await prisma.user.createMany({
+        data: users,
+    });
 
     console.log('Seed executed successfully');
 
