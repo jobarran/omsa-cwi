@@ -132,7 +132,11 @@ export const SafetyRecordNewModal = ({
                 setFilteredRecords(recordNames); // Update the filtered records
             }
         } else {
-            setFilteredRecords([]); // Reset if no user is selected
+            const companyData = safetyPendingRecords.find((record) => record.companyName === selectedCompany);
+            if (companyData) {
+                const recordNames = companyData.missingEmpresaRecords
+                setFilteredRecords(recordNames); // Update the filtered records
+            }
         }
     }, [userId, selectedCompany, safetyPendingRecords]);
 
@@ -269,7 +273,7 @@ export const SafetyRecordNewModal = ({
                                 id="name"
                                 {...register("name", { required: true })}
                                 className={`border rounded p-2 border-gray-300 h-11 text-base w-full ${!origen ? "opacity-50" : ""}`}
-                                disabled={!origen || origen !== "empleado" || filteredRecords.length === 0}
+                                disabled={!origen || filteredRecords.length === 0}
                             >
                                 <option value="">Seleccionar</option>
                                 {filteredRecords.map((record) => (

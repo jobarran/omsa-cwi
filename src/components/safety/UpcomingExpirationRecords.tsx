@@ -1,11 +1,12 @@
 import { ProjectSafetyTable } from "@/interfaces/safety.interface";
 import { calculateDotColor } from "@/utils";
+import { FaGoogleDrive, FaTimes } from "react-icons/fa";
 
 interface Props {
     projectSafeties: ProjectSafetyTable[]
 }
 
-export const UpcomingExpirationRecords = ({projectSafeties}:Props) => {
+export const UpcomingExpirationRecords = ({ projectSafeties }: Props) => {
 
     const upcomingSafetyRecords = () => {
         // Collect and filter safety records
@@ -51,7 +52,7 @@ export const UpcomingExpirationRecords = ({projectSafeties}:Props) => {
                                 return (
                                     <li
                                         key={index}
-                                        className={`flex items-center p-4 bg-white rounded border shadow-sm `}
+                                        className={`flex items-center p-2 bg-white rounded border shadow-sm `}
                                         style={{
                                             borderTop: '1px solid #E0E0E0', // Gray border for top
                                             borderRight: '1px solid #E0E0E0', // Gray border for right
@@ -87,26 +88,28 @@ export const UpcomingExpirationRecords = ({projectSafeties}:Props) => {
                                                 {new Date(record.expirationDate!).toLocaleDateString()}
                                             </span>
                                         </div>
+                                        <div className="w-px h-full bg-gray-300 mx-2"></div>
                                         {/* Display files associated with the record */}
                                         {record.safetyRecordFiles.length > 0 && (
-                                            <div className="mt-2">
-                                                <h4 className="text-xs text-gray-600">Archivos relacionados</h4>
-                                                <ul className="space-y-1">
-                                                    {record.safetyRecordFiles.map((file, fileIndex) => (
-                                                        <li key={fileIndex}>
-                                                            <p className="text-blue-500" rel="noopener noreferrer">
-                                                                {file.documentationLink || 'Sin enlace disponible'}
-                                                            </p>
-                                                            {file.expirationDate && (
-                                                                <span className="text-xs text-gray-500 ml-2">
-                                                                    (Vence el {new Date(file.expirationDate).toLocaleDateString()})
-                                                                </span>
-                                                            )}
-                                                        </li>
-                                                    ))}
-                                                </ul>
+                                            <div className="flex-1 text-center">
+                                                <span className="text-xs text-gray-500 block">Documentación</span>
+                                                {record.safetyRecordFiles[0].documentationLink ? (
+                                                    <a
+                                                        href={record.safetyRecordFiles[0].documentationLink}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="flex justify-center items-center text-sky-800 hover:text-sky-900"
+                                                    >
+                                                        <FaGoogleDrive className="h-5 w-5" />
+                                                    </a>
+                                                ) : (
+                                                    <div className="flex justify-center items-center">
+                                                        <FaTimes className="text-gray-400 h-5 w-5" />
+                                                    </div>
+                                                )}
                                             </div>
                                         )}
+
                                     </li>
                                 );
                             })}
