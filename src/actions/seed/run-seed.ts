@@ -9,6 +9,7 @@ export const runSeed = async () => {
     console.log('Starting seed')
 
     // Clear existing data
+    await prisma.safetyRecordFile.deleteMany({});
     await prisma.safetyRecord.deleteMany({});
     await prisma.safety.deleteMany({});
 
