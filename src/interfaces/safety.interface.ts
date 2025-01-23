@@ -65,7 +65,7 @@ export interface ProjectSafetyTable {
         safetyRecords: {
             id: string;
             name: string;
-            user: { name: string, lastName: string, legajo: string } | null;
+            user: { name: string, lastName: string, legajo: string, projects: { code: string }[] } | null;
             safetyRecordFiles: { documentationLink: string | null, expirationDate: Date | null }[];  // Correct property order
         }[];
     }[];

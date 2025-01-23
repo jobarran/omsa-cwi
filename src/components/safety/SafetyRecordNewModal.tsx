@@ -2,16 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { FaGoogleDrive, FaPlus } from "react-icons/fa6";
+import { FaGoogleDrive } from "react-icons/fa6";
 import { Company } from "@prisma/client";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { es } from "date-fns/locale";
-import { getAllUsersNames, registerNewSafetyRecord } from "@/actions";
-import { SafetyRecords } from "@/types";
+import { registerNewSafetyRecord } from "@/actions";
 import { SafetyRecordDriveInstructions } from "..";
 import { generateFileName, SafetyPendingRecordsResult } from "@/utils";
-import { UserNameData } from "@/interfaces";
 
 interface Props {
     closeModal: () => void;
@@ -46,7 +44,7 @@ export const SafetyRecordNewModal = ({
     projectCode,
     safetyPendingRecords
 }: Props) => {
-    console.log(safetyPendingRecords)
+
     const [origen, setOrigen] = useState<string>("");
     const [filteredUsers, setFilteredUsers] = useState<{ id: string; name: string; lastName: string }[]>([]); // Store filtered users
     const [filteredRecords, setFilteredRecords] = useState<string[]>([]); // Store filtered missingRecords for the selected user

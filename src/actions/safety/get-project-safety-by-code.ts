@@ -23,7 +23,7 @@ export const getOrCreateProjectSafetyByCode = async (projectCode: string): Promi
                             select: {
                                 id: true,
                                 name: true,
-                                user: { select: { name: true, lastName: true, legajo: true } },
+                                user: { select: { name: true, lastName: true, legajo: true, projects: { select: { code: true } } } },
                                 safetyRecordFiles: {
                                     select: { documentationLink: true, expirationDate: true },
                                 },

@@ -67,6 +67,7 @@ export const getSafetyPendingRecords = (
                             return safetyRecord?.type === "empresa";
                         }) || [];
 
+
                 // Filter users based on company
                 const filteredUsers = users.filter(
                     (user) => user.company === company

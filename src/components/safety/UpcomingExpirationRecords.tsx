@@ -85,7 +85,7 @@ export const UpcomingExpirationRecords = ({ projectSafeties }: Props) => {
                                         <div className="flex-1 text-center">
                                             <span className="text-xs text-gray-500 block">Vencimiento</span>
                                             <span className="text-sm">
-                                                {new Date(record.expirationDate!).toLocaleDateString()}
+                                                {new Date(record.expirationDate!).toLocaleDateString("es-ES")}
                                             </span>
                                         </div>
                                         <div className="w-px h-full bg-gray-300 mx-2"></div>

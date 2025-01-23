@@ -129,7 +129,7 @@ export const SafetyRecordConfigurationModal = ({
                     </button>
                     <button
                         onClick={saveChanges}
-                        disabled={isPending || selectedRecords.length === 0}
+                        disabled={isPending}
                         className="ml-4 px-4 py-2 bg-sky-800 text-white rounded-md disabled:bg-sky-200"
                     >
                         {isPending ? "Guardando..." : "Guardar"}

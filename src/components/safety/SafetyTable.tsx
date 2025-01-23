@@ -17,7 +17,6 @@ const projectStatusTranslations: { [key in ProjectStatus]: string } = {
 };
 
 export const SafetyTable = ({ projectSafeties }: Props) => {
-
     return (
         <div>
             <div className="relative overflow-x-auto sm:rounded-lg border mb-6">
@@ -52,25 +51,41 @@ export const SafetyTable = ({ projectSafeties }: Props) => {
                                 {/* CWI - Empresa */}
                                 <td className="px-4 py-2 text-center whitespace-nowrap">
                                     <SafetyBadge
-                                        status={getBadgeStatus({ projectSafety: project, company: "CWI", type: "empresa" })} />
+                                        projectSafety={project}
+                                        company="CWI"
+                                        type="empresa"
+                                        users={project.users}
+                                    />
                                 </td>
 
                                 {/* CWI - Empleados */}
                                 <td className="px-4 py-2 text-center whitespace-nowrap">
                                     <SafetyBadge
-                                        status={getBadgeStatus({ projectSafety: project, company: "CWI", type: "empleados" })} />
+                                        projectSafety={project}
+                                        company="CWI"
+                                        type="empleado"
+                                        users={project.users}
+                                    />
                                 </td>
 
                                 {/* OMSA - Empresa */}
                                 <td className="px-4 py-2 text-center whitespace-nowrap">
                                     <SafetyBadge
-                                        status={getBadgeStatus({ projectSafety: project, company: "OMSA", type: "empresa" })} />
+                                        projectSafety={project}
+                                        company="OMSA"
+                                        type="empresa"
+                                        users={project.users}
+                                    />
                                 </td>
 
                                 {/* OMSA - Empleados */}
                                 <td className="px-4 py-2 text-center whitespace-nowrap">
                                     <SafetyBadge
-                                        status={getBadgeStatus({ projectSafety: project, company: "OMSA", type: "empleados" })} />
+                                        projectSafety={project}
+                                        company="OMSA"
+                                        type="empleado"
+                                        users={project.users}
+                                    />
                                 </td>
 
                                 <td className="px-4 py-2 text-center flex items-center justify-center">

@@ -17,13 +17,10 @@ export const getExpirationState = (expirationDate: Date | null | undefined): {
     const timeDiff = expiration.getTime() - now.getTime();
     const daysLeft = Math.floor(timeDiff / (1000 * 3600 * 24)); // Days left until expiration
 
-    if (daysLeft < 1) {
+    if (daysLeft <= 0) {
         return { value: 'critico', label: 'Crítico', tailwindDarkColor: 'red-600', tailwindBgColor: 'bg-red-400',  tailWindSoftColor: 'red-50', color: '#f87171' }; // Dark red for critical state
     }
-    if (daysLeft < 7) {
-        return { value: 'urgente', label: 'Urgente', tailwindDarkColor: 'orange-600', tailwindBgColor: 'bg-orange-400', tailWindSoftColor: 'orange-50', color: '#fb923c' }; // Dark orange for urgent state
-    }
-    if (daysLeft < 14) {
+    if (daysLeft <= 7) {
         return { value: 'advertencia', label: 'Advertencia', tailwindDarkColor: 'yellow-600', tailwindBgColor: 'bg-yellow-400', tailWindSoftColor: 'yellow-50', color: '#facc15' }; // Muted yellow for warning state
     }
 

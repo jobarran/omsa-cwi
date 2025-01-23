@@ -1,11 +1,19 @@
 import { FaRegClock } from "react-icons/fa6";
-import { BsExclamationTriangle } from "react-icons/bs";
+import { getBadgeStatus } from "@/utils";
+import { ProjectSafetyTable } from "@/interfaces/safety.interface";
+import { Company } from "@prisma/client";
 
-interface BadgeProps {
-  status: 'apto' | 'no-apto' | 'apto-c' | 'apto-w' | 'n-a'; // Accepted statuses
+interface Props {
+  projectSafety: ProjectSafetyTable;
+  company: string;
+  type: string;
+  users: { legajo: string; name: string; lastName: string; id: string; company: Company }[] | [];
 }
 
-export const SafetyBadge = ({ status }: BadgeProps) => {
+export const SafetyBadge = ({ projectSafety, company, type, users }: Props) => {
+
+  const status = getBadgeStatus({ projectSafety, company, type, users })
+
   // Define the text, color, and icon based on the status
   let text = '';
   let color = '';
@@ -16,12 +24,6 @@ export const SafetyBadge = ({ status }: BadgeProps) => {
     case 'apto':
       text = 'Apto';
       color = 'bg-green-50 text-green-600';
-      break;
-    case 'apto-c':
-      text = 'Apto';
-      color = 'bg-green-50 text-green-600';
-      icon = <BsExclamationTriangle />;
-      iconColor = 'text-red-500'; // Red icon for "apto-c"
       break;
     case 'apto-w':
       text = 'Apto';

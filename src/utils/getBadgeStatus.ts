@@ -1,90 +1,117 @@
 import { ProjectSafetyTable } from "@/interfaces/safety.interface";
+import { SafetyRecords } from "@/types";
+import { Company } from "@prisma/client";
 import { differenceInDays } from "date-fns";
 
 interface Props {
     projectSafety: ProjectSafetyTable;
     company: string;
     type: string;
+    users: { legajo: string; name: string; lastName: string; id: string; company: Company }[] | [];
 }
 
-export const getBadgeStatus = ({ projectSafety, company, type }: Props): "apto" | "apto-c" | "apto-w" | "no-apto" | "n-a" => {
-    // Parse the field into company and type
-    if (!company || !type) return "n-a"; // Malformed field
+export const getBadgeStatus = ({
+    projectSafety,
+    company,
+    type,
+    users,
+}: Props): "apto" | "apto-w" | "no-apto" | "n-a" => {
+    if (!company || !type) return "n-a";
 
+    // Find the safety entry for the given company
     const safetyEntry = projectSafety.safety.find((entry) => entry.company === company);
+    if (!safetyEntry) return "n-a";
 
-    if (!safetyEntry) return "n-a"; // No entry for the specified company
+    const requiredRecords = safetyEntry.requireRecords || [];
+    const now = new Date();
 
-    // Helper function to get the most recent expiration date
+    // Helper: Get the most recent expiration date from safetyRecordFiles
     const getMostRecentExpirationDate = (record: {
-        id: string;
-        name: string;
-        user: { name: string; lastName: string; legajo: string } | null;
-        safetyRecordFiles: { documentationLink: string | null; expirationDate: Date | null }[];
+        safetyRecordFiles: { expirationDate: Date | null }[];
     }) => {
-        // Filter out null expirationDate and find the most recent one
-        const validExpirationDates = record.safetyRecordFiles
-            .filter((file) => file.expirationDate !== null)
-            .map((file) => new Date(file.expirationDate!));
-
-        if (validExpirationDates.length === 0) return null;
-
-        return new Date(Math.max(...validExpirationDates.map((date) => date.getTime()))); // Get the most recent date
+        const validDates = record.safetyRecordFiles
+            .filter((file) => file.expirationDate)
+            .map((file) => new Date(file.expirationDate!))
+            .filter((date) => !isNaN(date.getTime()));
+        return validDates.length > 0 ? new Date(Math.max(...validDates.map((date) => date.getTime()))) : null;
     };
 
-    // Check type-specific logic
-    if (type === "empleados") {
-        // Check if 'user' exists in 'safetyEntry.safetyRecords' and has necessary properties
-        const hasUser = safetyEntry.safetyRecords.some((record) => record.user && record.user.name && record.user.lastName);
-        if (!hasUser) return "n-a"; // Employees must have user details
+    // Filter users belonging to the provided company
+    const companyUsers = users.filter((user) => user.company === company);
 
-        if (safetyEntry.safetyRecords && safetyEntry.safetyRecords.length > 0) {
-            const now = new Date();
+    if (type === "empleado") {
+        // Filter required records of type "empleado"
+        const requiredEmployeeRecords = requiredRecords.filter((record) => {
+            const recordInfo = SafetyRecords.find((safety) => safety.shortName === record);
+            return recordInfo?.type === "empleado";
+        });
 
-            const status = safetyEntry.safetyRecords.map((record) => {
+        // If no required records or no users in the company, return "apto"
+        if (requiredEmployeeRecords.length === 0 || companyUsers.length === 0) return "apto";
+
+        // Ensure all users in the company have the required records
+        const hasAllRequired = companyUsers.every((user) =>
+            requiredEmployeeRecords.every((requiredRecord) =>
+                safetyEntry.safetyRecords.some(
+                    (record) => record.name === requiredRecord && record.user?.legajo === user.legajo
+                )
+            )
+        );
+
+        if (!hasAllRequired) return "no-apto";
+
+        // Evaluate the statuses for users in the company
+        const employeeStatuses = safetyEntry.safetyRecords
+            .filter((record) => record.user && companyUsers.some((user) => user.legajo === record.user?.legajo))
+            .map((record) => {
                 const expirationDate = getMostRecentExpirationDate(record);
                 if (!expirationDate) return "n-a";
 
-                const daysDifference = differenceInDays(expirationDate, now);
-
-                if (daysDifference < 0) return "no-apto"; // Expired
-                if (daysDifference >= 0 && daysDifference <= 7) return "apto-w"; // Within 7 days
-                if (daysDifference > 7 && daysDifference <= 14) return "apto-c"; // Between 8 and 14 days
-                if (daysDifference > 14) return "apto"; // More than 14 days
-
-                return "n-a"; // Default fallback
+                const daysDiff = differenceInDays(expirationDate, now);
+                if (daysDiff <= 0) return "no-apto";
+                if (daysDiff <= 7) return "apto-w";
+                return "apto";
             });
 
-            return status.includes("no-apto") ? "no-apto" : status.sort()[0]; // Return the most critical status
-        }
-
-        return "n-a"; // No safety records for employees
+        if (employeeStatuses.includes("no-apto")) return "no-apto";
+        if (employeeStatuses.includes("apto-w")) return "apto-w";
+        return "apto";
     }
 
     if (type === "empresa") {
-        // Logic for companies, ignore user details
-        if (safetyEntry.safetyRecords && safetyEntry.safetyRecords.length > 0) {
-            const now = new Date();
+        // Filter required records of type "empresa"
+        const requiredCompanyRecords = requiredRecords.filter((record) => {
+            const recordInfo = SafetyRecords.find((safety) => safety.shortName === record);
+            return recordInfo?.type === "empresa";
+        });
 
-            const status = safetyEntry.safetyRecords.map((record) => {
+        // If no required records, return "apto"
+        if (requiredCompanyRecords.length === 0) return "apto";
+
+        // Ensure the company has all the required records
+        const hasAllRequired = requiredCompanyRecords.every((requiredRecord) =>
+            safetyEntry.safetyRecords.some((record) => record.name === requiredRecord)
+        );
+
+        if (!hasAllRequired) return "no-apto";
+
+        // Evaluate the statuses for company safety records
+        const companyStatuses = safetyEntry.safetyRecords
+            .filter((record) => !record.user)
+            .map((record) => {
                 const expirationDate = getMostRecentExpirationDate(record);
                 if (!expirationDate) return "n-a";
 
-                const daysDifference = differenceInDays(expirationDate, now);
-
-                if (daysDifference < 0) return "no-apto"; // Expired
-                if (daysDifference >= 0 && daysDifference <= 7) return "apto-c"; // Within 7 days
-                if (daysDifference > 7 && daysDifference <= 14) return "apto-w"; // Between 8 and 14 days
-                if (daysDifference > 14) return "apto"; // More than 14 days
-
-                return "n-a"; // Default fallback
+                const daysDiff = differenceInDays(expirationDate, now);
+                if (daysDiff <= 0) return "no-apto";
+                if (daysDiff <= 7) return "apto-w";
+                return "apto";
             });
 
-            return status.includes("no-apto") ? "no-apto" : status.sort()[0]; // Return the most critical status
-        }
-
-        return "n-a"; // No safety records for companies
+        if (companyStatuses.includes("no-apto")) return "no-apto";
+        if (companyStatuses.includes("apto-w")) return "apto-w";
+        return "apto";
     }
 
-    return "n-a"; // Default fallback
+    return "n-a"; // Fallback for unknown types
 };

@@ -59,3 +59,5 @@ Fileter by project
 correct summary labels
 
 continue with add register safety modal "empresa"
+
+dont show users that no longer are inside the project
