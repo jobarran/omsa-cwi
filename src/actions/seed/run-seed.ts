@@ -1,9 +1,19 @@
 'use server';
 
+import { auth } from '@/auth.config';
 import prisma from '@/lib/prisma';
 import { initialData } from '@/seed/seed';
 
 export const runSeed = async () => {
+
+    const session = await auth();
+
+    if (session?.user?.email !== 'jbarrandeguy@obrasmetalicas.com.ar') {
+        return {
+            ok: false,
+            message: 'User is not authenticated',
+        };
+    }
 
     console.log('Starting cascading delete of all data...');
 
