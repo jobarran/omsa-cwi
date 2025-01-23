@@ -223,11 +223,11 @@ export const SafetyRecordNewModal = ({
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex flex-col w-full gap-4">
+                    <div className="flex flex-col w-full gap-2">
                         {/* Origen Field */}
                         <div>
                             <label htmlFor="origen" className="mb-1 text-sm font-medium text-gray-700">
-                                Origen <span className="text-red-500">*</span>
+                                Tipo de registro <span className="text-red-500">*</span>
                             </label>
                             <select
                                 id="origen"
@@ -235,7 +235,7 @@ export const SafetyRecordNewModal = ({
                                 onChange={(e) => setOrigen(e.target.value)}
                                 className="border rounded p-2 border-gray-300 h-11 text-base w-full"
                             >
-                                <option value="">Seleccione Origen</option>
+                                <option value="">Seleccionar</option>
                                 <option value="empresa">Empresa</option>
                                 <option value="empleado">Empleado</option>
                             </select>
@@ -245,17 +245,17 @@ export const SafetyRecordNewModal = ({
                         {origen === "empleado" && (
                             <div className="w-full">
                                 <label htmlFor="userId" className="mb-1 text-sm font-medium text-gray-700">
-                                    Usuario <span className="text-red-500">*</span>
+                                    Empleado con registros pendientes <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     id="userId"
                                     className="border rounded p-2 border-gray-300 h-11 text-base w-full"
                                     onChange={(e) => setValue("userId", e.target.value)}
                                 >
-                                    <option value="">Seleccione un usuario</option>
+                                    <option value="">Seleccionar</option>
                                     {filteredUsers.map((user) => (
                                         <option key={user.id} value={user.id}>
-                                            {user.name}
+                                            {user.name} {user.lastName}
                                         </option>
                                     ))}
                                 </select>
@@ -263,7 +263,7 @@ export const SafetyRecordNewModal = ({
                         )}
 
                         {/* Name Field (Filtered by selected user) */}
-                        <div>
+                        <div className="mb-2">
                             <label htmlFor="name" className="mb-1 text-sm font-medium text-gray-700">
                                 Nombre de registro <span className="text-red-500">*</span>
                             </label>
@@ -285,7 +285,7 @@ export const SafetyRecordNewModal = ({
                     </div>
 
                     {/* Expiration Date Field */}
-                    <div>
+                    <div className="mb-2">
                         <label htmlFor="expirationDate" className="mb-1 text-sm font-medium text-gray-700">
                             Vencimiento
                         </label>
@@ -300,7 +300,7 @@ export const SafetyRecordNewModal = ({
                         />
                     </div>
 
-                    <div>
+                    <div className="mb-2">
                         <label htmlFor="documentationLink" className="mb-1 text-sm font-medium text-gray-700">
                             Documentación <span className="text-gray-400">/ Link</span>
                         </label>

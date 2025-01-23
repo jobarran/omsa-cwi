@@ -56,6 +56,7 @@ export const WorkerTable = ({ workers, projects }: Props) => {
                             <th scope="col" className="px-6 py-3 text-center">#</th>
                             <th scope="col" className="px-6 py-3 text-center">Legajo</th>
                             <th scope="col" className="px-6 py-3 text-center">Nombre</th>
+                            <th scope="col" className="px-6 py-3 text-center">Empresa</th>
                             <th scope="col" className="px-6 py-3 text-center">Categoría</th>
                             <th scope="col" className="px-6 py-3 text-center">Proyecto</th>
                             <th scope="col" className="px-6 py-3 text-center">Teléfono</th>
@@ -71,6 +72,7 @@ export const WorkerTable = ({ workers, projects }: Props) => {
                                     <td className="px-6 py-4 text-center whitespace-nowrap">
                                         {worker.lastName}, {worker.name}
                                     </td>
+                                    <td className="px-6 py-4 text-center">{worker.company}</td>
                                     <td className="px-6 py-4 text-center">{transcribeCategory(worker.category)}</td>
                                     <td className="px-4 py-2 text-center">
                                         <div className="flex items-center justify-center">

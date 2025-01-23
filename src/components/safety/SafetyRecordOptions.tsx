@@ -35,6 +35,8 @@ export const SafetyRecordOptions = ({
     safetyPendingRecords
 }: Props) => {
 
+    console.log(safetyPendingRecords)
+
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [newRecordModalIsOpen, setNewRecordModalIsOpen] = useState(false); // New modal for creating records
 
