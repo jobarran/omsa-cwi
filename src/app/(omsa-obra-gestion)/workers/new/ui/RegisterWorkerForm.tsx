@@ -53,8 +53,9 @@ export const RegisterWorkerForm = () => {
     formData.append("role", "WORKER"); // Fixed role
     formData.append("password", "123456"); // Fixed password
 
-    const email = `${data.name[0].toLowerCase()}${data.lastName.toLowerCase()}@obrasmetalicas.com.ar`;
-    formData.append("email", email); // Fixed password
+    const email = `${data.name[0].toLowerCase().replace(/\s/g, '')}${data.lastName.toLowerCase().replace(/\s/g, '')}@obrasmetalicas.com.ar`;
+    formData.append("email", email);
+
 
 
     Object.entries(userToSave).forEach(([key, value]) => {
