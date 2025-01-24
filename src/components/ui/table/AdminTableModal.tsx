@@ -96,6 +96,11 @@ export const AdminTableModal = ({ user, field, projects, closeModal }: Props) =>
                             onChange={handleWorkerProjectChange}
                             className="w-full px-4 py-2 border border-gray-300 rounded-md"
                         >
+                            {/* Placeholder option */}
+                            <option value="" disabled>
+                                Seleccionar obra
+                            </option>
+                            {/* Map through projects to display available options */}
                             {projects.map((project) => (
                                 <option key={project.id} value={project.id}>
                                     {project.code} - {project.name}
